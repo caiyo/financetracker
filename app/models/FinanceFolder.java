@@ -11,7 +11,7 @@ public class FinanceFolder extends Model{
 	public int id;
 	public String name;
 	public int total;
-	@OneToOne
+	@ManyToOne
 	public User user;
 	public static Finder<Integer, FinanceFolder> find = new Finder(Integer.class, FinanceFolder.class);
 
