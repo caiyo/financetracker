@@ -25,4 +25,16 @@ public class User extends Model{
 	public static User authenticate(String email, String password){
 		return find.where().eq("email", email).eq("password", password).findUnique();
 	}
+	
+	/*
+	 * CRUD operations
+	 */
+	
+	//Create  
+	
+	//Read & Find
+	
+	//Update
+	
+	//Delete
 }

@@ -15,13 +15,34 @@ public class FinanceFolder extends Model{
 	public User user;
 	public static Finder<Integer, FinanceFolder> find = new Finder(Integer.class, FinanceFolder.class);
 
+	/**Not sure if constructors are needed 
+	 * ~~~~~~~~NEED TO CHECK~~~~~~~
 	public FinanceFolder (String name, User user){
 		this.name=name;
 		this.user=user;
 		this.total=0;
-	}
+	}*/
 
-	//public 
+	/*
+	 * CRUD operations
+	 */
+	
+	//Create  
+	public static FinanceFolder add(FinanceFolder folder, User user){
+		folder.user = user;
+		folder.total = 0;
+		return folder;
+	}
+	
+	//Read & Find
+	//public static 
+	
+	//Update
+	public static FinanceFolder update(FinanceFolder folder){
+		return folder;
+	}
+	
+	//Delete
 
 
 
