@@ -1,7 +1,9 @@
 package models;
 
 import javax.persistence.*;
+
 import play.db.ebean.*;
+
 import com.avaje.ebean.*;
 
 @Entity
@@ -13,7 +15,7 @@ public class FinanceFolder extends Model{
 	public int total;
 	@ManyToOne
 	public User user;
-	public static Finder<Integer, FinanceFolder> find = new Finder(Integer.class, FinanceFolder.class);
+	public static Finder<Integer, FinanceFolder> find = new Finder<Integer, FinanceFolder>(Integer.class, FinanceFolder.class);
 
 	/**Not sure if constructors are needed 
 	 * ~~~~~~~~NEED TO CHECK~~~~~~~
