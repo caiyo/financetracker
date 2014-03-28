@@ -14,18 +14,84 @@ import com.avaje.ebean.*;
 public class Transaction extends Model{
 	
 	@Id
-	public int id;
+	private int id;
 	@ManyToOne
-	public FinanceFolder folder;
+	private FinanceFolder folder;
 	@ManyToOne
-	public TransactionCategory category;
-	public String longDescription;
-	public String shortDescirption;
-	public double amount;
+	private TransactionCategory category;
+	private String longDescription;
+	private String shortDescirption;
+	private double amount;
 	@Formats.DateTime(pattern="MM/dd/yy")
-	public Date date;
+	private Date creationDate;
+	
+	
 	
 	public static Finder<Integer, Transaction> find = new Finder<Integer, Transaction>(Integer.class, Transaction.class);
+	
+	
+	/**
+	 * Getters and Setters
+	 */
+	
+	public FinanceFolder getFolder() {
+		return folder;
+	}
+
+
+	public void setFolder(FinanceFolder folder) {
+		this.folder = folder;
+	}
+
+
+	public TransactionCategory getCategory() {
+		return category;
+	}
+
+
+	public void setCategory(TransactionCategory category) {
+		this.category = category;
+	}
+
+
+	public String getLongDescription() {
+		return longDescription;
+	}
+
+
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
+	}
+
+
+	public String getShortDescirption() {
+		return shortDescirption;
+	}
+
+
+	public void setShortDescirption(String shortDescirption) {
+		this.shortDescirption = shortDescirption;
+	}
+
+
+	public double getAmount() {
+		return amount;
+	}
+
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
 	
 	/*
 	 * CRUD operations
@@ -34,7 +100,7 @@ public class Transaction extends Model{
 	//Create  
 	public static Transaction add(Transaction t){
 		t.save();
-		t.folder.updateTotal(t.amount);
+		t.folder.setTotal(t.amount);
 		return t;
 	}
 	
@@ -46,13 +112,11 @@ public class Transaction extends Model{
 	
 	//Update
 	
-	public static Transaction updateTotal(int transID, double newAmount){
-		Transaction t  = find.ref(transID);
-		t.amount = newAmount;
-		
-		FinanceFolder.updateTotal(folderId, newAmount);
+	public static void updateTotal(Transaction t, double newAmount){
+		double oldAmount = t.getAmount();
+		t.setAmount(newAmount);
+		t.getFolder().setTotal(newAmount-oldAmount);
 		t.update();
-		return t;
 	}
 	//Delete
 }

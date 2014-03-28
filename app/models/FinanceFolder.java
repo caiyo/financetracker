@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -12,11 +13,18 @@ import com.avaje.ebean.*;
 public class FinanceFolder extends Model{
 
 	@Id
-	public int id;
-	public String name;
-	public double total;
+	private int id;
+	private String name;
+	private double total;
 	@ManyToOne
-	public User user;
+	private User user;
+	@OneToMany
+	private List<Transaction> transactions = new ArrayList<>();
+	
+	
+	
+
+
 	public static Finder<Integer, FinanceFolder> find = new Finder<Integer, FinanceFolder>(Integer.class, FinanceFolder.class);
 
 	/**Not sure if constructors are needed 
@@ -26,19 +34,51 @@ public class FinanceFolder extends Model{
 		this.user=user;
 		this.total=0;
 	}*/
-
-	/*
-	 * CRUD operations
+	
+	/**
+	 * Getters and Setters
 	 */
 	
-	//Create  
-	public static FinanceFolder add(FinanceFolder folder, User user){
-		folder.user = user;
-		folder.total = 0;
-		return folder;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total += total;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
-	//Read & Find
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
+	
+
+/**
+ * Static Methods
+ * 
+ */
+
+	//Might not need. Added @onetomany to User class so can find through user
+	//Need to check if it works properly
 	public static List<FinanceFolder> findAllForUser(User user){
 		return find.where().eq("user", user).findList();
 	}
@@ -47,23 +87,6 @@ public class FinanceFolder extends Model{
 		return find.where().eq("name", name).eq("user", user).findUnique();
 	}
 	
-
-	
-	//Update name of folder
-	public static FinanceFolder rename(int folderId, String newName){
-		FinanceFolder folder = find.ref(folderId);
-		folder.name = newName;
-		folder.update();
-		return folder;
-	}
-	
-	//update total
-	public  FinanceFolder updateTotal(double newAmount){
-		total+=newAmount;
-		update();
-		return this;
-		
-	}
 	
 	//Delete
 	public static FinanceFolder delete(int folderId){
