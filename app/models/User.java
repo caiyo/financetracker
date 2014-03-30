@@ -14,8 +14,8 @@ import play.db.ebean.Model;
 public class User extends Model{
 	
 	@Id
-	private String name;
 	private String email;
+	private String name;
 	private String password;
 	@OneToMany
 	private List<FinanceFolder> folders = new ArrayList<>();
