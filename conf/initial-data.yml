@@ -1,0 +1,7 @@
+# Users
+
+- &kyle !!models.User
+        email:      wonger35@gmail.com
+        name:       Kyle Wong
+        password:   a
+    

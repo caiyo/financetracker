@@ -5,13 +5,32 @@ import play.*;
 import play.data.Form;
 import play.mvc.*;
 import views.html.*;
+import play.mvc.Controller;
+
 
 public class Application extends Controller {
 	
 	public static class Login{
-    	String email;
-    	String password;
+    	private String email;
+		private String password;
     	
+    	public Login(){
+    		System.out.println("test");
+    	}
+    	
+    	public String getEmail() {
+			return email;
+		}
+		public void setEmail(String email) {
+			this.email = email;
+		}
+		public String getPassword() {
+			return password;
+		}
+		public void setPassword(String password) {
+			this.password = password;
+		}
+		
     	public String validate(){
     		if(User.authenticate(email, password)==null)
     			return ("Invalid email or password");
@@ -20,11 +39,17 @@ public class Application extends Controller {
     }
 
     public static Result index() {
-        return ok(index.render("Your new application is ready."));
+        return ok(index.render());
     }
     
     public static Result login(){
     	return ok(login.render(Form.form(Login.class)));
+    }
+    
+    public static Result logout(){
+    	session().clear();
+    	flash("success", "You've been logged out");
+    	return redirect(routes.Application.index());
     }
     
     public static Result authenticate(){

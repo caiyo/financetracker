@@ -26,11 +26,11 @@ public class User extends Model{
 	public static Finder<String, User> find  = new Finder<>(String.class, User.class);
 
 
-	public User(String email, String name, String password){
+	/*public User(String email, String name, String password){
 		this.email=email;
 		this.name=name;
 		this.password=password;
-	}
+	}*/
 
 /**
  * Getters and Setters
@@ -74,6 +74,7 @@ public class User extends Model{
  */
 	
 	public static User authenticate(String email, String password){
+		System.out.println(email + " " + password);
 		return find.where().eq("email", email).eq("password", password).findUnique();
 	}
 

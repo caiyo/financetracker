@@ -18,7 +18,6 @@ public class Transaction extends Model{
 	@ManyToOne
 	private FinanceFolder folder;
 	@ManyToOne
-	private TransactionCategory category;
 	private String longDescription;
 	private String shortDescirption;
 	private double amount;
@@ -42,17 +41,6 @@ public class Transaction extends Model{
 	public void setFolder(FinanceFolder folder) {
 		this.folder = folder;
 	}
-
-
-	public TransactionCategory getCategory() {
-		return category;
-	}
-
-
-	public void setCategory(TransactionCategory category) {
-		this.category = category;
-	}
-
 
 	public String getLongDescription() {
 		return longDescription;

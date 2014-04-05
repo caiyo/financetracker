@@ -21,19 +21,13 @@ public class FinanceFolder extends Model{
 	@OneToMany
 	private List<Transaction> transactions = new ArrayList<>();
 	
-	
-	
-
 
 	public static Finder<Integer, FinanceFolder> find = new Finder<Integer, FinanceFolder>(Integer.class, FinanceFolder.class);
 
-	/**Not sure if constructors are needed 
-	 * ~~~~~~~~NEED TO CHECK~~~~~~~
-	public FinanceFolder (String name, User user){
-		this.name=name;
-		this.user=user;
+	
+	public FinanceFolder (){
 		this.total=0;
-	}*/
+	}
 	
 	/**
 	 * Getters and Setters
@@ -76,10 +70,12 @@ public class FinanceFolder extends Model{
  * Static Methods
  * 
  */
+	
 
 	//Might not need. Added @onetomany to User class so can find through user
 	//Need to check if it works properly
-	public static List<FinanceFolder> findAllForUser(User user){
+	public static List<FinanceFolder> findAllForUser(String email){
+		User user = User.getUser(email);
 		return find.where().eq("user", user).findList();
 	}
 	

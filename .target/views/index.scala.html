@@ -1,7 +1,8 @@
-@(message: String)
 
-@main("Welcome to Play") {
-
-    @play20.welcome(message, style = "Java")
+@main("Welcome to Finance!") {
+	
+	@if(session.get("email") != null){
+   		<a href="@routes.FinanceFolderController.index()">View your folders!</a>
+   	} 
 
 }
