@@ -15,7 +15,7 @@ create table transaction (
   id                        integer not null,
   folder_id                 integer,
   long_description          varchar(255),
-  short_descirption         varchar(255),
+  short_description         varchar(255),
   amount                    double,
   creation_date             timestamp,
   constraint pk_transaction primary key (id))

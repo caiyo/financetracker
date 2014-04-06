@@ -9,6 +9,7 @@ import play.db.ebean.*;
 
 import com.avaje.ebean.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class FinanceFolder extends Model{
@@ -21,9 +22,10 @@ public class FinanceFolder extends Model{
 	@JsonBackReference
 	private User user;
 	
-	/*
+	
 	@OneToMany
-	private List<Transaction> transactions = new ArrayList<>();*/
+	@JsonBackReference
+	private List<Transaction> transactions = new ArrayList<>();
 	
 
 	public static Finder<Integer, FinanceFolder> find = new Finder<Integer, FinanceFolder>(Integer.class, FinanceFolder.class);
@@ -75,14 +77,14 @@ public class FinanceFolder extends Model{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	/*
+	
 	public List<Transaction> getTransactions() {
 		return transactions;
 	}
 
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
-	}*/
+	}
 	
 
 /**
@@ -104,7 +106,8 @@ public class FinanceFolder extends Model{
 		return find.where().eq("user", user).findList();
 	}
 	
-	public static FinanceFolder findByName(User user, String name){
+	public static FinanceFolder findByName(String email, String name){
+		User user = User.getUser(email);
 		return find.where().eq("name", name).eq("user", user).findUnique();
 	}
 	

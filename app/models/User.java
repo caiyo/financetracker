@@ -30,12 +30,6 @@ public class User extends Model{
 	public static Finder<String, User> find  = new Finder<>(String.class, User.class);
 
 
-	/*public User(String email, String name, String password){
-		this.email=email;
-		this.name=name;
-		this.password=password;
-	}*/
-
 /**
  * Getters and Setters
  * 
@@ -85,7 +79,7 @@ public class User extends Model{
 	public static User getUser(String email){
 		return find.ref(email);
 	}
-	/*
+	
 	public static HashMap<FinanceFolder, List<Transaction>> getAllTransactions(User user){
 		HashMap<FinanceFolder, List<Transaction>> transactions = new HashMap<>();
 		for(FinanceFolder f: user.getFolders()){
@@ -93,5 +87,5 @@ public class User extends Model{
 		}
 		return transactions;
 		
-	}*/
+	}
 }

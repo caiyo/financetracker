@@ -14,8 +14,8 @@ POST	/folders					controllers.FinanceFolderController.addFolder()
 GET 	/folders/list				controllers.FinanceFolderController.listFolders()
 
 #Transactions
-#GET		/transaction/list			controllers.TransactionController.listTransactions()
-POST	/transaction/add			controllers.TransactionController.addTransaction()
+GET		/transaction/list			controllers.TransactionController.listTransactions()
+POST	/transaction/add/:folder	controllers.TransactionController.addTransaction(folder:String)
 
 #Users
 GET		/users						controllers.UserController.listUsers()	

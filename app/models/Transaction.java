@@ -9,6 +9,8 @@ import play.data.format.*;
 import play.db.ebean.*;
 
 import com.avaje.ebean.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Transaction extends Model{
@@ -16,10 +18,11 @@ public class Transaction extends Model{
 	@Id
 	private int id;
 	@ManyToOne
+	@JsonManagedReference
 	private FinanceFolder folder;
 	@ManyToOne
 	private String longDescription;
-	private String shortDescirption;
+	private String shortDescription;
 	private double amount;
 	@Formats.DateTime(pattern="MM/dd/yy")
 	private Date creationDate;
@@ -32,6 +35,10 @@ public class Transaction extends Model{
 	/**
 	 * Getters and Setters
 	 */
+	
+	public int getId(){
+		return id;
+	}
 	
 	public FinanceFolder getFolder() {
 		return folder;
@@ -52,13 +59,13 @@ public class Transaction extends Model{
 	}
 
 
-	public String getShortDescirption() {
-		return shortDescirption;
+	public String getShortDescription() {
+		return shortDescription;
 	}
 
 
-	public void setShortDescirption(String shortDescirption) {
-		this.shortDescirption = shortDescirption;
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
 	}
 
 
@@ -86,16 +93,17 @@ public class Transaction extends Model{
 	 */
 	
 	//Create  
-	public static Transaction add(Transaction t){
-		t.save();
+	public static Transaction create(Transaction t, FinanceFolder f){
+		t.setFolder(f);
 		t.folder.setTotal(t.amount);
+		t.save();
 		return t;
 	}
 	
 	
 	//Read & Find
-	public static List<Transaction> findTransactionsInFolder(User user, String folderName){
-		return find.where().eq("folder", FinanceFolder.findByName(user, folderName)).findList();
+	public static List<Transaction> findTransactionsInFolder(String email, String folderName){
+		return find.where().eq("folder", FinanceFolder.findByName(email, folderName)).findList();
 	}
 	
 	//Update

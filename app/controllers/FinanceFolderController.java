@@ -19,14 +19,8 @@ public class FinanceFolderController extends Controller{
 	public static Result addFolder(){
 		Form<FinanceFolder> f = Form.form(FinanceFolder.class).bindFromRequest();
 		User u = User.getUser(session().get("email"));
-		if(f.hasErrors()){
-			return redirect(routes.Application.index());
-		}
-		else{
-			FinanceFolder.create(f.get(), u);
-			return redirect(routes.FinanceFolderController.index());
-		}
-		
+		FinanceFolder.create(f.get(), u);
+		return redirect(routes.FinanceFolderController.index());
 	}
 	
 	public static Result listFolders(){
