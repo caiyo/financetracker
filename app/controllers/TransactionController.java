@@ -17,6 +17,7 @@ public class TransactionController extends Controller{
 		return ok();
 	}
 	
+	/*
 	public static Result listTransactions(){
 		User user = User.getUser(session("email"));
 		List <Transaction> transactions = new ArrayList<>();
@@ -26,5 +27,5 @@ public class TransactionController extends Controller{
 		}
 		
 		return ok(toJson(transactions));
-	}
+	}*/
 }

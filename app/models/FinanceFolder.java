@@ -8,6 +8,7 @@ import javax.persistence.*;
 import play.db.ebean.*;
 
 import com.avaje.ebean.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class FinanceFolder extends Model{
@@ -17,21 +18,39 @@ public class FinanceFolder extends Model{
 	private String name;
 	private double total;
 	@ManyToOne
+	@JsonBackReference
 	private User user;
+	
+	/*
 	@OneToMany
-	private List<Transaction> transactions = new ArrayList<>();
+	private List<Transaction> transactions = new ArrayList<>();*/
 	
 
 	public static Finder<Integer, FinanceFolder> find = new Finder<Integer, FinanceFolder>(Integer.class, FinanceFolder.class);
-
 	
-	public FinanceFolder (){
-		this.total=0;
+	public String validate(){
+		String s = "";
+		if (name == null){
+			s +="invalid name\n";
+		}
+		if (total !=0){
+			s +="invalid total\n";
+		}
+		if (s.isEmpty())
+			return null;
+		else{
+			System.out.println(s);
+			return s;
+		}
 	}
 	
 	/**
 	 * Getters and Setters
 	 */
+	
+	public int getId(){
+		return id;
+	}
 	
 	public String getName() {
 		return name;
@@ -56,14 +75,14 @@ public class FinanceFolder extends Model{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+	/*
 	public List<Transaction> getTransactions() {
 		return transactions;
 	}
 
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
-	}
+	}*/
 	
 
 /**
@@ -71,6 +90,12 @@ public class FinanceFolder extends Model{
  * 
  */
 	
+	public static FinanceFolder create(FinanceFolder f, User u){
+		f.setTotal(0);
+		f.setUser(u);
+		f.save();
+		return f;
+	}
 
 	//Might not need. Added @onetomany to User class so can find through user
 	//Need to check if it works properly

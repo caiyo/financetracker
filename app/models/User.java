@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -18,6 +21,7 @@ public class User extends Model{
 	private String name;
 	private String password;
 	@OneToMany
+	@JsonManagedReference
 	private List<FinanceFolder> folders = new ArrayList<>();
 
 	
@@ -81,7 +85,7 @@ public class User extends Model{
 	public static User getUser(String email){
 		return find.ref(email);
 	}
-	
+	/*
 	public static HashMap<FinanceFolder, List<Transaction>> getAllTransactions(User user){
 		HashMap<FinanceFolder, List<Transaction>> transactions = new HashMap<>();
 		for(FinanceFolder f: user.getFolders()){
@@ -89,5 +93,5 @@ public class User extends Model{
 		}
 		return transactions;
 		
-	}
+	}*/
 }

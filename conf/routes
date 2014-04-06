@@ -11,9 +11,10 @@ GET		/logout						controllers.Application.logout()
 #FinanceFolder
 GET 	/folders					controllers.FinanceFolderController.index()
 POST	/folders					controllers.FinanceFolderController.addFolder()
+GET 	/folders/list				controllers.FinanceFolderController.listFolders()
 
 #Transactions
-GET		/transaction/list			controllers.TransactionController.listTransactions()
+#GET		/transaction/list			controllers.TransactionController.listTransactions()
 POST	/transaction/add			controllers.TransactionController.addTransaction()
 
 #Users

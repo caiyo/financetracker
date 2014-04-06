@@ -17,12 +17,15 @@ public class FinanceFolderController extends Controller{
 	}
 	
 	public static Result addFolder(){
-		User user = User.getUser(session("email"));
 		Form<FinanceFolder> f = Form.form(FinanceFolder.class).bindFromRequest();
-		FinanceFolder ff = f.get();
-		ff.setUser(user);
-		ff.save();
-		return redirect(routes.FinanceFolderController.index());
+		User u = User.getUser(session().get("email"));
+		if(f.hasErrors()){
+			return redirect(routes.Application.index());
+		}
+		else{
+			FinanceFolder.create(f.get(), u);
+			return redirect(routes.FinanceFolderController.index());
+		}
 		
 	}
 	
