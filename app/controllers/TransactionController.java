@@ -23,11 +23,10 @@ public class TransactionController extends Controller{
 	public static Result listTransactions(){
 		User user = User.getUser(session("email"));
 		List <Transaction> transactions = new ArrayList<>();
-		
 		for(FinanceFolder f : user.getFolders()){
 			transactions.addAll(f.getTransactions());
 		}
-		
+		System.out.println(transactions.size());
 		return ok(toJson(transactions));
 	}
 }

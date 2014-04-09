@@ -2,13 +2,17 @@
 
 @main("Finances") {
 <h3>@user.getName()'s Folders</h3>
-<form action='/folders' method='POST'>
+<form action='/folders' method='POST' id='newFolder'>
 	<label for="name">Name:</label>
 	<input type='text' name="name">
 	<input type="submit" value="add">
 </form>
 <div id="folder-list">
-	sup
+	
+</div>
+
+<div id='transaction-list'>
+	
 </div>
 <script type="text/javascript" src="/assets/javascripts/finance.js"></script>
 

@@ -11,14 +11,17 @@ GET		/logout						controllers.Application.logout()
 #FinanceFolder
 GET 	/folders					controllers.FinanceFolderController.index()
 POST	/folders					controllers.FinanceFolderController.addFolder()
-GET 	/folders/list				controllers.FinanceFolderController.listFolders()
+GET 	/api/listFolders			controllers.FinanceFolderController.listFolders()
 
 #Transactions
-GET		/transaction/list			controllers.TransactionController.listTransactions()
+GET		/api/listTransactions		controllers.TransactionController.listTransactions()
 POST	/transaction/add/:folder	controllers.TransactionController.addTransaction(folder:String)
 
 #Users
-GET		/users						controllers.UserController.listUsers()	
+GET		/api/listUsers				controllers.UserController.listUsers()	
+
+#Javascript router
+GET 	/javascriptRoutes			controllers.Application.javascriptRoutes
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

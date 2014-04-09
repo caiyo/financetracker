@@ -64,5 +64,17 @@ public class Application extends Controller {
     		return redirect(routes.Application.index());
     	}
     }
+    
+    public static Result javascriptRoutes(){
+    	response().setContentType("text/javascript");
+        return ok(
+        		Routes.javascriptRouter("jsRoutes",
+        				controllers.routes.javascript.FinanceFolderController.listFolders(),
+        				controllers.routes.javascript.FinanceFolderController.addFolder(),
+        				controllers.routes.javascript.TransactionController.addTransaction(),
+        				controllers.routes.javascript.UserController.listUsers()
+        				)
+        		);
+    }
 
 }
