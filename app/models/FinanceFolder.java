@@ -24,7 +24,7 @@ public class FinanceFolder extends Model{
 	
 	
 	@OneToMany
-	@JsonBackReference
+	@JsonManagedReference
 	private List<Transaction> transactions = new ArrayList<>();
 	
 
@@ -60,6 +60,7 @@ public class FinanceFolder extends Model{
 
 	public void setName(String name) {
 		this.name = name;
+		
 	}
 
 	public double getTotal() {
@@ -84,6 +85,11 @@ public class FinanceFolder extends Model{
 
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
+	}
+	
+	public Transaction addTransaction(Transaction t){
+		transactions.add(t);
+		return t;
 	}
 	
 

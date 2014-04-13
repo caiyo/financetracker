@@ -18,19 +18,42 @@ public class Transaction extends Model{
 	@Id
 	private int id;
 	@ManyToOne
-	@JsonManagedReference
-	private FinanceFolder folder;
+	@JsonBackReference
+	private FinanceFolder financeFolder;
 	@ManyToOne
 	private String longDescription;
 	private String shortDescription;
 	private double amount;
-	@Formats.DateTime(pattern="MM/dd/yy")
+	@Formats.DateTime(pattern="MM/dd/yyyy")
 	private Date creationDate;
 	
 	
 	
 	public static Finder<Integer, Transaction> find = new Finder<Integer, Transaction>(Integer.class, Transaction.class);
 	
+	public String validate(){
+		System.out.println("validating transaction");
+
+		String s = "";
+		if (shortDescription == null){
+			s +="invalid description\n";
+		}
+		if (amount ==0 || Double.isNaN(amount)){
+			s +="invalid amount\n";
+		}
+		
+		if(creationDate == null){
+			s+="invalid date\n";
+		}
+		if (s.isEmpty()){
+			System.out.println("no failures");
+			return null;
+		}
+		else{
+			System.out.println(s);
+			return s;
+		}
+	}
 	
 	/**
 	 * Getters and Setters
@@ -40,13 +63,13 @@ public class Transaction extends Model{
 		return id;
 	}
 	
-	public FinanceFolder getFolder() {
-		return folder;
+	public FinanceFolder getFinanceFolder() {
+		return financeFolder;
 	}
 
 
-	public void setFolder(FinanceFolder folder) {
-		this.folder = folder;
+	public void setFinanceFolder(FinanceFolder folder) {
+		this.financeFolder = folder;
 	}
 
 	public String getLongDescription() {
@@ -94,9 +117,10 @@ public class Transaction extends Model{
 	
 	//Create  
 	public static Transaction create(Transaction t, FinanceFolder f){
-		t.setFolder(f);
-		t.folder.setTotal(t.amount);
+		t.setFinanceFolder(f);
+		t.financeFolder.setTotal(t.amount);
 		t.save();
+		f.update();
 		return t;
 	}
 	
@@ -111,7 +135,7 @@ public class Transaction extends Model{
 	public static void updateTotal(Transaction t, double newAmount){
 		double oldAmount = t.getAmount();
 		t.setAmount(newAmount);
-		t.getFolder().setTotal(newAmount-oldAmount);
+		t.getFinanceFolder().setTotal(newAmount-oldAmount);
 		t.update();
 	}
 	//Delete

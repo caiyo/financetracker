@@ -13,7 +13,7 @@ create table finance_folder (
 
 create table transaction (
   id                        integer not null,
-  folder_id                 integer,
+  finance_folder_id         integer,
   long_description          varchar(255),
   short_description         varchar(255),
   amount                    double,
@@ -44,8 +44,8 @@ create sequence user_seq;
 
 alter table finance_folder add constraint fk_finance_folder_user_1 foreign key (user_email) references user (email) on delete restrict on update restrict;
 create index ix_finance_folder_user_1 on finance_folder (user_email);
-alter table transaction add constraint fk_transaction_folder_2 foreign key (folder_id) references finance_folder (id) on delete restrict on update restrict;
-create index ix_transaction_folder_2 on transaction (folder_id);
+alter table transaction add constraint fk_transaction_financeFolder_2 foreign key (finance_folder_id) references finance_folder (id) on delete restrict on update restrict;
+create index ix_transaction_financeFolder_2 on transaction (finance_folder_id);
 
 
 

@@ -80,10 +80,10 @@ public class User extends Model{
 		return find.ref(email);
 	}
 	
-	public static HashMap<FinanceFolder, List<Transaction>> getAllTransactions(User user){
-		HashMap<FinanceFolder, List<Transaction>> transactions = new HashMap<>();
+	public static HashMap<String, List<Transaction>> getAllTransactions(User user){
+		HashMap<String, List<Transaction>> transactions = new HashMap<>();
 		for(FinanceFolder f: user.getFolders()){
-			transactions.put(f, f.getTransactions());
+			transactions.put(f.getName(), f.getTransactions());
 		}
 		return transactions;
 		

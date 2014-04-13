@@ -2,7 +2,7 @@
 
 @main("Finances") {
 <h3>@user.getName()'s Folders</h3>
-<form action='/folders' method='POST' id='newFolder'>
+<form id='newFolder'>
 	<label for="name">Name:</label>
 	<input type='text' name="name">
 	<input type="submit" value="add">
@@ -11,6 +11,20 @@
 	
 </div>
 
+<form id='newTransaction'>
+	<label for='shortDescription'>Description:</label>
+	<input type='text' name='shortDescription'><br>
+	
+	<label for='amount'>Amount:</label>
+	<input type='text' name='amount'><br>
+	
+	<label for='month'>Date:</label>
+	<input type='text' name='month' placeholder='mm' size='2'>/
+	<input type='text' name='day' placeholder='dd' size='2'>/
+	<input type='text' name='year' placeholder='yyyy' size='4'><br>
+	
+	<input type="submit" value='add'>
+</form>
 <div id='transaction-list'>
 	
 </div>
