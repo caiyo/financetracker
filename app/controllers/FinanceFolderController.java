@@ -19,8 +19,7 @@ public class FinanceFolderController extends Controller{
 	public static Result addFolder(){
 		Form<FinanceFolder> f = Form.form(FinanceFolder.class).bindFromRequest();
 		User u = User.getUser(session().get("email"));
-		FinanceFolder.create(f.get(), u);
-		return redirect(routes.FinanceFolderController.index());
+		return ok(toJson(FinanceFolder.create(f.get(), u)));
 	}
 	
 	public static Result listFolders(){

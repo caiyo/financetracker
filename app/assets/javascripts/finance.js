@@ -38,29 +38,26 @@
 			e.preventDefault();
 			var selectedFolder = $('.selected .folder-name');
 			if(selectedFolder.length !=0){
-				var date = new Date($("input[name=month]", form).val()
-						+'/'
-						+$("input[name=day]", form).val()
-						+'/'
-						+$("input[name=year]", form).val()
-						+'/');
 				jsRoutes.controllers.TransactionController.addTransaction(selectedFolder[0].innerHTML).ajax({
 					data : 
 						{
 							amount : parseFloat($("input[name=amount]", form).val()),
 							shortDescription : $("input[name=shortDescription]", form).val(),
-							creationDate : (date.getUTCMonth()+1) +'/' + date.getUTCDate() +'/' +date.getUTCFullYear()
+							creationDate : $("input[name=date]", form).val()
 						},
 					success : function(data){
 								var html = "<div class='transaction'>"+
 											"<span class='transDate'>"
-												+(date.getUTCMonth()+1) +'/' + date.getUTCDate() +'/' +date.getUTCFullYear()
-											+ "</span> <span class='transDescrip'>"
+												+$("input[name=date]", form).val()
+											+ "</span> <span class='transDescript'>"
 											+ data.shortDescription
 											+"</span><span class='transAmount'>"
 											+ data.amount
 											+"</span></div>";
 								$('#transaction-list').append(html);
+								var selected = $('.selected .folder-total')[0];
+								var oldTotal = parseFloat(selected.innerHTML)
+								selected.innerHTML=oldTotal+data.amount;
 								for(var i=0; i<form.length; i++){
 									form[i].reset();
 								}
@@ -132,7 +129,7 @@ var addTransactions= function(folder){
 					html.push("<div class='transaction'>"+
 						"<span class='transDate'>"
 							+ (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()
-						+ "</span> <span class='transDescrip'>"
+						+ "</span> <span class='transDescript'>"
 						+ transaction.shortDescription
 						+"</span><span class='transAmount'>"
 						+ transaction.amount

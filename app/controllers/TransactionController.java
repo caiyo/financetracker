@@ -9,7 +9,7 @@ import play.data.Form;
 import play.mvc.*;
 import static play.libs.Json.toJson;
 
-
+@Security.Authenticated(Secured.class)
 public class TransactionController extends Controller{
 	
 	//TODO 
