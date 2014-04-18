@@ -45,19 +45,16 @@
 							shortDescription : $("input[name=shortDescription]", form).val(),
 							creationDate : $("input[name=date]", form).val()
 						},
-					success : function(data){
-								var html = "<div class='transaction'>"+
-											"<span class='transDate'>"
-												+$("input[name=date]", form).val()
-											+ "</span> <span class='transDescript'>"
+					success : function(data){					
+								var html="<tr data-id='" +data.id + "'>"+
+											"<td class='transDate'>"
+												+ $("input[name=date]", form).val()
+											+ "</td> <td class='transDescript'>"
 											+ data.shortDescription
-											+"</span><span class='transAmount'>"
+											+"</td><td class='transAmount'>$"
 											+ data.amount
-											+"</span></div>";
-								$('#transaction-list').append(html);
-								var selected = $('.selected .folder-total')[0];
-								var oldTotal = parseFloat(selected.innerHTML)
-								selected.innerHTML=oldTotal+data.amount;
+										+"</td></tr>";
+								$('#transaction-table tbody').append(html);
 								for(var i=0; i<form.length; i++){
 									form[i].reset();
 								}
@@ -82,6 +79,15 @@
 					if(this!=selected[0]){
 						selected.removeClass("selected");
 						$(this).addClass("selected");
+						var html = 
+							"<table class='table' id='transaction-table'>"
+								+"<tr>"
+								+"	<th>Date</th>"
+								+"	<th>Description</th>"
+								+"	<th>Amount</th>"
+								+" </tr>"
+							+"</table>"	;
+						$('#transaction-list').html(html);
 						addTransactions($('.selected .folder-name')[0].innerHTML);
 					}
 				}
@@ -95,24 +101,16 @@ var addFolders = function(data, inputType, form){
 	var html =[];
 	if(inputType == 'GET'){
 		$.each(data, function(i, folder){
-			html.push( "<div class='folder'> " +
-						"<span class='folder-name'>" + 
-							folder.name + 
-						"</span>" +
-						"<span class='folder-total'>"+
-							folder.total +
-					"</span> </div>");
+			html.push("<li class='folder' data-id='" + folder.id +"'>"
+					+"<a class ='folder-name' >"+ folder.name + "</a>"
+			+"</li>");
 		});
 	}
 	else if (inputType=='POST'){
-		html.push(
-			"<div class='folder'> " +
-			"<span class='folder-name'>" + 
-			$("input[name=name]", form).val() + 
-			"</span>" +
-			"<span class='folder-total'>"+
-			0 +
-			"</span> </div>");
+	
+		html.push("<li class='folder' data-id='" + data.id +"'>"
+				+"<a class ='folder-name' >"+ $("input[name=name]", form).val()  + "</a>"
+		+"</li>");
 		form[0].reset();
 	}
 	$('#folder-list').append(html.join(''));
@@ -126,17 +124,17 @@ var addTransactions= function(folder){
 				var html = [];
 				$.each(data, function(i, transaction){
 					var date = new Date(transaction.creationDate);
-					html.push("<div class='transaction'>"+
-						"<span class='transDate'>"
+					html.push("<tr data-id='" +transaction.id + "'>"+
+						"<td class='transDate' >"
 							+ (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()
-						+ "</span> <span class='transDescript'>"
+						+ "</td> <td class='transDescript'>"
 						+ transaction.shortDescription
-						+"</span><span class='transAmount'>"
+						+"</td><td class='transAmount'>$"
 						+ transaction.amount
-						+"</span></div>"
+						+"</td></tr>"
 					);
 				});
-				$('#transaction-list').html(html.join(''));			
+				$('#transaction-table tbody').append(html.join(''));			
 			 }
 		});
 	});

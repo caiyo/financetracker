@@ -1,0 +1,10 @@
+#folder-list.affix {
+  position: static;
+  width: auto;
+  top: 0;
+}
+
+.folder-name : hover{
+	cursor: pointer;
+	background-color: red;
+}
