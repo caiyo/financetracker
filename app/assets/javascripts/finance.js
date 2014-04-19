@@ -46,9 +46,10 @@
 							creationDate : $("input[name=date]", form).val()
 						},
 					success : function(data){					
-								var html="<tr data-id='" +data.id + "'>"+
-											"<td class='transDate'>"
-												+ $("input[name=date]", form).val()
+								var html="<tr data-id='" +data.id + "'>"
+											+"<td><input type='checkbox'></td>"
+											+"<td class='transDate'>"
+											+ $("input[name=date]", form).val()
 											+ "</td> <td class='transDescript'>"
 											+ data.shortDescription
 											+"</td><td class='transAmount'>$"
@@ -82,17 +83,20 @@
 						var html = 
 							"<table class='table' id='transaction-table'>"
 								+"<tr>"
+								+"  <th><button type='button' id='delete' class='btn btn-default btn-sm'>Delete</button></th>"
 								+"	<th>Date</th>"
 								+"	<th>Description</th>"
 								+"	<th>Amount</th>"
 								+" </tr>"
 							+"</table>"	;
 						$('#transaction-list').html(html);
+						$('#delete').on('click',deleteTransCallback );
 						addTransactions($('.selected .folder-name')[0].innerHTML);
 					}
 				}
 		);
 	});
+	
 	
 }).call(this);
 
@@ -124,8 +128,9 @@ var addTransactions= function(folder){
 				var html = [];
 				$.each(data, function(i, transaction){
 					var date = new Date(transaction.creationDate);
-					html.push("<tr data-id='" +transaction.id + "'>"+
-						"<td class='transDate' >"
+					html.push("<tr data-id='" +transaction.id + "'>"
+						+"<td><input type='checkbox'></td>"
+						+"<td class='transDate' >"
 							+ (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()
 						+ "</td> <td class='transDescript'>"
 						+ transaction.shortDescription
@@ -140,5 +145,25 @@ var addTransactions= function(folder){
 	});
 	
 };
+
+var deleteTransCallback = function(event){
+	var transactionIds = []
+	var table = $('#transaction-table');
+	$('#transaction-table input[type=checkbox]:checked').each(function(i, checkbox){
+		transactionIds.push($(checkbox).closest('tr').attr('data-id'));	
+	});
+	var confirmed = confirm("Delete " + transactionIds.length + " transaction(s)?");
+	if(confirmed){
+		for(var i=0; i<transactionIds.length; i++){
+			alert('test');
+			jsRoutes.controllers.TransactionController.deleteTransaction(transactionIds[i]).ajax({
+				success : function(data){
+					$("#transaction-table").find("[data-id='" + transactionIds[i]+"']")[0].remove();
+				}
+			});
+		}
+	}
+	
+}
 
 

@@ -34,4 +34,9 @@ public class TransactionController extends Controller{
 		Map<String, List<Transaction>> transactions = User.getAllTransactions(user);
 		return ok(toJson(transactions.get(folderName)));
 	}
+	
+	public static Result deleteTransaction(int id){
+		Transaction.find.ref(id).delete();
+		return ok();
+	}
 }
