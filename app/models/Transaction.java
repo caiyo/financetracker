@@ -23,6 +23,7 @@ public class Transaction extends Model{
 	@ManyToOne
 	private String longDescription;
 	private String shortDescription;
+	 @Column(columnDefinition = "NUMERIC")
 	private double amount;
 	@Formats.DateTime(pattern="MM/dd/yyyy")
 	private Date creationDate;

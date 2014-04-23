@@ -17,6 +17,7 @@ public class FinanceFolder extends Model{
 	@Id
 	private int id;
 	private String name;
+	 @Column(columnDefinition = "NUMERIC")
 	private double total;
 	@ManyToOne
 	@JsonBackReference
