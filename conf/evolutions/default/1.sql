@@ -6,7 +6,7 @@
 create table finance_folder (
   id                        integer not null,
   name                      varchar(255),
-  total                     double,
+  total                     NUMERIC,
   user_email                varchar(255),
   constraint pk_finance_folder primary key (id))
 ;
@@ -16,7 +16,7 @@ create table transaction (
   finance_folder_id         integer,
   long_description          varchar(255),
   short_description         varchar(255),
-  amount                    double,
+  amount                    NUMERIC,
   creation_date             timestamp,
   constraint pk_transaction primary key (id))
 ;
