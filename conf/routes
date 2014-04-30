@@ -18,8 +18,8 @@ GET		/api/listTransactions/:folder		controllers.TransactionController.listTransa
 POST	/transaction/add/:folder			controllers.TransactionController.addTransaction(folder:String)
 DELETE	/transaction/:id					controllers.TransactionController.deleteTransaction(id:Integer)
 
-#Users
-GET		/api/listUsers						controllers.UserController.listUsers()	
+#Accounts
+GET		/api/listAccounts					controllers.AccountController.listAccounts()	
 
 #Javascript router
 GET 	/javascriptRoutes					controllers.Application.javascriptRoutes

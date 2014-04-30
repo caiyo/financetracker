@@ -4,7 +4,7 @@
  */
 (function (){
 	
-	//Javascript for listing all folders that a user has created
+	//Javascript for listing all folders that a Account has created
 	$(function(){
 		jsRoutes.controllers.FinanceFolderController.listFolders().ajax({
 			 success : function(data){			

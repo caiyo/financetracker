@@ -76,7 +76,7 @@ public class Account extends Model{
 		return find.where().eq("email", email).eq("password", password).findUnique();
 	}
 
-	public static Account getUser(String email){
+	public static Account getAccount(String email){
 		return find.ref(email);
 	}
 	

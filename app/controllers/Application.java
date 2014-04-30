@@ -72,7 +72,7 @@ public class Application extends Controller {
         				controllers.routes.javascript.FinanceFolderController.listFolders(),
         				controllers.routes.javascript.FinanceFolderController.addFolder(),
         				controllers.routes.javascript.TransactionController.addTransaction(),
-        				controllers.routes.javascript.UserController.listUsers(),
+        				controllers.routes.javascript.AccountController.listAccounts(),
         				controllers.routes.javascript.TransactionController.listTransactions(),
         				controllers.routes.javascript.TransactionController.deleteTransaction()
         				)

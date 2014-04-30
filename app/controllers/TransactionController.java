@@ -30,8 +30,8 @@ public class TransactionController extends Controller{
 	
 	
 	public static Result listTransactions(String folderName){
-		Account user = Account.getUser(session("email"));
-		Map<String, List<Transaction>> transactions = Account.getAllTransactions(user);
+		Account account = Account.getAccount(session("email"));
+		Map<String, List<Transaction>> transactions = Account.getAllTransactions(account);
 		return ok(toJson(transactions.get(folderName)));
 	}
 	

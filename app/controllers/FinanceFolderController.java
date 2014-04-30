@@ -13,18 +13,18 @@ public class FinanceFolderController extends Controller{
 	
 	//
 	public static Result index(){
-		return ok(folders.render(Account.getUser(session().get("email"))));
+		return ok(folders.render(Account.getAccount(session().get("email"))));
 	}
 	
 	public static Result addFolder(){
 		Form<FinanceFolder> f = Form.form(FinanceFolder.class).bindFromRequest();
-		Account u = Account.getUser(session().get("email"));
+		Account u = Account.getAccount(session().get("email"));
 		return ok(toJson(FinanceFolder.create(f.get(), u)));
 	}
 	
 	public static Result listFolders(){
-		String userEmail = session("email");
-		Account user = Account.getUser(userEmail);
+		String accountEmail = session("email");
+		Account user = Account.getAccount(accountEmail);
 		return ok(toJson(user.getFolders()));
 	}
 

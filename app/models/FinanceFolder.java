@@ -21,7 +21,7 @@ public class FinanceFolder extends Model{
 	private float total;
 	@ManyToOne
 	@JsonBackReference
-	private Account user;
+	private Account account;
 	
 	
 	@OneToMany
@@ -72,12 +72,12 @@ public class FinanceFolder extends Model{
 		this.total += total;
 	}
 
-	public Account getUser() {
-		return user;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setUser(Account user) {
-		this.user = user;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 	
 	public List<Transaction> getTransactions() {
@@ -101,21 +101,21 @@ public class FinanceFolder extends Model{
 	
 	public static FinanceFolder create(FinanceFolder f, Account u){
 		f.setTotal(0);
-		f.setUser(u);
+		f.setAccount(u);
 		f.save();
 		return f;
 	}
 
-	//Might not need. Added @onetomany to User class so can find through user
+	//Might not need. Added @onetomany to ACcount class so can find through account
 	//Need to check if it works properly
-	public static List<FinanceFolder> findAllForUser(String email){
-		Account user = Account.getUser(email);
-		return find.where().eq("user", user).findList();
+	public static List<FinanceFolder> findAllForAccount(String email){
+		Account account = Account.getAccount(email);
+		return find.where().eq("account", account).findList();
 	}
 	
 	public static FinanceFolder findByName(String email, String name){
-		Account user = Account.getUser(email);
-		return find.where().eq("name", name).eq("user", user).findUnique();
+		Account account = Account.getAccount(email);
+		return find.where().eq("name", name).eq("account", account).findUnique();
 	}
 	
 	
