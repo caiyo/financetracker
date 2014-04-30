@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import play.db.ebean.Model;
 
 @Entity
-public class User extends Model{
+public class Account extends Model{
 	
 	@Id
 	private String email;
@@ -27,7 +27,7 @@ public class User extends Model{
 	
 
 
-	public static Finder<String, User> find  = new Finder<>(String.class, User.class);
+	public static Finder<String, Account> find  = new Finder<>(String.class, Account.class);
 
 
 /**
@@ -71,16 +71,16 @@ public class User extends Model{
  * STATIC METHODS
  */
 	
-	public static User authenticate(String email, String password){
+	public static Account authenticate(String email, String password){
 		System.out.println(email + " " + password);
 		return find.where().eq("email", email).eq("password", password).findUnique();
 	}
 
-	public static User getUser(String email){
+	public static Account getUser(String email){
 		return find.ref(email);
 	}
 	
-	public static HashMap<String, List<Transaction>> getAllTransactions(User user){
+	public static HashMap<String, List<Transaction>> getAllTransactions(Account user){
 		HashMap<String, List<Transaction>> transactions = new HashMap<>();
 		for(FinanceFolder f: user.getFolders()){
 			transactions.put(f.getName(), f.getTransactions());

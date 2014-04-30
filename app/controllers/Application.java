@@ -1,6 +1,6 @@
 package controllers;
 
-import models.User;
+import models.Account;
 import play.*;
 import play.data.Form;
 import play.mvc.*;
@@ -32,7 +32,7 @@ public class Application extends Controller {
 		}
 		
     	public String validate(){
-    		if(User.authenticate(email, password)==null)
+    		if(Account.authenticate(email, password)==null)
     			return ("Invalid email or password");
     		return null;
     	}

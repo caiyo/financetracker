@@ -1,7 +1,7 @@
 package controllers;
 
 import models.FinanceFolder;
-import models.User;
+import models.Account;
 import play.mvc.Controller;
 import play.data.Form;
 import play.mvc.*;
@@ -13,18 +13,18 @@ public class FinanceFolderController extends Controller{
 	
 	//
 	public static Result index(){
-		return ok(folders.render(User.getUser(session().get("email"))));
+		return ok(folders.render(Account.getUser(session().get("email"))));
 	}
 	
 	public static Result addFolder(){
 		Form<FinanceFolder> f = Form.form(FinanceFolder.class).bindFromRequest();
-		User u = User.getUser(session().get("email"));
+		Account u = Account.getUser(session().get("email"));
 		return ok(toJson(FinanceFolder.create(f.get(), u)));
 	}
 	
 	public static Result listFolders(){
 		String userEmail = session("email");
-		User user = User.getUser(userEmail);
+		Account user = Account.getUser(userEmail);
 		return ok(toJson(user.getFolders()));
 	}
 
