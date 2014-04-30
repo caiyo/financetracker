@@ -17,8 +17,8 @@ public class FinanceFolder extends Model{
 	@Id
 	private int id;
 	private String name;
-	 @Column(columnDefinition = "NUMERIC")
-	private double total;
+	 //@Column(columnDefinition = "NUMERIC")
+	private float total;
 	@ManyToOne
 	@JsonBackReference
 	private User user;
@@ -64,11 +64,11 @@ public class FinanceFolder extends Model{
 		
 	}
 
-	public double getTotal() {
+	public float getTotal() {
 		return total;
 	}
 
-	public void setTotal(double total) {
+	public void setTotal(float total) {
 		this.total += total;
 	}
 
