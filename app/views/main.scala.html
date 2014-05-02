@@ -44,6 +44,11 @@
 					<ul class='nav navbar-nav navbar-right'>
 					@if(session.get("email") == null){
 						<li>
+							<a href="@routes.AccountController.signUp()">
+								Sign Up
+							</a>
+						</li>
+						<li>
 							<a href="@routes.Application.login()">
 								Login
 							</a>
@@ -63,9 +68,9 @@
 				</div>			
 			</div>
 		</div>
-	    <div class='container-fluid'>
+	    
 	    	@content
-	    </div>
+	    
     </body>
 </html>
 

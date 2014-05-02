@@ -46,10 +46,11 @@
 							creationDate : $("input[name=date]", form).val()
 						},
 					success : function(data){					
+								var date = new Date(data.creationDate);
 								var html="<tr data-id='" +data.id + "'>"
 											+"<td><input type='checkbox'></td>"
 											+"<td class='transDate'>"
-											+ $("input[name=date]", form).val()
+											+ (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()
 											+ "</td> <td class='transDescript'>"
 											+ data.shortDescription
 											+"</td><td class='transAmount'>$"

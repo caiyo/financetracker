@@ -19,6 +19,8 @@ POST	/transaction/add/:folder			controllers.TransactionController.addTransaction
 DELETE	/transaction/:id					controllers.TransactionController.deleteTransaction(id:Integer)
 
 #Accounts
+GET		/signup								controllers.AccountController.signUp()
+POST	/signup								controllers.AccountController.createAccount()
 GET		/api/listAccounts					controllers.AccountController.listAccounts()	
 
 #Javascript router

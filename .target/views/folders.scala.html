@@ -1,10 +1,10 @@
-@(user: User)
+@(user: Account)
 
 @main("Finances") {
 	
 	<div class='row '>
 		<div class='col-sm-3'>
-			<ul id="folder-list" class="nav nav-stacked nav-inverse affix well">
+			<ul id="folder-list" class="nav nav-stacked affix well">
 				<li> <h3>@user.getName()'s Folders</h3> </li>
 				<li> 
 					<form id='newFolder' class = 'form-horizontal form-inline'>
@@ -17,38 +17,52 @@
 				</li>
 			</ul>
 		</div>
-		<div class='col-sm-8'>
-			<form id='newTransaction' class = 'form-horizontal'>
-				<div class='form-group'>
-					<label for='shortDescription' class='col-sm-2 control-label'>Description</label>
-					<div class="col-sm-10">																																																															
-						<input type='text' name='shortDescription' id='shortDescription' class='form-control'>
-					</div>
-				</div>	
-				
-				<div class='form-group'>
-					<label for='amount' class='col-sm-2 control-label'>Amount</label>
-					<div class="col-sm-3">
-						<input type='text' name='amount' id='amount' class='form-control'>
-					</div>
-					<label for='date' class='col-sm-1 control-label'>Date</label>
-					<div class="col-sm-3">
-						<input type='text' name='date' id='date'  placeholder='mm/dd/yyyy' class='form-control'>
-					</div>
-					<div class="col-sm-1">
-						<input type="submit" value='add' class="btn btn-default">
-					</div>
-				</div>
-				
-				
-				<div class='form-group'>
+
+		<div class='col-sm-7'>
+			<div class='container-fluid'>
+				<form id='newTransaction' class = 'form-horizontal'>
+					<div class='form-group'>
+						<label for='shortDescription' class='col-sm-2 control-label'>Description</label>
+						<div class="col-sm-10">																																																															
+							<input type='text' name='shortDescription' id='shortDescription' class='form-control'>
+						</div>
+					</div>	
 					
-				</div>
+					<div class='form-group'>
+						<label for='amount' class='col-sm-2 control-label'>Amount</label>
+						<div class="col-sm-3">
+							<input type='text' name='amount' id='amount' class='form-control'>
+						</div>
+					
+						<label for='date' class='col-sm-1 control-label'>Date</label>
+						<div class="col-sm-3">
+							<input type='text' name='date' id='date'  placeholder='mm/dd/yyyy' class='form-control'>
+						</div>
+						<div class="col-sm-1">
+							<input type="submit" value='add' class="btn btn-default">
+						</div>
+					</div>
+					
+					
+					<div class='form-group'>
+						
+					</div>
+					
+				</form>
+				<div id='transaction-list'></div>
 				
-			</form>
-			<div id='transaction-list'></div>
+			</div>
 			
 		</div>
+		<div class='col-sm-2'>
+				<div id="stats" class="nav nav-stacked affix well">
+					<h3>Folder stats</h3> 
+					<div id="total">Total: $x</div>
+					<div id="total">Total: $x</div>
+					<div id="total">Total: $x</div>
+				</div>
+		</div>
+		
 	</div>
 
 

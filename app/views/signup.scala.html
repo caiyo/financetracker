@@ -1,0 +1,42 @@
+@(form: Form[Account])
+
+@main("Sign Up") {
+	<div class='container'>
+		<div class='jumbotron'>
+		<h3>Sign Up</h3>
+			@helper.form(routes.AccountController.createAccount()){
+				@if(form.hasGlobalErrors){
+					@for(index <- 0 until form.globalErrors.size){
+						<p class="errors">
+							@(form.globalErrors)(index).message
+						</p>
+					}
+				}
+				@if(flash.contains("success")){
+					<p class="success">
+						@flash.get("success")
+					</p>
+				}
+				<div class='form-group'>
+					<label for='email' class=' control-label'>Email</label>
+					<input class='form-control' type="email" name="email" placeholder="Email" value="@form("email").value">
+				</div>
+				<div class='form-group'>
+					<label for='text' class=' control-label'>Name</label>
+					<input class='form-control' type='text' name="name" placeholder="Name" value="@form("name").value">
+				</div>
+				<div class='form-group'>
+					<label for='password' class=' control-label'>Password</label>
+					<input class='form-control' type="password" name="password" placeholder="Password">
+				</div>
+				<div class='form-group'>
+					<label for='confirmPassword' class=' control-label'>Confirm Password</label>
+					<input class='form-control' type="password" name="confirmPassword" placeholder="Confirm Password">
+				</div>
+				<div class='form-group'>
+					<input type="submit" value="Sign Up" class="btn btn-default">
+				</div>	
+			}
+		</div>
+	</div>
+}

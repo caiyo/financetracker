@@ -7,10 +7,12 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import play.data.validation.ValidationError;
 import play.db.ebean.Model;
 
 @Entity
@@ -20,16 +22,37 @@ public class Account extends Model{
 	private String email;
 	private String name;
 	private String password;
+	@Transient
+	private String confirmPassword;
 	@OneToMany
 	@JsonManagedReference
 	private List<FinanceFolder> folders = new ArrayList<>();
 
 	
-
+	
 
 	public static Finder<String, Account> find  = new Finder<>(String.class, Account.class);
 
-
+	public List<ValidationError> validate(){
+		System.out.println("test");
+		 List<ValidationError> errors = new ArrayList<ValidationError>();
+		if(Account.getAccount(email) !=null){
+			errors.add(new ValidationError("emailTaken", "This email address is already taken"));
+		}
+		
+		else if (email == null){
+			errors.add(new ValidationError("emailNull", "Please enter an email address"));
+		}
+		else if (name == null){
+			errors.add(new ValidationError("name", "Please enter your name"));
+		}
+		else if (!password.equals(confirmPassword)){
+			errors.add(new ValidationError("password", "Password and confirm password must match"));
+			
+		}
+		System.out.println(errors.isEmpty());
+		return errors.isEmpty() ? null : errors;
+	}
 /**
  * Getters and Setters
  * 
@@ -62,6 +85,14 @@ public class Account extends Model{
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public String getConfirmPassword(){
+		return confirmPassword;
+	}
+	
+	public void setConfirmPassword(String confirmPassword){
+		this.confirmPassword = confirmPassword;
+	}
 
 	public void setFolders(List<FinanceFolder> folders) {
 		this.folders = folders;
@@ -70,14 +101,17 @@ public class Account extends Model{
 /**
  * STATIC METHODS
  */
+	public static Account createAccount(Account account){
+		account.save();
+		return account;
+	}
 	
 	public static Account authenticate(String email, String password){
-		System.out.println(email + " " + password);
 		return find.where().eq("email", email).eq("password", password).findUnique();
 	}
 
 	public static Account getAccount(String email){
-		return find.ref(email);
+		return find.byId(email);
 	}
 	
 	public static HashMap<String, List<Transaction>> getAllTransactions(Account user){
@@ -88,4 +122,5 @@ public class Account extends Model{
 		return transactions;
 		
 	}
+	
 }
