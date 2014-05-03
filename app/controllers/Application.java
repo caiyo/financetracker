@@ -59,7 +59,7 @@ public class Application extends Controller {
     	}
     	else{
     		session().clear();
-    		session("email", f.get().email);
+    		session("email", f.get().email.toLowerCase());
     	
     		return redirect(routes.Application.index());
     	}

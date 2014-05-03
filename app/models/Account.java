@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import play.data.validation.ValidationError;
 import play.db.ebean.Model;
+import Utils.Password;
 
 @Entity
 public class Account extends Model{
@@ -27,7 +28,7 @@ public class Account extends Model{
 	@OneToMany
 	@JsonManagedReference
 	private List<FinanceFolder> folders = new ArrayList<>();
-
+	private String salt;
 	
 	
 
@@ -39,7 +40,7 @@ public class Account extends Model{
 			errors.add(new ValidationError("emailTaken", "This email address is already taken"));
 		}
 		
-		if (email == null){
+		if (email == null || email.equals("")){
 			errors.add(new ValidationError("emailNull", "Please enter an email address"));
 		}
 		if (name == null || name.trim().equals("")){
@@ -101,17 +102,34 @@ public class Account extends Model{
 		this.folders = folders;
 	}
 	
+	public String getSalt(){
+		return salt;
+	}
+	
+	public void setSalt(String salt){
+		this.salt = salt;
+	}
+	
+	
 /**
  * STATIC METHODS
  */
 	public static Account createAccount(Account account){
+		String salt = Password.getSalt();
+		String password;
+		
+		password = Password.hashPasword(account.getPassword(), salt);
+		account.setPassword(password);
+		account.setSalt(salt);
+		
 		account.save();
 		return account;
 	}
 	
 	public static Account authenticate(String email, String password){
-		
-		return find.where().eq("email", email.toLowerCase()).eq("password", password).findUnique();
+		Account account = Account.getAccount(email);
+		String hashPass = Password.hashPasword(password, account.getSalt());
+		return find.where().eq("email", email.toLowerCase()).eq("password", hashPass).findUnique();
 	}
 
 	public static Account getAccount(String email){

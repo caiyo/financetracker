@@ -7,6 +7,7 @@ create table account (
   email                     varchar(255) not null,
   name                      varchar(255),
   password                  varchar(255),
+  salt                      varchar(255),
   constraint pk_account primary key (email))
 ;
 
