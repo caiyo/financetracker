@@ -34,21 +34,24 @@ public class Account extends Model{
 	public static Finder<String, Account> find  = new Finder<>(String.class, Account.class);
 
 	public List<ValidationError> validate(){
-		System.out.println("test");
 		 List<ValidationError> errors = new ArrayList<ValidationError>();
 		if(Account.getAccount(email) !=null){
 			errors.add(new ValidationError("emailTaken", "This email address is already taken"));
 		}
 		
-		else if (email == null){
+		if (email == null){
 			errors.add(new ValidationError("emailNull", "Please enter an email address"));
 		}
-		else if (name == null){
+		if (name == null || name.trim().equals("")){
 			errors.add(new ValidationError("name", "Please enter your name"));
 		}
-		else if (!password.equals(confirmPassword)){
+		if (!password.equals(confirmPassword)){
 			errors.add(new ValidationError("password", "Password and confirm password must match"));
 			
+		}
+		if (password == null || password.trim().equals("")){
+			errors.add(new ValidationError("password empty", "Password cannot be empty"));
+
 		}
 		System.out.println(errors.isEmpty());
 		return errors.isEmpty() ? null : errors;
@@ -79,7 +82,7 @@ public class Account extends Model{
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.toLowerCase();
 	}
 
 	public void setPassword(String password) {
@@ -107,11 +110,13 @@ public class Account extends Model{
 	}
 	
 	public static Account authenticate(String email, String password){
-		return find.where().eq("email", email).eq("password", password).findUnique();
+		
+		return find.where().eq("email", email.toLowerCase()).eq("password", password).findUnique();
 	}
 
 	public static Account getAccount(String email){
-		return find.byId(email);
+		
+		return find.byId(email.toLowerCase());
 	}
 	
 	public static HashMap<String, List<Transaction>> getAllTransactions(Account user){

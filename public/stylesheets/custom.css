@@ -15,3 +15,7 @@ a.folder-name{
 	border-right: 3px solid orange;
 }
 
+.inner-container{
+	margin: auto;
+	width: 70%;
+}
