@@ -128,8 +128,12 @@ public class Account extends Model{
 	
 	public static Account authenticate(String email, String password){
 		Account account = Account.getAccount(email);
-		String hashPass = Password.hashPasword(password, account.getSalt());
-		return find.where().eq("email", email.toLowerCase()).eq("password", hashPass).findUnique();
+		if (account != null){
+			String hashPass = Password.hashPasword(password, account.getSalt());
+			return find.where().eq("email", email.toLowerCase()).eq("password", hashPass).findUnique();
+		}
+		else
+			return null;
 	}
 
 	public static Account getAccount(String email){

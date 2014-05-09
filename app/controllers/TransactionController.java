@@ -36,7 +36,13 @@ public class TransactionController extends Controller{
 	}
 	
 	public static Result deleteTransaction(int id){
-		Transaction.find.ref(id).delete();
-		return ok();
+		Transaction t = Transaction.find.ref(id);
+		t.delete();
+		return ok(toJson(t));
+	}
+	
+	public static Result updateTransaction(Transaction t){
+		t.update();
+		return ok(toJson(t));
 	}
 }
