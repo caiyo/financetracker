@@ -156,10 +156,9 @@ var deleteTransCallback = function(event){
 	var confirmed = confirm("Delete " + transactionIds.length + " transaction(s)?");
 	if(confirmed){
 		for(var i=0; i<transactionIds.length; i++){
-			alert('test');
 			jsRoutes.controllers.TransactionController.deleteTransaction(transactionIds[i]).ajax({
 				success : function(data){
-					$("#transaction-table").find("[data-id='" + transactionIds[i]+"']")[0].remove();
+					$("#transaction-table tr[data-id='" + data.id +"']")[0].remove();
 				}
 			});
 		}

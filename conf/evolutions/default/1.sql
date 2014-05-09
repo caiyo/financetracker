@@ -16,6 +16,8 @@ create table finance_folder (
   name                      varchar(255),
   total                     float,
   account_email             varchar(255),
+  constraint uq_finance_folder_name unique (name),
+  constraint uq_finance_folder_1 unique (name,account_email),
   constraint pk_finance_folder primary key (id))
 ;
 

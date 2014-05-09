@@ -19,3 +19,12 @@ a.folder-name{
 	margin: auto;
 	width: 70%;
 }
+
+textarea{
+	height: 1.2em;
+	background-color: white;
+	autofocus: none;
+	border: 0;
+	resize: none;
+	overflow: hidden;
+}
