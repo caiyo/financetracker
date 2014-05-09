@@ -45,7 +45,7 @@
 							shortDescription : $("input[name=shortDescription]", form).val(),
 							creationDate : $("input[name=date]", form).val()
 						},
-					success : function(data){					
+					success : function(data){		
 								var date = new Date(data.creationDate);
 								var html="<tr data-id='" +data.id + "'>"
 											+"<td><input type='checkbox'></td>"
