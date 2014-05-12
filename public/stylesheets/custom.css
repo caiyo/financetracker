@@ -20,6 +20,10 @@ a.folder-name{
 	width: 70%;
 }
 
+#transaction-table > tbody > tr > th{
+	vertical-align: baseline;
+}
+
 textarea{
 	height: 1.2em;
 	background-color: white;
@@ -28,3 +32,4 @@ textarea{
 	resize: none;
 	overflow: hidden;
 }
+

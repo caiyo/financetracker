@@ -17,7 +17,6 @@ public class FinanceFolder extends Model{
 
 	@Id
 	private int id;
-	@Column(unique=true)
 	private String name;
 	 //@Column(columnDefinition = "NUMERIC")
 	private float total;

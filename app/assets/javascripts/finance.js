@@ -84,14 +84,26 @@
 						var html = 
 							"<table class='table' id='transaction-table'>"
 								+"<tr>"
-								+"  <th><button type='button' id='delete' class='btn btn-default btn-sm'>Delete</button></th>"
+								+"  <th>" 
+								+"		<div class='btn-group'>" 
+								+"			<button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>" 
+								+"				Action <span class='caret'></span>"
+								+"			</button>"
+								+"			<ul class='dropdown-menu' role='menu'>"
+								+"				<li><a href='#' id='update'>Update</a><li>"
+								+"				<li><a href='#' id='delete'>Delete</a><li>"
+								+"			</ul>"
+								+"		</div>"
+								+"</th>"
 								+"	<th>Date</th>"
 								+"	<th>Description</th>"
 								+"	<th>Amount</th>"
 								+" </tr>"
 							+"</table>"	;
 						$('#transaction-list').html(html);
-						$('#delete').on('click',deleteTransCallback );
+						$('#delete').on('click',deleteTransCallback);
+						$('#update').on('click',updateTransCallback);
+						
 						addTransactions($('.selected .folder-name')[0].innerHTML);
 					}
 				}
@@ -114,7 +126,7 @@ var addFolders = function(data, inputType, form){
 	else if (inputType=='POST'){
 	
 		html.push("<li class='folder' data-id='" + data.id +"'>"
-				+"<a class ='folder-name' >"+ $("input[name=name]", form).val()  + "</a>"
+				+"<a class ='folder-name' >"+ ("input[name=name]", form).val()  + "</a>"
 		+"</li>");
 		form[0].reset();
 	}
@@ -129,41 +141,88 @@ var addTransactions= function(folder){
 				var html = [];
 				$.each(data, function(i, transaction){
 					var date = new Date(transaction.creationDate);
-					html.push("<tr data-id='" +transaction.id + "'>"
+					//add 2 rows for each transaction. 1 is the view row and 1 is update
+					//show view when viewing transactions if user wants to update a row,
+					//hide it and show update row
+					html.push(
+						//view row
+						"<tr data-id='" +transaction.id + "' class='viewRow'>"
 						+"<td><input type='checkbox'></td>"
 						+"<td class='transDate' >"
 							+ (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()
 						+ "</td> <td class='transDescript'>"
 						+ transaction.shortDescription
-						+"</td><td class='transAmount'>$"
+						+"</td><td class='transAmount'>"
 						+ transaction.amount
+						+"</td></tr>"
+						//update row
+						+"<tr data-id='" +transaction.id + "' class='updateRow'>"
+						+"<td><button class='btn btn-primary save' type='button'>Save </button></td>"
+						+"<td class='transDate' >"
+							+"<input type='text' class='form-control ' value='" +(date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()+"'>"
+						+ "</td> <td class='transDescript'>"
+						+ "<input type='text' class='form-control ' value='" +transaction.shortDescription+"'>"
+						+"</td><td class='transAmount'>"
+						+ "<input type='text' class='form-control ' value='" +transaction.amount+"'>"
 						+"</td></tr>"
 					);
 				});
-				$('#transaction-table tbody').append(html.join(''));			
+				$('#transaction-table tbody').append(html.join(''));
+				$('.updateRow').css('display', 'none');
+				$('.save').on('click', saveUpdate);
 			 }
 		});
 	});
 	
 };
 
+//callback function for deleting 1 or more transactions
 var deleteTransCallback = function(event){
-	var transactionIds = []
-	var table = $('#transaction-table');
+	var transactionIds = [];
 	$('#transaction-table input[type=checkbox]:checked').each(function(i, checkbox){
 		transactionIds.push($(checkbox).closest('tr').attr('data-id'));	
 	});
-	var confirmed = confirm("Delete " + transactionIds.length + " transaction(s)?");
-	if(confirmed){
-		for(var i=0; i<transactionIds.length; i++){
-			jsRoutes.controllers.TransactionController.deleteTransaction(transactionIds[i]).ajax({
-				success : function(data){
-					$("#transaction-table tr[data-id='" + data.id +"']")[0].remove();
-				}
-			});
+	if(transactionIds.length>0){
+		var confirmed = confirm("Delete " + transactionIds.length + " transaction(s)?");
+		if(confirmed){
+			for(var i=0; i<transactionIds.length; i++){
+				jsRoutes.controllers.TransactionController.deleteTransaction(transactionIds[i]).ajax({
+					success : function(data){
+						$("#transaction-table tr[data-id='" + data.id +"']")[0].remove();
+					}
+				});
+			}
 		}
 	}
+}
+
+//callback function for displaying update transactions 
+//hides the view rows and shows update rows with
+//input boxes to edit
+var updateTransCallback = function(event){
+	var transactionIds = [];
+	$('#transaction-table input[type=checkbox]:checked').each(function(i, checkbox){
+		transactionIds.push($(checkbox).closest('tr').attr('data-id'));	
+	});
 	
+	if(transactionIds.length>0){
+		$.each(transactionIds, function(i, transaction){
+			console.log(i);
+			$(".viewRow[data-id='"+transaction +"']").css('display', 'none');
+			$(".updateRow[data-id='"+transaction +"']").css('display', '');
+		});
+	}
+}
+
+//callback for saving update
+var saveUpdate = function(event){
+	var updatedRow = $(this).parent().parent();
+	var transactionId = updatedRow.attr('data-id');
+	
+	// ADD AJAX CALL TO UPDATE BACKEND AND UPDATE VIEW ROW
+	$(updatedRow).css('display', 'none');
+	$(".viewRow[data-id='"+transactionId +"']").css('display', '');
+	$(".viewRow[data-id='"+transactionId +"'] input[type=checkbox]").prop('checked', false);
 }
 
 

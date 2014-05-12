@@ -17,6 +17,7 @@ GET 	/api/listFolders					controllers.FinanceFolderController.listFolders()
 GET		/api/listTransactions/:folder		controllers.TransactionController.listTransactions(folder:String)
 POST	/transaction/add/:folder			controllers.TransactionController.addTransaction(folder:String)
 DELETE	/transaction/:id					controllers.TransactionController.deleteTransaction(id:Integer)
+PUT		/transaction/:id					controllers.TransactionController.updateTransaction(id:Integer)
 
 #Accounts
 GET		/signup								controllers.AccountController.signUp()

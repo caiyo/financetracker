@@ -133,11 +133,17 @@ public class Transaction extends Model{
 	
 	//Update
 	
-	public static void updateTotal(Transaction t, float newAmount){
+	public static Transaction updateTotal(Transaction t, float newAmount){
 		float oldAmount = t.getAmount();
 		t.setAmount(newAmount);
 		t.getFinanceFolder().setTotal(newAmount-oldAmount);
 		t.update();
+		return t;
+	}
+	
+	public static Transaction update(Transaction t){
+		
+		return t;
 	}
 	//Delete
 }

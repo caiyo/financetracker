@@ -41,8 +41,8 @@ public class TransactionController extends Controller{
 		return ok(toJson(t));
 	}
 	
-	public static Result updateTransaction(Transaction t){
-		t.update();
-		return ok(toJson(t));
+	public static Result updateTransaction(int id){
+		
+		return ok();
 	}
 }
