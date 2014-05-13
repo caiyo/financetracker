@@ -1,14 +1,15 @@
-/**
- * adds folders with total to dom
- * TODO : add transactions underneath each folder
- */
+var folders;
+var selectedFolderObj;
 (function (){
+	
+	
 	
 	//Javascript for listing all folders that a Account has created
 	$(function(){
 		jsRoutes.controllers.FinanceFolderController.listFolders().ajax({
 			 success : function(data){			
 				addFolders(data, 'GET'); 
+				folders = data;
 		}});
 	});
 	
@@ -22,6 +23,7 @@
 				data : form.serialize(),
 				success : function(data){
 					addFolders(data, 'POST', form);
+					folders.push(data);
 				},
 				error: function(data) {
 					alert('error adding folder');
@@ -46,20 +48,14 @@
 							creationDate : $("input[name=date]", form).val()
 						},
 					success : function(data){		
-								var date = new Date(data.creationDate);
-								var html="<tr data-id='" +data.id + "'>"
-											+"<td><input type='checkbox'></td>"
-											+"<td class='transDate'>"
-											+ (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()
-											+ "</td> <td class='transDescript'>"
-											+ data.shortDescription
-											+"</td><td class='transAmount'>$"
-											+ data.amount
-										+"</td></tr>";
+								var html=generateTransactionNode(data);
 								$('#transaction-table tbody').append(html);
 								for(var i=0; i<form.length; i++){
 									form[i].reset();
 								}
+								$('.updateRow').css('display', 'none');
+								//add transaction to selected folder object
+								selectedFolderObj.transactions.push(data);
 							},
 					error : function(data){
 							alert("cannot add transaction");
@@ -81,9 +77,10 @@
 					if(this!=selected[0]){
 						selected.removeClass("selected");
 						$(this).addClass("selected");
+						var folderId = $('.selected').attr('data-id');
 						var html = 
 							"<table class='table' id='transaction-table'>"
-								+"<tr>"
+								+"<thead><tr>"
 								+"  <th>" 
 								+"		<div class='btn-group'>" 
 								+"			<button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>" 
@@ -98,13 +95,20 @@
 								+"	<th>Date</th>"
 								+"	<th>Description</th>"
 								+"	<th>Amount</th>"
-								+" </tr>"
+								+" </tr></thead><tbody></tbody>"
 							+"</table>"	;
 						$('#transaction-list').html(html);
 						$('#delete').on('click',deleteTransCallback);
 						$('#update').on('click',updateTransCallback);
-						
+						$('#transaction-list').on('click', '.save',  saveUpdate);
+						$('#transaction-list').on('click', '.cancel',  removeUpdateView);
 						addTransactions($('.selected .folder-name')[0].innerHTML);
+						
+						//set selected folder
+						$.each(folders,function(i,folder){
+							if(folder.id == folderId)
+								selectedFolderObj = folder;
+						});
 					}
 				}
 		);
@@ -126,11 +130,13 @@ var addFolders = function(data, inputType, form){
 	else if (inputType=='POST'){
 	
 		html.push("<li class='folder' data-id='" + data.id +"'>"
-				+"<a class ='folder-name' >"+ ("input[name=name]", form).val()  + "</a>"
+				+"<a class ='folder-name' >"+ data.name  + "</a>"
 		+"</li>");
 		form[0].reset();
+		
 	}
 	$('#folder-list').append(html.join(''));
+	
 };
 
 //helper function to add transactions to DOM
@@ -140,41 +146,51 @@ var addTransactions= function(folder){
 			 success : function(data){
 				var html = [];
 				$.each(data, function(i, transaction){
-					var date = new Date(transaction.creationDate);
-					//add 2 rows for each transaction. 1 is the view row and 1 is update
-					//show view when viewing transactions if user wants to update a row,
-					//hide it and show update row
-					html.push(
-						//view row
-						"<tr data-id='" +transaction.id + "' class='viewRow'>"
-						+"<td><input type='checkbox'></td>"
-						+"<td class='transDate' >"
-							+ (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()
-						+ "</td> <td class='transDescript'>"
-						+ transaction.shortDescription
-						+"</td><td class='transAmount'>"
-						+ transaction.amount
-						+"</td></tr>"
-						//update row
-						+"<tr data-id='" +transaction.id + "' class='updateRow'>"
-						+"<td><button class='btn btn-primary save' type='button'>Save </button></td>"
-						+"<td class='transDate' >"
-							+"<input type='text' class='form-control ' value='" +(date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()+"'>"
-						+ "</td> <td class='transDescript'>"
-						+ "<input type='text' class='form-control ' value='" +transaction.shortDescription+"'>"
-						+"</td><td class='transAmount'>"
-						+ "<input type='text' class='form-control ' value='" +transaction.amount+"'>"
-						+"</td></tr>"
-					);
+					
+					html.push(generateTransactionNode(transaction));
 				});
 				$('#transaction-table tbody').append(html.join(''));
 				$('.updateRow').css('display', 'none');
-				$('.save').on('click', saveUpdate);
+				//$('.save').on('click', saveUpdate);
 			 }
 		});
 	});
 	
 };
+
+//generates node for adding/displaying transactions in table
+var generateTransactionNode = function (transaction){
+	var date = new Date(transaction.creationDate);
+	
+	//add 2 rows for each transaction. 1 is the view row and 1 is update
+	//show view when viewing transactions if user wants to update a row,
+	//hide it and show update row
+	var returnTransaction = 
+		//view row
+		"<tr data-id='" +transaction.id + "' class='viewRow'>"
+		+"<td><input type='checkbox'></td>"
+		+"<td class='transDate' >"
+			+ (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()
+		+ "</td> <td class='transDescript'>"
+		+ transaction.shortDescription
+		+"</td><td class='transAmount'>"
+		+ transaction.amount
+		+"</td></tr>"
+		//update row
+		+"<tr data-id='" +transaction.id + "' class='updateRow'>"
+		+"<td> <div class='btn-group btn-group-sm'>" 
+		+"	<button class='btn btn-info save' type='button'><span class='glyphicon glyphicon-ok'></span></button>" 
+		+"	<button class='btn btn-info cancel' type='button'><span class='glyphicon glyphicon-remove'></span></button>"
+		+"</div></td>"
+		+"<td class='transDate' >"
+			+"<input type='text' size='15' class='form-control ' value='" +(date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()+"'>"
+		+ "</td> <td class='transDescript'>"
+		+ "<input type='text' class='form-control ' value='" +transaction.shortDescription+"'>"
+		+"</td><td class='transAmount'>"
+		+ "<input type='text' size='10' class='form-control ' value='" +transaction.amount+"'>"
+		+"</td></tr>";
+	return returnTransaction;
+}
 
 //callback function for deleting 1 or more transactions
 var deleteTransCallback = function(event){
@@ -188,7 +204,7 @@ var deleteTransCallback = function(event){
 			for(var i=0; i<transactionIds.length; i++){
 				jsRoutes.controllers.TransactionController.deleteTransaction(transactionIds[i]).ajax({
 					success : function(data){
-						$("#transaction-table tr[data-id='" + data.id +"']")[0].remove();
+						$("#transaction-table tr[data-id='" + data.id +"']").remove();
 					}
 				});
 			}
@@ -207,7 +223,6 @@ var updateTransCallback = function(event){
 	
 	if(transactionIds.length>0){
 		$.each(transactionIds, function(i, transaction){
-			console.log(i);
 			$(".viewRow[data-id='"+transaction +"']").css('display', 'none');
 			$(".updateRow[data-id='"+transaction +"']").css('display', '');
 		});
@@ -216,13 +231,53 @@ var updateTransCallback = function(event){
 
 //callback for saving update
 var saveUpdate = function(event){
-	var updatedRow = $(this).parent().parent();
+	var updatedRow = $(this).parent().parent().parent();
 	var transactionId = updatedRow.attr('data-id');
+	var viewRow = $(".viewRow[data-id='"+transactionId +"']");
 	
-	// ADD AJAX CALL TO UPDATE BACKEND AND UPDATE VIEW ROW
-	$(updatedRow).css('display', 'none');
-	$(".viewRow[data-id='"+transactionId +"']").css('display', '');
-	$(".viewRow[data-id='"+transactionId +"'] input[type=checkbox]").prop('checked', false);
+	jsRoutes.controllers.TransactionController.updateTransaction(transactionId).ajax({
+		data: 
+			{
+				amount : parseFloat($('.transAmount input', updatedRow).val()),
+				shortDescription : $('.transDescript input', updatedRow).val(),
+				creationDate : $('.transDate input', updatedRow).val()
+			},
+		 success : function(data){	
+			 
+			 //updates viewrow to what was entered in updated row
+			var oldAmount = $('.transAmount ', viewRow)[0].innerHTML;
+		 	var date = new Date(data.creationDate);
+			$('.transAmount ', viewRow)[0].innerHTML = data.amount;
+			$('.transDescript', viewRow)[0].innerHTML = data.shortDescription;
+			$('.transDate ', viewRow)[0].innerHTML = (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear();
+			
+			/*$(updatedRow).css('display', 'none');
+			$(viewRow).css('display', '');
+			$("input[type=checkbox]", viewRow).prop('checked', false);*/
+			removeUpdateView(event, updatedRow);
+		},
+		error : function(data){
+			alert("cannot update transaction");
+		}
+	})
+
 }
+
+//changes transaction row back to the view row and hides the update row
+var removeUpdateView = function(event, row){
+	if (row != null)
+		var updatedRow = row;
+	else
+		var updatedRow = $(this).parent().parent().parent();
+	var transactionId = updatedRow.attr('data-id');
+	var viewRow = $(".viewRow[data-id='"+transactionId +"']");
+	
+	$(updatedRow).css('display', 'none');
+	$(viewRow).css('display', '');
+	$("input[type=checkbox]", viewRow).prop('checked', false);
+	
+	
+}
+
 
 

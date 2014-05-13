@@ -137,13 +137,27 @@ public class Transaction extends Model{
 		float oldAmount = t.getAmount();
 		t.setAmount(newAmount);
 		t.getFinanceFolder().setTotal(newAmount-oldAmount);
-		t.update();
+		t.getFinanceFolder().update();
 		return t;
 	}
 	
-	public static Transaction update(Transaction t){
-		
+	public static Transaction update(Transaction updatedTransaction, int id){
+		Transaction t = Transaction.find.ref(id);
+		if(Math.abs(t.getAmount()-updatedTransaction.getAmount()) < 1.11e-16){
+			updateTotal(t, updatedTransaction.getAmount());
+		}
+		t.setCreationDate(updatedTransaction.getCreationDate());
+		t.setShortDescription(updatedTransaction.getShortDescription());
+		t.update();
 		return t;
 	}
 	//Delete
+	
+	public static Transaction delete(int id){
+		Transaction t = Transaction.find.ref(id);
+		//subtracts total from finance folder before deleting
+		t.getFinanceFolder().setTotal(t.getAmount()*-1);
+		t.delete();
+		return t;
+	}
 }

@@ -111,6 +111,7 @@ public class Account extends Model{
 	}
 	
 	
+	
 /**
  * STATIC METHODS
  */
