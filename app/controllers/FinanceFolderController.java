@@ -27,5 +27,9 @@ public class FinanceFolderController extends Controller{
 		Account user = Account.getAccount(accountEmail);
 		return ok(toJson(user.getFolders()));
 	}
+	
+	public static Result deleteFolder(int id){
+		return ok(toJson(FinanceFolder.delete(id)));
+	}
 
 }

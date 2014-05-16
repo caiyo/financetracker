@@ -157,6 +157,7 @@ public class Transaction extends Model{
 		Transaction t = Transaction.find.ref(id);
 		//subtracts total from finance folder before deleting
 		t.getFinanceFolder().setTotal(t.getAmount()*-1);
+		t.getFinanceFolder().save();
 		t.delete();
 		return t;
 	}

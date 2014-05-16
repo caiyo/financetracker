@@ -12,6 +12,7 @@ GET		/logout								controllers.Application.logout()
 GET 	/folders							controllers.FinanceFolderController.index()
 POST	/folders							controllers.FinanceFolderController.addFolder()
 GET 	/api/listFolders					controllers.FinanceFolderController.listFolders()
+DELETE	/folders/:id						controllers.FinanceFolderController.deleteFolder(id:Integer)
 
 #Transactions
 GET		/api/listTransactions/:folder		controllers.TransactionController.listTransactions(folder:String)
