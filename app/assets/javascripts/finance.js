@@ -11,8 +11,8 @@ $(function(){
 	$('#transaction-table').on('click', '.save',  saveUpdate);
 	$('#transaction-table').on('click', '.cancel',  removeUpdateView);
 	$('#addFolder').on('click', addFolder);
-	$('#deleteFolder').on('click', addFolder);
-	$('#updateFolder').on('click', addFolder);
+	$('#deleteFolder').on('click', deleteFolder);
+	$('#updateFolder').on('click', updateFolder);
 	$('#folder-list').on('click', '.folder', selectFolder);
 	$('#folder-list').on('focusout keyup', '#newFolder', saveFolder);
 });
@@ -66,11 +66,11 @@ $(function(){
 });
 
 
-
+//event callback for adding input field to list for creating a new folder
 var addFolder = function(event){
 	if($('#newFolder').length ==0){
-		$('#folder-list').append("<input type='text' name='name' id='newFolder' value='new folder" 
-				+ $('#folder-list').children().length +"' class='form-control'>");
+		$('#folder-list').append("<li><input type='text' name='name' id='newFolder' value='new folder" 
+				+ $('#folder-list').children().length +"' class='form-control'></li>");
 		$('#newFolder').focus();
 	}
 	else {
@@ -78,25 +78,38 @@ var addFolder = function(event){
 	}
 }
 
+var updateFolder = function(event){
+	
+}
+
+var deleteFolder = function(event){
+	
+}
+
 //event callback for saving new folder
 var saveFolder = function(e){
-	if(e.type=='focusout' || e.keyCode=='13'){
+	if(e.keyCode=='13'){
+		$(this).blur();
+	}
+	else if(e.type=='focusout'){
 		var folderName = $(this).val();
 		jsRoutes.controllers.FinanceFolderController.addFolder().ajax({
 			data : {
 				name : folderName
 			},
 			success : function(data){
-				$('#newFolder').remove();
-				addFoldersNode(data);
+				$('#newFolder').parent().remove();
 				folders.push(data);
+				addFoldersNode(data);
 				$('#folder-list li[data-id='+data.id+']').click();
+				
 			},
 			error: function(data) {
 				alert('error adding folder');
 			}
 		});
 	}
+	
 }
 
 //helper function for  adding folders to DOM
@@ -295,6 +308,7 @@ var removeUpdateView = function(event, row){
 	
 }
 
+//updates ui to reflect total for selected folder
 var updateSelectedFolderTotal = function(){
 	$("#folderTotal")[0].innerHTML = selectedFolderObj.total;
 }
