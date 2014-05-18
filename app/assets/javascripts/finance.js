@@ -83,7 +83,34 @@ var updateFolder = function(event){
 }
 
 var deleteFolder = function(event){
+	var folderNode = $('.selected');
+	var folderId = parseInt(folderNode.attr('data-id'));
+	var folderNodeIndex = folderNode.index();
+	var newSelected;
 	
+	if(folderNodeIndex != folders.length-1)
+		newSelected=$('#folder-list').children()[folderNodeIndex+1];
+	else
+		newSelected=$('#folder-list').children()[folderNodeIndex-1];
+	
+	
+
+	//remove from db, folders obj, and list. set new selected
+	jsRoutes.controllers.FinanceFolderController.deleteFolder(folderId).ajax({
+		success: function(data){
+
+			//remove from folders obj
+			folders.splice(folderNodeIndex,1);
+			//remove folder from UI
+			folderNode.remove();
+			
+			//set new selected
+			newSelected.click()
+		},
+		error: function(data){
+			alert("Could not delete Folder");
+		}
+	});
 }
 
 //event callback for saving new folder
