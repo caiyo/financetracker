@@ -23,8 +23,8 @@ public class Transaction extends Model{
 	@ManyToOne
 	private String longDescription;
 	private String shortDescription;
-	 //@Column(columnDefinition = "NUMERIC")
-	private float amount;
+	 @Column(columnDefinition = "decimal(12,2)")
+	private double amount;
 	@Formats.DateTime(pattern="MM/dd/yyyy")
 	private Date creationDate;
 	
@@ -39,7 +39,7 @@ public class Transaction extends Model{
 		if (shortDescription == null){
 			s +="invalid description\n";
 		}
-		if (amount ==0 || Float.isNaN(amount)){
+		if (amount ==0 || Double.isNaN(amount)){
 			s +="invalid amount\n";
 		}
 		
@@ -93,12 +93,12 @@ public class Transaction extends Model{
 	}
 
 
-	public float getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
 
-	public void setAmount(float amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
@@ -133,8 +133,8 @@ public class Transaction extends Model{
 	
 	//Update
 	
-	public static Transaction updateTotal(Transaction t, float newAmount){
-		float oldAmount = t.getAmount();
+	public static Transaction updateTotal(Transaction t, double newAmount){
+		double oldAmount = t.getAmount();
 		t.setAmount(newAmount);
 		t.getFinanceFolder().setTotal(newAmount-oldAmount);
 		t.getFinanceFolder().update();

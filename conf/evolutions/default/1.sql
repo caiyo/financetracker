@@ -14,7 +14,7 @@ create table account (
 create table finance_folder (
   id                        integer not null,
   name                      varchar(255),
-  total                     float,
+  total                     decimal(12,2),
   account_email             varchar(255),
   constraint uq_finance_folder_1 unique (name,account_email),
   constraint pk_finance_folder primary key (id))
@@ -25,7 +25,7 @@ create table transaction (
   finance_folder_id         integer,
   long_description          varchar(255),
   short_description         varchar(255),
-  amount                    float,
+  amount                    decimal(12,2),
   creation_date             timestamp,
   constraint pk_transaction primary key (id))
 ;

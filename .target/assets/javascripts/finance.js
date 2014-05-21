@@ -35,6 +35,7 @@ $(function(){
 		e.preventDefault();
 		var selectedFolder = $('.selected .folder-name');
 		if(selectedFolder.length !=0){
+			alert(parseFloat($("input[name=amount]", form).val()));
 			jsRoutes.controllers.TransactionController.addTransaction(selectedFolder[0].innerHTML).ajax({
 				data : 
 					{
@@ -43,6 +44,7 @@ $(function(){
 						creationDate : $("input[name=date]", form).val()
 					},
 				success : function(data){		
+					alert(data.amount);
 							var html=generateTransactionNode(data);
 							$('#transaction-table tbody').append(html);
 							for(var i=0; i<form.length; i++){
@@ -207,7 +209,7 @@ var generateTransactionNode = function (transaction){
 		+ "</td> <td class='transDescript'>"
 		+ transaction.shortDescription
 		+"</td><td class='transAmount'>"
-		+ transaction.amount
+		+ transaction.amount.toFixed(2)
 		+"</td></tr>"
 		//update row
 		+"<tr data-id='" +transaction.id + "' class='updateRow'>"
@@ -220,7 +222,7 @@ var generateTransactionNode = function (transaction){
 		+ "</td> <td class='transDescript'>"
 		+ "<input type='text' class='form-control ' value='" +transaction.shortDescription+"'>"
 		+"</td><td class='transAmount'>"
-		+ "<input type='text' size='10' class='form-control ' value='" +transaction.amount+"'>"
+		+ "<input type='text' size='10' class='form-control ' value='" +transaction.amount.toFixed(2)+"'>"
 		+"</td></tr>";
 	return returnTransaction;
 }
@@ -246,6 +248,7 @@ var deleteTransCallback = function(event){
 						$("#transaction-table tr[data-id='" + data.id +"']").remove();
 						//update selectedFolderObj to reflect deleted transaction
 						selectedFolderObj.total -= data.amount;
+						alert(data.amount);
 						$.each(selectedFolderObj.transactions, function(i, transaction){
 							if(transaction.id == data.id)
 								removedIndexes.push(i);
@@ -337,7 +340,7 @@ var removeUpdateView = function(event, row){
 
 //updates ui to reflect total for selected folder
 var updateSelectedFolderTotal = function(){
-	$("#folderTotal")[0].innerHTML = selectedFolderObj.total;
+	$("#folderTotal")[0].innerHTML = selectedFolderObj.total.toFixed(2);
 }
 
 
