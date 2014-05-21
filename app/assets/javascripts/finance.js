@@ -246,7 +246,6 @@ var deleteTransCallback = function(event){
 						$("#transaction-table tr[data-id='" + data.id +"']").remove();
 						//update selectedFolderObj to reflect deleted transaction
 						selectedFolderObj.total -= data.amount;
-						alert(data.amount);
 						$.each(selectedFolderObj.transactions, function(i, transaction){
 							if(transaction.id == data.id)
 								removedIndexes.push(i);
