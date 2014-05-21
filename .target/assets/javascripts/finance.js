@@ -35,7 +35,6 @@ $(function(){
 		e.preventDefault();
 		var selectedFolder = $('.selected .folder-name');
 		if(selectedFolder.length !=0){
-			alert(parseFloat($("input[name=amount]", form).val()));
 			jsRoutes.controllers.TransactionController.addTransaction(selectedFolder[0].innerHTML).ajax({
 				data : 
 					{
@@ -44,7 +43,6 @@ $(function(){
 						creationDate : $("input[name=date]", form).val()
 					},
 				success : function(data){		
-					alert(data.amount);
 							var html=generateTransactionNode(data);
 							$('#transaction-table tbody').append(html);
 							for(var i=0; i<form.length; i++){
