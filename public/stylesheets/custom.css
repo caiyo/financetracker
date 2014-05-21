@@ -54,9 +54,13 @@ a.folder-name{
 .sidebar-nav li a {
 	color: #999;
 }
-
-.sidebar-nav li h3 {
-	color: #999;
+.sidebar-nav li a:hover{
+	color: #fff;
+ 	background: rgba(255,255,255,0.2);
+}
+.sidebar-nav h3 {
+	margin-left: 15px;
+	color: #fff;
 }
 .content-wrapper{
 	width:100%;
