@@ -1,9 +1,5 @@
 @media (max-width: 767px){
-	#folder-list.affix {
-	  position: static;
-	  width: auto;
-	  top: 0;
-	}
+
 }
 
 a.folder-name{

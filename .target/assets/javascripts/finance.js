@@ -8,6 +8,7 @@ var selectedFolderObj;
 $(function(){
 	$('#transaction-table').on('click', '#delete',deleteTransCallback);
 	$('#transaction-table').on('click', '#update', updateTransCallback);
+	$('#transaction-table').on('click', '#add', addTransCallback);
 	$('#transaction-table').on('click', '.save',  saveUpdate);
 	$('#transaction-table').on('click', '.cancel',  removeUpdateView);
 	$('#addFolder').on('click', addFolder);
@@ -48,7 +49,7 @@ $(function(){
 							for(var i=0; i<form.length; i++){
 								form[i].reset();
 							}
-							$('.updateRow').css('display', 'none');
+							//$('.updateRow').css('display', 'none');
 							//add transaction to selected folder object
 							selectedFolderObj.transactions.push(data);
 							selectedFolderObj.total += data.amount;
@@ -171,7 +172,7 @@ var selectFolder = function(event){
 			if(folder.id == folderId)
 				selectedFolderObj = folder;
 		});
-		addTransactions(selectedFolderObj);
+		displayTransactions(selectedFolderObj);
 								
 		//display table after folder is selected
 		$('#transaction-table').css('display', '');
@@ -180,13 +181,14 @@ var selectFolder = function(event){
 }
 
 //helper function to add transactions to DOM
-var addTransactions= function(folder){
+//
+var displayTransactions= function(folder){
 	var html=[];
 	$.each(folder.transactions, function(i,transaction){
 		html.push(generateTransactionNode(transaction));
 	});
 	$('#transaction-table tbody').html(html.join(''));
-	$('.updateRow').css('display', 'none');
+	//$('.updateRow').css('display', 'none');
 	updateSelectedFolderTotal();
 
 };
@@ -210,7 +212,31 @@ var generateTransactionNode = function (transaction){
 		+ transaction.amount.toFixed(2)
 		+"</td></tr>"
 		//update row
-		+"<tr data-id='" +transaction.id + "' class='updateRow'>"
+		
+		returnTransaction += generateTransFormNode(transaction)
+		/*+"<tr data-id='" +transaction.id + "' class='updateRow' style='display: none'>"
+		+"<td> <div class='btn-group btn-group-sm'>" 
+		+"	<button class='btn btn-info save' type='button'><span class='glyphicon glyphicon-ok'></span></button>" 
+		+"	<button class='btn btn-info cancel' type='button'><span class='glyphicon glyphicon-remove'></span></button>"
+		+"</div></td>"
+		+"<td class='transDate' >"
+			+"<input type='text' size='15' class='form-control ' value='" +(date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()+"'>"
+		+ "</td> <td class='transDescript'>"
+		+ "<input type='text' class='form-control ' value='" +transaction.shortDescription+"'>"
+		+"</td><td class='transAmount'>"
+		+ "<input type='text' size='10' class='form-control ' value='" +transaction.amount.toFixed(2)+"'>"
+		+"</td></tr>";*/
+	return returnTransaction;
+}
+
+var generateTransFormNode=function(transaction){
+	var node;
+	
+	//for Updating rows
+	if(transaction != null){
+		var date = new Date(transaction.creationDate);
+		node =
+		"<tr data-id='" +transaction.id + "' class='updateRow' style='display: none'>"
 		+"<td> <div class='btn-group btn-group-sm'>" 
 		+"	<button class='btn btn-info save' type='button'><span class='glyphicon glyphicon-ok'></span></button>" 
 		+"	<button class='btn btn-info cancel' type='button'><span class='glyphicon glyphicon-remove'></span></button>"
@@ -222,7 +248,31 @@ var generateTransactionNode = function (transaction){
 		+"</td><td class='transAmount'>"
 		+ "<input type='text' size='10' class='form-control ' value='" +transaction.amount.toFixed(2)+"'>"
 		+"</td></tr>";
-	return returnTransaction;
+	}
+	//for adding rows
+	else{
+		node =
+			"<tr class='addRow'>"
+			+"<td> <div class='btn-group btn-group-sm'>" 
+			+"	<button class='btn btn-info save' type='button'><span class='glyphicon glyphicon-ok'></span></button>" 
+			+"	<button class='btn btn-info cancel' type='button'><span class='glyphicon glyphicon-remove'></span></button>"
+			+"</div></td>"
+			+"<td class='transDate' >"
+				+"<input type='text' size='15' class='form-control '>"
+			+ "</td> <td class='transDescript'>"
+			+ "<input type='text' class='form-control '>"
+			+"</td><td class='transAmount'>"
+			+ "<input type='text' size='10' class='form-control '>"
+			+"</td></tr>";
+	}
+	
+	return node;
+}
+
+//callback function for creating form for adding transactions
+//
+var addTransCallback =function(event){
+	
 }
 
 //callback function for deleting 1 or more transactions
