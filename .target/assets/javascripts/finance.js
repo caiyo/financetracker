@@ -128,7 +128,10 @@ var deleteFolder = function(event){
 			folderNode.remove();
 			
 			//set new selected
-			newSelected.click()
+			if(newSelected !=null)
+				newSelected.click();
+			else
+				$('#transaction-table').css('display', 'none');
 		},
 		error: function(data){
 			alert("Could not delete Folder");
