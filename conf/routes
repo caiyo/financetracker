@@ -9,14 +9,13 @@ POST	/login								controllers.Application.authenticate()
 GET		/logout								controllers.Application.logout()
 
 #FinanceFolder
-GET 	/folders							controllers.FinanceFolderController.index()
+GET 	/finances							controllers.FinanceFolderController.index()
 POST	/folders							controllers.FinanceFolderController.addFolder()
-GET 	/api/listFolders					controllers.FinanceFolderController.listFolders()
+GET 	/folders							controllers.FinanceFolderController.listFolders()
 DELETE	/folders/:id						controllers.FinanceFolderController.deleteFolder(id:Integer)
 
 #Transactions
-GET		/api/listTransactions/:folder		controllers.TransactionController.listTransactions(folder:String)
-POST	/transaction/add/:folder			controllers.TransactionController.addTransaction(folder:String)
+POST	/transaction/:folder				controllers.TransactionController.addTransaction(folder:String)
 DELETE	/transaction/:id					controllers.TransactionController.deleteTransaction(id:Integer)
 PUT		/transaction/:id					controllers.TransactionController.updateTransaction(id:Integer)
 

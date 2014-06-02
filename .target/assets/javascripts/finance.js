@@ -9,13 +9,17 @@ $(function(){
 	$('#transaction-table').on('click', '#delete',deleteTransCallback);
 	$('#transaction-table').on('click', '#update', updateTransCallback);
 	$('#transaction-table').on('click', '#add', addTransCallback);
-	$('#transaction-table').on('click', '.save',  saveUpdate);
-	$('#transaction-table').on('click', '.cancel',  removeUpdateView);
+	$('#transaction-table').on('click', '.save',  saveRow);
+	$('#transaction-table').on('click', '.cancel',  removeFormView);
+	$('#folder-list').on('click', '.cancel', removeFormView);
 	$('#addFolder').on('click', addFolder);
 	$('#deleteFolder').on('click', deleteFolder);
 	$('#updateFolder').on('click', updateFolder);
 	$('#folder-list').on('click', '.folder', selectFolder);
-	$('#folder-list').on('focusout keyup', '#newFolder', saveFolder);
+	$('#folder-list').on('click', '#saveFolder', saveFolder);
+	//$('#folder-list').on('focusout keyup', '#newFolder', saveFolder);
+	
+	$('.datepicker').datepicker({});
 });
 
 
@@ -29,55 +33,73 @@ $(function(){
 });
 
 
-//ajax to add new transaction
-$(function(){
-	var form = $("#newTransaction");
-	form.on("submit", function(e){
-		e.preventDefault();
-		var selectedFolder = $('.selected .folder-name');
-		if(selectedFolder.length !=0){
-			jsRoutes.controllers.TransactionController.addTransaction(selectedFolder[0].innerHTML).ajax({
-				data : 
-					{
-						amount : parseFloat($("input[name=amount]", form).val()),
-						shortDescription : $("input[name=shortDescription]", form).val(),
-						creationDate : $("input[name=date]", form).val()
-					},
-				success : function(data){		
-							var html=generateTransactionNode(data);
-							$('#transaction-table tbody').append(html);
-							for(var i=0; i<form.length; i++){
-								form[i].reset();
-							}
-							//$('.updateRow').css('display', 'none');
-							//add transaction to selected folder object
-							selectedFolderObj.transactions.push(data);
-							selectedFolderObj.total += data.amount;
-							updateSelectedFolderTotal();
-						},
-				error : function(data){
-						alert("cannot add transaction");
-					}
-			});
-		}
-		else{
-			alert("A folder must be selected before adding transactions");
-		}
-	});
-});
 
 
 //event callback for adding input field to list for creating a new folder
 var addFolder = function(event){
 	if($('#newFolder').length ==0){
-		$('#folder-list').append("<li><input type='text' name='name' id='newFolder' value='new folder" 
-				+ $('#folder-list').children().length +"' class='form-control'></li>");
+		$('#folder-list').append(
+				"<li>" 
+				+"<div class='input-group btn-group'>"
+				+"<input type='text' name='name' id='newFolder' value='new folder" 
+				+ $('#folder-list').children().length +"' class='form-control'>" 
+				+"	<span class='input-group-btn'><button id='saveFolder' class='btn btn-info ' type='button'><span class='glyphicon glyphicon-ok'></span></button>"
+				+" <button id='cancelFolder' class='btn btn-info cancel' type='button'><span class='glyphicon glyphicon-remove'></span></button>"		
+				+"</span>"	
+				+"</div>"
+				+"</li>");
 		$('#newFolder').focus();
 	}
 	else {
 		alert("Currently adding new folder. Must save it first");
 	}
 }
+
+//event callback for saving new folder
+//When input field loses focus, the folder
+//is saved with name in input box and is selected
+var saveFolder = function(e){
+	var folderName = $('#newFolder').val();
+	jsRoutes.controllers.FinanceFolderController.addFolder().ajax({
+		data : {
+			name : folderName
+		},
+		success : function(data){
+			$('#newFolder').parent().parent().remove();
+			folders.push(data);
+			addFoldersNode(data);
+			//selects next folder in list
+			$('#folder-list li[data-id='+data.id+']').click();
+			
+		},
+		error: function(data) {
+			alert('error adding folder');
+		}
+	});
+}
+
+//helper function for  adding folders to DOM
+var addFoldersNode = function(data){
+	var html =[];
+	if(Array.isArray(data)){
+		$.each(data, function(i, folder){
+			html.push("<li class='folder' data-id='" + folder.id +"'>"
+					+"<a class ='folder-name' >"+ folder.name 
+					+	"<span class='folderTotal'>" + "  &ndash; $" +folder.total + "</span>"
+					+"</a>"
+			+"</li>");
+		});
+	}
+	else{
+		html.push("<li class='folder' data-id='" + data.id +"'>"
+				+"<a class ='folder-name' >"+ data.name  
+				+ 	"<span class='folderTotal'>" + "  &ndash; $" + data.total + "</span>"
+				+ "</a>"
+		+"</li>");
+	}
+	$('#folder-list').append(html.join(''));
+	
+};
 
 var updateFolder = function(event){
 	
@@ -89,6 +111,7 @@ var deleteFolder = function(event){
 	var folderNodeIndex = folderNode.index();
 	var newSelected;
 	
+	//sets new selected folder for after selected folder is deleted
 	if(folderNodeIndex != folders.length-1)
 		newSelected=$('#folder-list').children()[folderNodeIndex+1];
 	else
@@ -99,7 +122,6 @@ var deleteFolder = function(event){
 	//remove from db, folders obj, and list. set new selected
 	jsRoutes.controllers.FinanceFolderController.deleteFolder(folderId).ajax({
 		success: function(data){
-
 			//remove from folders obj
 			folders.splice(folderNodeIndex,1);
 			//remove folder from UI
@@ -113,51 +135,6 @@ var deleteFolder = function(event){
 		}
 	});
 }
-
-//event callback for saving new folder
-var saveFolder = function(e){
-	if(e.keyCode=='13'){
-		$(this).blur();
-	}
-	else if(e.type=='focusout'){
-		var folderName = $(this).val();
-		jsRoutes.controllers.FinanceFolderController.addFolder().ajax({
-			data : {
-				name : folderName
-			},
-			success : function(data){
-				$('#newFolder').parent().remove();
-				folders.push(data);
-				addFoldersNode(data);
-				$('#folder-list li[data-id='+data.id+']').click();
-				
-			},
-			error: function(data) {
-				alert('error adding folder');
-			}
-		});
-	}
-	
-}
-
-//helper function for  adding folders to DOM
-var addFoldersNode = function(data){
-	var html =[];
-	if(Array.isArray(data)){
-		$.each(data, function(i, folder){
-			html.push("<li class='folder' data-id='" + folder.id +"'>"
-					+"<a class ='folder-name' >"+ folder.name + "</a>"
-			+"</li>");
-		});
-	}
-	else{
-		html.push("<li class='folder' data-id='" + data.id +"'>"
-				+"<a class ='folder-name' >"+ data.name  + "</a>"
-		+"</li>");
-	}
-	$('#folder-list').append(html.join(''));
-	
-};
 
 //javascript for setting a selected folder
 //and display transactions for selected folder
@@ -212,27 +189,15 @@ var generateTransactionNode = function (transaction){
 		+ transaction.amount.toFixed(2)
 		+"</td></tr>"
 		//update row
-		
 		returnTransaction += generateTransFormNode(transaction)
-		/*+"<tr data-id='" +transaction.id + "' class='updateRow' style='display: none'>"
-		+"<td> <div class='btn-group btn-group-sm'>" 
-		+"	<button class='btn btn-info save' type='button'><span class='glyphicon glyphicon-ok'></span></button>" 
-		+"	<button class='btn btn-info cancel' type='button'><span class='glyphicon glyphicon-remove'></span></button>"
-		+"</div></td>"
-		+"<td class='transDate' >"
-			+"<input type='text' size='15' class='form-control ' value='" +(date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()+"'>"
-		+ "</td> <td class='transDescript'>"
-		+ "<input type='text' class='form-control ' value='" +transaction.shortDescription+"'>"
-		+"</td><td class='transAmount'>"
-		+ "<input type='text' size='10' class='form-control ' value='" +transaction.amount.toFixed(2)+"'>"
-		+"</td></tr>";*/
 	return returnTransaction;
 }
 
+//Generates a row tag containing input fields for adding/updating rows.
 var generateTransFormNode=function(transaction){
 	var node;
 	
-	//for Updating rows
+	//form row for Updating rows
 	if(transaction != null){
 		var date = new Date(transaction.creationDate);
 		node =
@@ -242,14 +207,14 @@ var generateTransFormNode=function(transaction){
 		+"	<button class='btn btn-info cancel' type='button'><span class='glyphicon glyphicon-remove'></span></button>"
 		+"</div></td>"
 		+"<td class='transDate' >"
-			+"<input type='text' size='15' class='form-control ' value='" +(date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()+"'>"
+			+"<input type='text' size='15' class='form-control datepicker ' value='" +(date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()+"'>"
 		+ "</td> <td class='transDescript'>"
 		+ "<input type='text' class='form-control ' value='" +transaction.shortDescription+"'>"
 		+"</td><td class='transAmount'>"
 		+ "<input type='text' size='10' class='form-control ' value='" +transaction.amount.toFixed(2)+"'>"
 		+"</td></tr>";
 	}
-	//for adding rows
+	//form row for adding rows
 	else{
 		node =
 			"<tr class='addRow'>"
@@ -258,7 +223,7 @@ var generateTransFormNode=function(transaction){
 			+"	<button class='btn btn-info cancel' type='button'><span class='glyphicon glyphicon-remove'></span></button>"
 			+"</div></td>"
 			+"<td class='transDate' >"
-				+"<input type='text' size='15' class='form-control '>"
+				+"<input type='text' size='15' class='form-control datepicker'>"
 			+ "</td> <td class='transDescript'>"
 			+ "<input type='text' class='form-control '>"
 			+"</td><td class='transAmount'>"
@@ -270,9 +235,29 @@ var generateTransFormNode=function(transaction){
 }
 
 //callback function for creating form for adding transactions
-//
 var addTransCallback =function(event){
-	
+	var row = generateTransFormNode();
+	$('#transaction-table tbody').prepend(row);
+}
+
+var addTransaction =function(row){
+	jsRoutes.controllers.TransactionController.addTransaction(selectedFolderObj.name).ajax({
+		data : {
+			amount : parseFloat($('.transAmount input', row).val()),
+			shortDescription : $('.transDescript input', row).val(),
+			creationDate : $('.transDate input', row).val()
+		},
+		success : function(data){		
+					var html=generateTransactionNode(data);
+					$('#transaction-table tbody').append(html);
+					//add transaction to selected folder object
+					updateFolderTransactions(data);
+					removeFormView(null, row);
+				},
+		error : function(data){
+				alert("cannot add transaction");
+			}
+	});
 }
 
 //callback function for deleting 1 or more transactions
@@ -328,9 +313,19 @@ var updateTransCallback = function(event){
 	}
 }
 
-//callback for saving update
-var saveUpdate = function(event){
-	var updatedRow = $(this).parent().parent().parent();
+//calls addRow/updateRow depending on the action.
+var saveRow = function(event){
+	var row = $(this).parent().parent().parent();
+	if(row.hasClass('updateRow')){
+		updateTransaction(row);
+	}
+	else if (row.hasClass('addRow')){
+		addTransaction(row);
+	}
+}
+
+//updates transaction with new data
+var updateTransaction = function(updatedRow){
 	var transactionId = updatedRow.attr('data-id');
 	var viewRow = $(".viewRow[data-id='"+transactionId +"']");
 	
@@ -343,51 +338,69 @@ var saveUpdate = function(event){
 			},
 		 success : function(data){	
 			//updates viewrow to what was entered in updated row
+			 console.log('updated amount: ' + data.amount);
 			var oldAmount = $('.transAmount ', viewRow)[0].innerHTML;
 		 	var date = new Date(data.creationDate);
-			$('.transAmount ', viewRow)[0].innerHTML = data.amount;
+			$('.transAmount', viewRow)[0].innerHTML = data.amount.toFixed(2);
 			$('.transDescript', viewRow)[0].innerHTML = data.shortDescription;
 			$('.transDate ', viewRow)[0].innerHTML = (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear();
 			
 			//update selectedFolderObj
-			$.each(selectedFolderObj.transactions, function(i, transaction){
-				if(transaction.id == data.id){
-					transaction.creationDate=data.creationDate;
-					transaction.shortDescription=data.shortDescription;
-					transaction.amount = data.amount;
-				}
-			});
-			selectedFolderObj.total += (data.amount-oldAmount);
-			updateSelectedFolderTotal();
+			updateFolderTransactions(data);
+			
 			//switch views
-			removeUpdateView(event, updatedRow);
+			removeFormView(event, updatedRow);
 		},
 		error : function(data){
 			alert("cannot update transaction");
 		}
 	});
-
 }
 
 //changes transaction row back to the view row and hides the update row
-var removeUpdateView = function(event, row){
-	if (row != null)
-		var updatedRow = row;
-	else
-		var updatedRow = $(this).parent().parent().parent();
-	var transactionId = updatedRow.attr('data-id');
-	var viewRow = $(".viewRow[data-id='"+transactionId +"']");
+var removeFormView = function(event, row){
+	//gets Row being removed from cancel button
+	if (row ==null)
+		row = $(this).parent().parent().parent();
 	
-	$(updatedRow).css('display', 'none');
-	$(viewRow).css('display', '');
-	$("input[type=checkbox]", viewRow).prop('checked', false);
+	if(row.hasClass('updateRow')){
+		var transactionId = row.attr('data-id');
+		var viewRow = $(".viewRow[data-id='"+transactionId +"']");
+		
+		$(row).css('display', 'none');
+		$(viewRow).css('display', '');
+		$("input[type=checkbox]", viewRow).prop('checked', false);
+	}
 	
+	else{
+		row.remove();
+	}
 	
+}
+
+//updates selectedFolderObj with updated/new transaction
+var updateFolderTransactions = function (newTransaction){
+	var oldAmount=0;
+	var containsTrans=false;
+	$.each(selectedFolderObj.transactions, function(i, transaction){
+		if(transaction.id == newTransaction.id){
+			oldAmount =transaction.amount;
+			transaction.creationDate=newTransaction.creationDate;
+			transaction.shortDescription=newTransaction.shortDescription;
+			transaction.amount = newTransaction.amount;
+			
+			containsTrans=true;
+		}
+	});
+	
+	if(!containsTrans)
+		selectedFolderObj.transactions.push(newTransaction);
+	
+	selectedFolderObj.total += (newTransaction.amount-oldAmount);
+	updateSelectedFolderTotal();
 }
 
 //updates ui to reflect total for selected folder
 var updateSelectedFolderTotal = function(){
-	$("#folderTotal")[0].innerHTML = selectedFolderObj.total.toFixed(2);
+	$(".selected .folderTotal")[0].innerHTML = "  &ndash; $" + selectedFolderObj.total.toFixed(2);
 }
-
-

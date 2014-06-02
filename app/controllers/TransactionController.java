@@ -43,7 +43,6 @@ public class TransactionController extends Controller{
 		Form<Transaction> form = Form.form(Transaction.class).bindFromRequest();
 		System.out.println(form);
 		Transaction t = form.get();
-		Transaction.update(t, id);
-		return ok(toJson(t));
+		return ok(toJson(Transaction.update(t, id)));
 	}
 }

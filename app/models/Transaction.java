@@ -143,7 +143,9 @@ public class Transaction extends Model{
 	
 	public static Transaction update(Transaction updatedTransaction, int id){
 		Transaction t = Transaction.find.ref(id);
-		if(Math.abs(t.getAmount()-updatedTransaction.getAmount()) < 1.11e-16){
+		
+		//only updates total if it has changed
+		if(Math.abs(t.getAmount()-updatedTransaction.getAmount()) > 1.11e-16){
 			updateTotal(t, updatedTransaction.getAmount());
 		}
 		t.setCreationDate(updatedTransaction.getCreationDate());
