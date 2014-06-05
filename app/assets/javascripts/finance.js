@@ -7,7 +7,7 @@ var selectedFolderObj;
 //add listeners
 $(function(){
 	$('#transaction-table').on('click', '#delete',deleteTransCallback);
-	$('#transaction-table').on('click', '#update', updateTransCallback);
+	$('#transaction-table').on('click', '#updateButton', updateTransCallback);
 	$('#transaction-table').on('click', '#add', addTransCallback);
 	$('#transaction-table').on('click', '.save',  saveRow);
 	$('#transaction-table').on('click', '.cancel',  removeFormView);
@@ -17,9 +17,10 @@ $(function(){
 	$('#updateFolder').on('click', updateFolder);
 	$('#folder-list').on('click', '.folder', selectFolder);
 	$('#folder-list').on('click', '#saveFolder', saveFolder);
-	//$('#folder-list').on('focusout keyup', '#newFolder', saveFolder);
 	
 	$('.datepicker').datepicker({});
+	
+	
 });
 
 
@@ -153,11 +154,31 @@ var selectFolder = function(event){
 				selectedFolderObj = folder;
 		});
 		displayTransactions(selectedFolderObj);
-								
+		
+		//add sorting to table
+		//sorttable.makeSortable($('#transaction-table')[0]);						
 		//display table after folder is selected
 		$('#transaction-table').css('display', '');
-		$('#stats').css('display', '');
+		//$('#stats').css('display', '');
+		
+		
+		$('#transaction-table').tablesorter({ 
+	        // define a custom text extraction function 
+	        textExtraction: function(node) { 
+	        	var customKey= $(node).attr('sorttable_customkey');
+	        	return customKey || node.innerHTML;
+	        },
+	        headers : {
+	        	0 : {
+	        		sorter: false
+	        	}
+	        },
+	        sortList : [[1,0]]
+	    });
+		
 	}
+	
+
 }
 
 //helper function to add transactions to DOM
@@ -209,11 +230,12 @@ var generateTransFormNode=function(transaction){
 		+"	<button class='btn btn-info save' type='button'><span class='glyphicon glyphicon-ok'></span></button>" 
 		+"	<button class='btn btn-info cancel' type='button'><span class='glyphicon glyphicon-remove'></span></button>"
 		+"</div></td>"
-		+"<td class='transDate' >"
+		//Add custom key to be the same as form value so that update row and view row stay in the same place
+		+"<td class='transDate' sorttable_customkey='" +(date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear() +"'>"
 			+"<input type='text' size='15' class='form-control datepicker ' value='" +(date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()+"'>"
-		+ "</td> <td class='transDescript'>"
+		+ "</td> <td class='transDescript' sorttable_customkey='" +transaction.shortDescription+"'>"
 		+ "<input type='text' class='form-control ' value='" +transaction.shortDescription+"'>"
-		+"</td><td class='transAmount'>"
+		+"</td><td class='transAmount' sorttable_customkey='" +transaction.amount.toFixed(2)+"'>"
 		+ "<input type='text' size='10' class='form-control ' value='" +transaction.amount.toFixed(2)+"'>"
 		+"</td></tr>";
 	}
@@ -252,10 +274,12 @@ var addTransaction =function(row){
 		},
 		success : function(data){		
 					var html=generateTransactionNode(data);
-					$('#transaction-table tbody').append(html);
+					$('#transaction-table tbody').prepend(html);
 					//add transaction to selected folder object
 					updateFolderTransactions(data);
 					removeFormView(null, row);
+					//updates tale but doesnt sort
+					updateTableSort(false);
 				},
 		error : function(data){
 				alert("cannot add transaction");
@@ -292,6 +316,8 @@ var deleteTransCallback = function(event){
 							selectedFolderObj.transactions.splice(index, 1);
 						});
 						updateSelectedFolderTotal();
+						//updates table for sorting, but doesnt resort
+						updateTableSort(false);
 					}
 				});
 			}
@@ -348,11 +374,19 @@ var updateTransaction = function(updatedRow){
 			$('.transDescript', viewRow)[0].innerHTML = data.shortDescription;
 			$('.transDate ', viewRow)[0].innerHTML = (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear();
 			
+			//update custom key in updated row for sorting
+			$('.transAmount', updatedRow).attr('sorttable_customkey', data.amount.toFixed(2));
+			$('.transDescript', updatedRow).attr('sorttable_customkey', data.shortDescription);
+			$('.transDate', updatedRow).attr('sorttable_customkey', (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear());
+			
 			//update selectedFolderObj
 			updateFolderTransactions(data);
 			
 			//switch views
 			removeFormView(event, updatedRow);
+			
+			//updates table for sorting and resorts
+			updateTableSort(true);
 		},
 		error : function(data){
 			alert("cannot update transaction");
@@ -406,4 +440,10 @@ var updateFolderTransactions = function (newTransaction){
 //updates ui to reflect total for selected folder
 var updateSelectedFolderTotal = function(){
 	$(".selected .folderTotal")[0].innerHTML = "  &ndash; $" + selectedFolderObj.total.toFixed(2);
+}
+
+var updateTableSort= function(resort){
+	var table = $('#transaction-table');
+	//tells table sorter that table has been updated and resorts it if resrot == true
+	table.trigger("update", [resort]);
 }

@@ -5,7 +5,7 @@
 	<div class='wrapper'>
 		<div class='sidebar-wrapper'>
 			<div class="sidebar-nav">
-				<h3>@user.getName()'s Folders</h3> 
+				<h3>Expense Folders</h3> 
 				<ul id="folder-list" class="nav nav-stacked">
 				</ul>
 			</div>
@@ -20,11 +20,11 @@
 		 
 		<div class='content-wrapper'>
 			<div class='container-fluid'>
-				<div><h2>Finances</h2></div>
+				<div><h2>Expenses</h2></div>
 				<div class='row'>
 					<div class='col-sm-10'>
 						<div id='transaction-list'>
-							<table class='table' id='transaction-table' style='display:none'>
+							<table class='table tablesorter' id='transaction-table' style='display:none'>
 								<thead>
 									<tr>
 										<th> 
@@ -37,7 +37,7 @@
 												    <span class="sr-only">Toggle Dropdown</span>
 												</button>
 												<ul class='dropdown-menu' role='menu'>
-													<li><a href='#' id='update'>Update</a><li>
+													<li><a href='#' id='updateButton'>Update</a><li>
 													<li><a href='#' id='delete'>Delete</a><li>
 												</ul>
 											</div>
@@ -68,7 +68,8 @@
 
 
 
-<!-- <script type='text/javascript' src="@routes.Assets.at("javascripts/jquery.tablesorter.js")"></script> -->
+<!-- <script type='text/javascript' src="@routes.Assets.at("javascripts/sorttable.js")"></script>  -->
+<script type='text/javascript' src="@routes.Assets.at("javascripts/jquery.tablesorter.js")"></script> 
 <script type="text/javascript" src="@routes.Assets.at("javascripts/finance.js")"></script>
 
 }
