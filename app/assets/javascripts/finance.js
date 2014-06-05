@@ -18,7 +18,6 @@ $(function(){
 	$('#folder-list').on('click', '.folder', selectFolder);
 	$('#folder-list').on('click', '#saveFolder', saveFolder);
 	
-	$('.datepicker').datepicker({});
 	
 	
 });
@@ -189,7 +188,7 @@ var displayTransactions= function(folder){
 		html.push(generateTransactionNode(transaction));
 	});
 	$('#transaction-table tbody').html(html.join(''));
-	//$('.updateRow').css('display', 'none');
+	$('.datepicker').datepicker();
 	updateSelectedFolderTotal();
 
 };
@@ -263,6 +262,8 @@ var generateTransFormNode=function(transaction){
 var addTransCallback =function(event){
 	var row = generateTransFormNode();
 	$('#transaction-table tbody').prepend(row);
+	//add datepicker to addTransaction row
+	$('.datepicker').datepicker();
 }
 
 var addTransaction =function(row){
@@ -278,6 +279,10 @@ var addTransaction =function(row){
 					//add transaction to selected folder object
 					updateFolderTransactions(data);
 					removeFormView(null, row);
+					
+					//add datepicker to newly added transactions
+					$('.datepicker').datepicker();
+					
 					//updates tale but doesnt sort
 					updateTableSort(false);
 				},
@@ -404,6 +409,12 @@ var removeFormView = function(event, row){
 		var transactionId = row.attr('data-id');
 		var viewRow = $(".viewRow[data-id='"+transactionId +"']");
 		
+		//revert updateRow form values back
+		$(".transDate input", row).val($(".transDate", viewRow).html());
+		$(".transAmount input", row).val($(".transAmount", viewRow).html());
+		$(".transDescript input", row).val($(".transDescript", viewRow).html());
+		
+		//switch back to view Row
 		$(row).css('display', 'none');
 		$(viewRow).css('display', '');
 		$("input[type=checkbox]", viewRow).prop('checked', false);
