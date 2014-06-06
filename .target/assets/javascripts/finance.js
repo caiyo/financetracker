@@ -263,7 +263,7 @@ var addTransCallback =function(event){
 	var row = generateTransFormNode();
 	$('#transaction-table tbody').prepend(row);
 	//add datepicker to addTransaction row
-	$('.datepicker').datepicker();
+	$('.addRow .datepicker').datepicker();
 }
 
 var addTransaction =function(row){
@@ -281,8 +281,7 @@ var addTransaction =function(row){
 					removeFormView(null, row);
 					
 					//add datepicker to newly added transactions
-					$('.datepicker').datepicker();
-					
+					$(".updateRow[data-id='"+data.id+"'] .datepicker").datepicker();
 					//updates tale but doesnt sort
 					updateTableSort(false);
 				},
