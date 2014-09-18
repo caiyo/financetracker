@@ -7,11 +7,12 @@
 			Finance Tracker is a site made for you to track your expenses 
 			in a simple manner
 			</h3>
-			@if(session.get("email") != null){
-		   		<a href="@routes.FinanceFolderController.index()">View your expenses!</a>
-		   	} else{
-		   		<a href="@routes.Application.login()" class='btn btn-default'>Login</a>
+			@if(session.get("email") == null || Account.getAccount(session.get("email")) == null){
+				<a href="@routes.Application.login()" class='btn btn-default'>Login</a>
 		   		<a  href="@routes.AccountController.signUp()" class='btn btn-default'>Sign up</a>
+		   		
+		   	} else{
+		   		<a href="@routes.FinanceFolderController.index()">View your expenses!</a>
 		   	}
 	   	</div>
    	</div>
