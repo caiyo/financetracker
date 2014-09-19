@@ -5,27 +5,39 @@
 # Home page
 GET     /                           		controllers.Application.index()
 GET		/login								controllers.Application.login()
-POST	/login								controllers.Application.authenticate()
 GET		/logout								controllers.Application.logout()
 
 #FinanceFolder
-GET 	/finances							controllers.FinanceFolderController.index()
-POST	/folders							controllers.FinanceFolderController.addFolder()
-GET 	/folders							controllers.FinanceFolderController.listFolders()
-DELETE	/folders/:id						controllers.FinanceFolderController.deleteFolder(id:Integer)
+GET 	/expenses							controllers.FinanceFolderController.index()
 
-#Transactions
-POST	/transaction/:folder				controllers.TransactionController.addTransaction(folder:String)
-DELETE	/transaction/:id					controllers.TransactionController.deleteTransaction(id:Integer)
-PUT		/transaction/:id					controllers.TransactionController.updateTransaction(id:Integer)
+
 
 #Accounts
 GET		/signup								controllers.AccountController.signUp()
 POST	/signup								controllers.AccountController.createAccount()
-GET		/api/listAccounts					controllers.AccountController.listAccounts()	
+
+#Bills
+GET		/bills								controllers.BillController.index()	
 
 #Javascript router
 GET 	/javascriptRoutes					controllers.Application.javascriptRoutes
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+#API
+POST	/api/folders							controllers.FinanceFolderController.addFolder()
+GET 	/api/folders							controllers.FinanceFolderController.listFolders()
+DELETE	/api/folders/:id						controllers.FinanceFolderController.deleteFolder(id:Integer)
+
+POST	/api/transaction/:folder				controllers.TransactionController.addTransaction(folder:String)
+DELETE	/api/transaction/:id					controllers.TransactionController.deleteTransaction(id:Integer)
+PUT		/api/transaction/:id					controllers.TransactionController.updateTransaction(id:Integer)
+
+GET		/api/bills/								controllers.BillController.listBills()
+DELETE 	/api/bills/:id							controllers.BillController.deleteBill(id:Integer)
+
+GET		/api/listAccounts						controllers.AccountController.listAccounts()
+POST	/api/login								controllers.Application.authenticate()
+
+

@@ -110,12 +110,10 @@ $(function(){
 		var folderNode = $('.selected');
 		var folderId = parseInt(folderNode.attr('data-id'));
 		var folderNodeIndex = folderNode.index();
-		var newSelected;
+		var newSelected=$('#folder-list').children()[folderNodeIndex+1];
 		
 		//sets new selected folder for after selected folder is deleted
-		if(folderNodeIndex != folders.length-1)
-			newSelected=$('#folder-list').children()[folderNodeIndex+1];
-		else
+		if(!newSelected)
 			newSelected=$('#folder-list').children()[folderNodeIndex-1];
 		
 		
@@ -124,7 +122,7 @@ $(function(){
 		jsRoutes.controllers.FinanceFolderController.deleteFolder(folderId).ajax({
 			success: function(data){
 				//remove from folders obj
-				folders.splice(folderNodeIndex,1);
+				delete folders.folderNodeIndex;
 				//remove folder from UI
 				folderNode.remove();
 				

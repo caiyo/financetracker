@@ -25,7 +25,7 @@ public class FinanceFolder extends Model{
 	private Account account;
 	
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.REMOVE)
 	@JsonManagedReference
 	private List<Transaction> transactions = new ArrayList<>();
 	

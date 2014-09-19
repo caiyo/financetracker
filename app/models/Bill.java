@@ -101,4 +101,10 @@ public class Bill extends Model{
 		return b;
 	}
 	
+	public static Bill delete(int id){
+		Bill b = find.ref(id);
+		b.delete();
+		return b;
+	}
+	
 }

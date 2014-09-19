@@ -28,6 +28,9 @@ public class Account extends Model{
 	@OneToMany
 	@JsonManagedReference
 	private List<FinanceFolder> folders = new ArrayList<>();
+	@OneToMany
+	@JsonManagedReference
+	private List<Bill> bills = new ArrayList<>();
 	private String salt;
 	
 	
@@ -100,6 +103,14 @@ public class Account extends Model{
 
 	public void setFolders(List<FinanceFolder> folders) {
 		this.folders = folders;
+	}
+	
+	public List<Bill> getBills() {
+		return bills;
+	}
+	
+	public void setBills(List<Bill> bills) {
+		this.bills = bills;
 	}
 	
 	public String getSalt(){

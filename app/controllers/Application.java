@@ -75,7 +75,8 @@ public class Application extends Controller {
         				controllers.routes.javascript.TransactionController.addTransaction(),
         				controllers.routes.javascript.AccountController.listAccounts(),
         				controllers.routes.javascript.TransactionController.deleteTransaction(),
-        				controllers.routes.javascript.TransactionController.updateTransaction()
+        				controllers.routes.javascript.TransactionController.updateTransaction(),
+        				controllers.routes.javascript.BillController.listBills()
         				)
         		);
     }
