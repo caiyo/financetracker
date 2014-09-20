@@ -215,7 +215,7 @@ $(function(){
 		var node;
 		
 		//form row for Updating rows
-		if(transaction != null){
+		if(transaction){
 			var date = new Date(transaction.creationDate);
 			node =
 			"<tr data-id='" +transaction.id + "' class='updateRow' style='display: none'>"

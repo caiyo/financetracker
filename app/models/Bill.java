@@ -48,6 +48,8 @@ public class Bill extends Model{
 		if(amount<=0){
 			errors.add(new ValidationError("Incorrect Amoun", "Amount must be greater than $0"));
 		}
+		if(errors.isEmpty())
+			return null;
 		return errors;
 	}
 	
@@ -60,10 +62,10 @@ public class Bill extends Model{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String gettitle() {
+	public String getTitle() {
 		return title;
 	}
-	public void settitle(String title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 	public Date getDueDate() {
@@ -72,10 +74,10 @@ public class Bill extends Model{
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
-	public boolean isRecuring() {
+	public boolean getIsRecuring() {
 		return isRecuring;
 	}
-	public void setRecuring(boolean isRecuring) {
+	public void setIsRecuring(boolean isRecuring) {
 		this.isRecuring = isRecuring;
 	}
 	public double getAmount() {
@@ -104,6 +106,15 @@ public class Bill extends Model{
 	public static Bill delete(int id){
 		Bill b = find.ref(id);
 		b.delete();
+		return b;
+	}
+	public static Bill update(Bill updatedBill, int id){
+		Bill b = find.ref(id);
+		b.setAmount(updatedBill.getAmount());
+		b.setDueDate(updatedBill.getDueDate());
+		b.setIsRecuring(updatedBill.getIsRecuring());
+		b.setTitle(updatedBill.getTitle());
+		b.update();
 		return b;
 	}
 	

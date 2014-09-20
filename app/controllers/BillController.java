@@ -16,8 +16,10 @@ public class BillController extends Controller {
 	
 	public static Result addBill(){
 		Form<Bill> f = Form.form(Bill.class).bindFromRequest();
-		Bill b = f.get();
-		b.setAccount(Account.getAccount(session("email")));
+		System.out.println("[DEBUG] :" + f);
+
+		Bill b = Bill.create(f.get(), Account.getAccount(session("email")));
+		System.out.println("BILLS ID: " + b.getId());
 		return ok(toJson(b));
 	}
 	
@@ -28,5 +30,11 @@ public class BillController extends Controller {
 	
 	public static Result deleteBill(int id){
 		return ok(toJson(Bill.delete(id)));
+	}
+	
+	public static Result updateBill(int id){
+		Form<Bill> f = Form.form(Bill.class).bindFromRequest();
+		Bill b = f.get();
+		return ok(toJson(Bill.update(b,id)));
 	}
 }

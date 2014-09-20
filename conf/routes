@@ -34,8 +34,10 @@ POST	/api/transaction/:folder				controllers.TransactionController.addTransactio
 DELETE	/api/transaction/:id					controllers.TransactionController.deleteTransaction(id:Integer)
 PUT		/api/transaction/:id					controllers.TransactionController.updateTransaction(id:Integer)
 
-GET		/api/bills/								controllers.BillController.listBills()
+GET		/api/bills								controllers.BillController.listBills()
+POST	/api/bills								controllers.BillController.addBill()
 DELETE 	/api/bills/:id							controllers.BillController.deleteBill(id:Integer)
+PUT		/api/bills/:id							controllers.BillController.updateBill(id:Integer)
 
 GET		/api/listAccounts						controllers.AccountController.listAccounts()
 POST	/api/login								controllers.Application.authenticate()
