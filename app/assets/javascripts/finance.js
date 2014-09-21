@@ -197,7 +197,7 @@ $(function(){
 		var returnTransaction = 
 			//view row
 			"<tr data-id='" +transaction.id + "' class='viewRow'>"
-			+"<td><input type='checkbox'></td>"
+			+"<td class='actionBox'><input type='checkbox'></td>"
 			+"<td class='transDate' >"
 				+ (date.getUTCMonth()+1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()
 			+ "</td> <td class='transDescript'>"
@@ -290,7 +290,7 @@ $(function(){
 		var transactionIds = [];
 		
 		//get all transactions selected for deletion
-		$('#transaction-table input[type=checkbox]:checked').each(function(i, checkbox){
+		$('#transaction-table .actionBox input[type=checkbox]:checked').each(function(i, checkbox){
 			transactionIds.push($(checkbox).closest('tr').attr('data-id'));	
 		});
 		if(transactionIds.length>0){

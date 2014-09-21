@@ -2,12 +2,14 @@ package controllers;
 
 import play.data.Form;
 import play.mvc.Controller;
+import play.mvc.Security;
 import models.Bill;
 import play.mvc.Result;
 import models.Account;
 import views.html.*;
 import static play.libs.Json.toJson;
 
+@Security.Authenticated(Secured.class)
 public class BillController extends Controller {
 	
 	public static Result index(){
@@ -20,6 +22,7 @@ public class BillController extends Controller {
 
 		Bill b = Bill.create(f.get(), Account.getAccount(session("email")));
 		System.out.println("BILLS ID: " + b.getId());
+		System.out.println("bill:" +toJson(b).toString());
 		return ok(toJson(b));
 	}
 	
@@ -29,7 +32,8 @@ public class BillController extends Controller {
 	}
 	
 	public static Result deleteBill(int id){
-		return ok(toJson(Bill.delete(id)));
+		Bill.delete(id);
+		return ok();
 	}
 	
 	public static Result updateBill(int id){
