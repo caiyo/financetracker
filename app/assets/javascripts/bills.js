@@ -38,7 +38,15 @@ var addBill = function(row){
 			isRecuring: $('.billRecuring input', row).is(':checked')
 		},
 		success: function(data){
-			var html = generateBillRow(data);
+			var html;
+			if($.isArray(data)){
+				$.each(data, function(i, bill){
+					html+=generateBillRow(bill);
+				});
+			}
+			else{
+				html = generateBillRow(data);
+			}
 			$('#bills-table tbody').prepend(html);
 			row.remove();
 			

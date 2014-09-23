@@ -18,6 +18,7 @@ create table bill (
   is_recuring               boolean,
   amount                    decimal(12,2),
   account_email             varchar(255),
+  paid                      boolean,
   constraint pk_bill primary key (id))
 ;
 

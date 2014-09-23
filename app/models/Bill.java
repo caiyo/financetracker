@@ -1,7 +1,10 @@
 package models;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -31,6 +34,7 @@ public class Bill extends Model{
 	@ManyToOne
 	@JsonBackReference
 	private Account account;
+	private Boolean paid;
 	
 	public static Finder<Integer, Bill> find = new Finder<>(Integer.class, Bill.class);
 	
@@ -92,15 +96,57 @@ public class Bill extends Model{
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+	public Boolean getPaid(){
+		return paid;
+	}
+	public void setPaid(Boolean paid){
+		this.paid = paid;
+	}
 	
 	/*
 	 * STATIC METHODS
 	 */
-	
+	public static Bill copy(Bill b){
+		Bill bill = new Bill();
+		bill.setAccount(b.getAccount());
+		bill.setAmount(b.getAmount());
+		bill.setDueDate(b.getDueDate());
+		bill.setIsRecuring(b.getIsRecuring());
+		bill.setPaid(b.getPaid());
+		bill.setTitle(b.getTitle());
+		return bill;
+	}
 	public static Bill create(Bill b, Account a){
 		b.setAccount(a);
+		b.setPaid(false);
 		b.save();
 		return b;
+	}
+	
+	//If bill is recuring, it will create a bill for the same day for every month in the next year
+	public static List<Bill> createRecuringBills(Bill b, Account a, int length){
+		List<Bill> bills = new ArrayList<>();
+		Bill newBill;
+		long date = b.getDueDate().getTime();
+		Calendar cal = new GregorianCalendar();
+		cal.setTimeInMillis(date);
+		int billDate = cal.get(Calendar.DATE);
+		int billYear = cal.get(Calendar.YEAR);
+		int billMonth = cal.get(Calendar.MONTH);
+		String [] months = new DateFormatSymbols().getMonths();
+		
+		for(int i=0;i<length; i++){
+			newBill = Bill.copy(b);
+			//if bill month hits january of a new year, increase the billyear
+			if(i>0 && billMonth==0)
+				billYear++;
+			Date newDate = new Date(new GregorianCalendar(billYear,billMonth,billDate).getTimeInMillis());
+			newBill.setDueDate(newDate);
+			bills.add(Bill.create(newBill, a));
+			billMonth= ++billMonth%12;
+		}
+		System.out.println(bills.size());
+		return bills;
 	}
 	
 	public static Bill delete(int id){

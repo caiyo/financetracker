@@ -20,10 +20,14 @@ public class BillController extends Controller {
 		Form<Bill> f = Form.form(Bill.class).bindFromRequest();
 		System.out.println("[DEBUG] :" + f);
 
-		Bill b = Bill.create(f.get(), Account.getAccount(session("email")));
-		System.out.println("BILLS ID: " + b.getId());
-		System.out.println("bill:" +toJson(b).toString());
-		return ok(toJson(b));
+		Bill b = f.get();
+		Account a = Account.getAccount(session("email"));
+		if(b.getIsRecuring()){
+			return ok(toJson(Bill.createRecuringBills(b,a,12)));
+		}
+		else{
+			return ok(toJson(Bill.create(b, a)));
+		}
 	}
 	
 	public static Result listBills(){
