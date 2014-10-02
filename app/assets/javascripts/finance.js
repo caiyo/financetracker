@@ -1,27 +1,16 @@
 
-//global variables for storing folder information
-var folders={};
-var selectedFolderObj;
 
 
 //add listeners
 $(function(){
-	$('#transaction-table').on('click', '#delete',deleteTransCallback);
-	$('#transaction-table').on('click', '#updateButton', updateTransCallback);
-	$('#transaction-table').on('click', '#add', addTransCallback);
-	$('#transaction-table').on('click', '.save',  saveRow);
-	$('#transaction-table').on('click', '.cancel',  removeFormView);
-	$('#folder-list').on('click', '.cancel', removeFormView);
-	$('#addFolder').on('click', addFolder);
-	$('#deleteFolder').on('click', deleteFolder);
-	$('#updateFolder').on('click', updateFolder);
-	$('#folder-list').on('click', '.folder', selectFolder);
-	$('#folder-list').on('click', '#saveFolder', saveFolder);	
-});
+	//global variables for storing folder information
+	var folders={};
+	var selectedFolderObj;
+
 
 
 //Javascript for listing all folders that a Account has created
-$(function(){
+var listFolders = function(){
 	jsRoutes.controllers.FinanceFolderController.listFolders().ajax({
 		 success : function(data){			
 			 addFoldersNode(data); 
@@ -29,7 +18,7 @@ $(function(){
 				folders[folder.id]=folder;
 			});
 	}});
-});
+};
 
 /**
  * FOLDER AJAX AND HELPER FUNCTIONS
@@ -53,7 +42,7 @@ $(function(){
 		else {
 			alert("Currently adding new folder. Must save it first");
 		}
-	}
+	};
 	
 	//event callback for saving new folder
 	//When input field loses focus, the folder
@@ -77,7 +66,7 @@ $(function(){
 				alert('error adding folder');
 			}
 		});
-	}
+	};
 	
 	//helper function for  adding folders to DOM
 	var addFoldersNode = function(data){
@@ -104,7 +93,7 @@ $(function(){
 	
 	var updateFolder = function(event){
 		
-	}
+	};
 	
 	var deleteFolder = function(event){
 		var folderNode = $('.selected');
@@ -140,7 +129,7 @@ $(function(){
 				alert("Could not delete Folder");
 			}
 		});
-	}
+	};
 	
 	//javascript for setting a selected folder
 	//and display transactions for selected folder
@@ -167,7 +156,7 @@ $(function(){
 			addTableSorter();
 			
 		}
-	}
+	};
 
 /**
  * EXPENSES(TRANSACTIONS) AJAX AND HELPER FUNCTIONS
@@ -208,7 +197,7 @@ $(function(){
 			//update row
 			returnTransaction += generateTransFormNode(transaction)
 		return returnTransaction;
-	}
+	};
 	
 	//Generates a row tag containing input fields for adding/updating rows.
 	var generateTransFormNode=function(transaction){
@@ -250,7 +239,7 @@ $(function(){
 		}
 		
 		return node;
-	}
+	};
 	
 	//callback function for creating form for adding transactions
 	var addTransCallback =function(event){
@@ -258,7 +247,7 @@ $(function(){
 		$('#transaction-table tbody').prepend(row);
 		//add datepicker to addTransaction row
 		$('.addRow .datepicker').datepicker();
-	}
+	};
 	
 	var addTransaction =function(row){
 		jsRoutes.controllers.TransactionController.addTransaction(selectedFolderObj.name).ajax({
@@ -283,7 +272,7 @@ $(function(){
 					alert("cannot add transaction");
 				}
 		});
-	}
+	};
 	
 	//callback function for deleting 1 or more transactions
 	var deleteTransCallback = function(event){
@@ -321,7 +310,7 @@ $(function(){
 				}
 			}
 		}
-	}
+	};
 	
 	//callback function for displaying update transactions 
 	//hides the view rows and shows update rows with
@@ -338,7 +327,7 @@ $(function(){
 				$(".updateRow[data-id='"+transaction +"']").css('display', '');
 			});
 		}
-	}
+	};
 	
 	//calls addRow/updateRow depending on the action.
 	var saveRow = function(event){
@@ -417,7 +406,7 @@ $(function(){
 			row.remove();
 		}
 		
-	}
+	};
 
 /**
  * MISC HELPER FUNCTIONS
@@ -443,12 +432,12 @@ $(function(){
 		
 		selectedFolderObj.total += (newTransaction.amount-oldAmount);
 		updateSelectedFolderTotal();
-	}
+	};
 	
 	//updates ui to reflect total for selected folder
 	var updateSelectedFolderTotal = function(){
 		$(".selected .folderTotal")[0].innerHTML = "  &ndash; $" + selectedFolderObj.total.toFixed(2);
-	}
+	};
 	
 	//Add table sorter to table of selected folder
 	var addTableSorter = function(){
@@ -466,10 +455,24 @@ $(function(){
 	        },
 	        sortList : [[1,0]]
 	    });
-	}
+	};
 	
 	var updateTableSort= function(resort){
 		var table = $('#transaction-table');
 		//tells table sorter that table has been updated and resorts it if resrot == true
 		table.trigger("update", [resort]);
-	}
+	};
+	$('#transaction-table').on('click', '#delete',deleteTransCallback);
+	$('#transaction-table').on('click', '#updateButton', updateTransCallback);
+	$('#transaction-table').on('click', '#add', addTransCallback);
+	$('#transaction-table').on('click', '.save',  saveRow);
+	$('#transaction-table').on('click', '.cancel',  removeFormView);
+	$('#folder-list').on('click', '.cancel', removeFormView);
+	$('#addFolder').on('click', addFolder);
+	$('#deleteFolder').on('click', deleteFolder);
+	$('#updateFolder').on('click', updateFolder);
+	$('#folder-list').on('click', '.folder', selectFolder);
+	$('#folder-list').on('click', '#saveFolder', saveFolder);	
+	
+	listFolders();
+});

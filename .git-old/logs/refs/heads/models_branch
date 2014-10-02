@@ -1,0 +1,5 @@
+0000000000000000000000000000000000000000 538a1d782f80df6de3e29ffc16809c25ad0ec18b Kyle Wong <wonger35@gmail.com> 1394069823 -0800	branch: Created from HEAD
+538a1d782f80df6de3e29ffc16809c25ad0ec18b 6ba78dc844344062f35e6a81aa47cf8d442ae97d Kyle Wong <wonger35@gmail.com> 1394069997 -0800	commit: did configuration to use in memory db
+6ba78dc844344062f35e6a81aa47cf8d442ae97d 77521857aaf66ef6d42321a6c550a1fe22d719e8 Kyle Wong <wonger35@gmail.com> 1394075336 -0800	commit: added some crud operations to transactions and financefolder
+77521857aaf66ef6d42321a6c550a1fe22d719e8 0ac072b6d6c1dd63673bbf1f62252eddec417582 Kyle Wong <wonger35@gmail.com> 1395990329 -0700	commit: Added getters and setters to models, fixed some annotations, and added some static methods
+0ac072b6d6c1dd63673bbf1f62252eddec417582 0331a9e521b1d2d9bd8eb9e6c1a73bcd64357231 Kyle Wong <wonger35@gmail.com> 1396117356 -0700	commit: pushed assets

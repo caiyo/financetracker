@@ -1,0 +1,153 @@
+2014-09-24 18:52:47,447 - [INFO] - from play in pool-4-thread-4 
+Listening for HTTP on /0:0:0:0:0:0:0:0:9000
+
+2014-09-24 18:54:06,924 - [INFO] - from play in play-internal-execution-context-1 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-09-24 18:54:09,743 - [INFO] - from play in play-internal-execution-context-1 
+database [default] connected at jdbc:h2:mem:play
+
+2014-09-24 18:54:17,657 - [ERROR] - from application in New I/O worker #1 
+
+
+! @6jjegcmd9 - Internal server error, for (GET) [/bills] ->
+
+play.api.db.evolutions.InvalidDatabaseRevision: Database 'default' needs evolution![An SQL script need to be run on your database.]
+	at play.api.db.evolutions.EvolutionsPlugin$$anonfun$onStart$1$$anonfun$apply$1.apply$mcV$sp(Evolutions.scala:486) ~[play-jdbc_2.10-2.2.3.jar:2.2.3]
+	at play.api.db.evolutions.EvolutionsPlugin.withLock(Evolutions.scala:507) ~[play-jdbc_2.10-2.2.3.jar:2.2.3]
+	at play.api.db.evolutions.EvolutionsPlugin$$anonfun$onStart$1.apply(Evolutions.scala:461) ~[play-jdbc_2.10-2.2.3.jar:2.2.3]
+	at play.api.db.evolutions.EvolutionsPlugin$$anonfun$onStart$1.apply(Evolutions.scala:459) ~[play-jdbc_2.10-2.2.3.jar:2.2.3]
+	at scala.collection.immutable.List.foreach(List.scala:318) ~[scala-library-2.10.3.jar:na]
+	at play.api.db.evolutions.EvolutionsPlugin.onStart(Evolutions.scala:459) ~[play-jdbc_2.10-2.2.3.jar:2.2.3]
+	at play.api.Play$$anonfun$start$1$$anonfun$apply$mcV$sp$1.apply(Play.scala:88) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.api.Play$$anonfun$start$1$$anonfun$apply$mcV$sp$1.apply(Play.scala:88) ~[play_2.10-2.2.3.jar:2.2.3]
+	at scala.collection.immutable.List.foreach(List.scala:318) ~[scala-library-2.10.3.jar:na]
+	at play.api.Play$$anonfun$start$1.apply$mcV$sp(Play.scala:88) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.api.Play$$anonfun$start$1.apply(Play.scala:88) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.api.Play$$anonfun$start$1.apply(Play.scala:88) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.utils.Threads$.withContextClassLoader(Threads.scala:18) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.api.Play$.start(Play.scala:87) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.ReloadableApplication$$anonfun$get$1$$anonfun$apply$1$$anonfun$1.apply(ApplicationProvider.scala:139) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.ReloadableApplication$$anonfun$get$1$$anonfun$apply$1$$anonfun$1.apply(ApplicationProvider.scala:112) ~[play_2.10-2.2.3.jar:2.2.3]
+	at scala.Option.map(Option.scala:145) ~[scala-library-2.10.3.jar:na]
+	at play.core.ReloadableApplication$$anonfun$get$1$$anonfun$apply$1.apply(ApplicationProvider.scala:112) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.ReloadableApplication$$anonfun$get$1$$anonfun$apply$1.apply(ApplicationProvider.scala:110) ~[play_2.10-2.2.3.jar:2.2.3]
+	at scala.util.Success.flatMap(Try.scala:200) ~[scala-library-2.10.3.jar:na]
+	at play.core.ReloadableApplication$$anonfun$get$1.apply(ApplicationProvider.scala:110) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.ReloadableApplication$$anonfun$get$1.apply(ApplicationProvider.scala:102) ~[play_2.10-2.2.3.jar:2.2.3]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask$AdaptedRunnableAction.exec(ForkJoinTask.java:1361) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) ~[scala-library-2.10.3.jar:na]
+
+2014-09-24 18:54:52,215 - [INFO] - from play in play-internal-execution-context-1 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-09-24 18:54:52,315 - [INFO] - from play in play-internal-execution-context-1 
+database [default] connected at jdbc:h2:mem:play
+
+2014-09-24 18:54:57,104 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2014-09-24 19:05:01,401 - [INFO] - from play in play-internal-execution-context-1 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-09-24 19:05:01,419 - [INFO] - from play in play-internal-execution-context-1 
+database [default] connected at jdbc:h2:mem:play
+
+2014-09-24 19:05:02,057 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2014-09-24 19:09:05,304 - [INFO] - from play in play-internal-execution-context-1 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-09-24 19:09:05,333 - [INFO] - from play in play-internal-execution-context-1 
+database [default] connected at jdbc:h2:mem:play
+
+2014-09-24 19:09:06,739 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2014-09-24 19:09:41,528 - [INFO] - from play in play-internal-execution-context-1 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-09-24 19:09:41,543 - [INFO] - from play in play-internal-execution-context-1 
+database [default] connected at jdbc:h2:mem:play
+
+2014-09-24 19:09:41,947 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2014-09-24 19:14:09,827 - [INFO] - from play in play-internal-execution-context-1 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-09-24 19:14:09,850 - [INFO] - from play in play-internal-execution-context-1 
+database [default] connected at jdbc:h2:mem:play
+
+2014-09-24 19:14:10,346 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2014-09-24 19:14:26,587 - [INFO] - from play in play-internal-execution-context-6 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-09-24 19:14:26,598 - [INFO] - from play in play-internal-execution-context-6 
+database [default] connected at jdbc:h2:mem:play
+
+2014-09-24 19:14:27,035 - [INFO] - from play in play-internal-execution-context-6 
+Application started (Dev)
+
+2014-09-24 19:16:06,987 - [INFO] - from play in play-internal-execution-context-7 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-09-24 19:16:07,031 - [INFO] - from play in play-internal-execution-context-7 
+database [default] connected at jdbc:h2:mem:play
+
+2014-09-24 19:16:08,191 - [INFO] - from play in play-internal-execution-context-7 
+Application started (Dev)
+
+2014-09-24 19:19:30,977 - [INFO] - from play in play-internal-execution-context-7 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-09-24 19:19:30,987 - [INFO] - from play in play-internal-execution-context-7 
+database [default] connected at jdbc:h2:mem:play
+
+2014-09-24 19:19:31,161 - [INFO] - from play in play-internal-execution-context-7 
+Application started (Dev)
+
+2014-09-24 19:36:29,787 - [INFO] - from play in play-internal-execution-context-11 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-09-24 19:36:29,834 - [INFO] - from play in play-internal-execution-context-11 
+database [default] connected at jdbc:h2:mem:play
+
+2014-09-24 19:36:32,575 - [INFO] - from play in play-internal-execution-context-11 
+Application started (Dev)
+
+2014-09-24 19:56:26,044 - [INFO] - from play in play-internal-execution-context-11 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-09-24 19:56:26,077 - [INFO] - from play in play-internal-execution-context-11 
+database [default] connected at jdbc:h2:mem:play
+
+2014-09-24 19:56:29,753 - [INFO] - from play in play-internal-execution-context-11 
+Application started (Dev)
+
+2014-09-24 23:50:09,468 - [INFO] - from play in play-internal-execution-context-34 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-09-24 23:50:09,499 - [INFO] - from play in play-internal-execution-context-34 
+database [default] connected at jdbc:h2:mem:play
+
+2014-09-24 23:50:11,439 - [INFO] - from play in play-internal-execution-context-34 
+Application started (Dev)
+
+2014-10-01 19:51:34,448 - [INFO] - from play in play-internal-execution-context-43 
+datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+
+2014-10-01 19:51:34,470 - [INFO] - from play in play-internal-execution-context-43 
+database [default] connected at jdbc:h2:mem:play
+
+2014-10-01 19:51:37,481 - [INFO] - from play in play-internal-execution-context-43 
+Application started (Dev)
+

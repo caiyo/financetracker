@@ -1,0 +1,26 @@
+0000000000000000000000000000000000000000 691c0f92b4876f866f10ed5bb2799288c1f32da5 Kyle Wong <wonger35@gmail.com> 1393480167 -0800	commit (initial): first commit
+691c0f92b4876f866f10ed5bb2799288c1f32da5 4275b49cd53fb38d95cd82742e6567974b4747d6 Kyle Wong <wonger35@gmail.com> 1393560695 -0800	pull origin master: Fast-forward
+4275b49cd53fb38d95cd82742e6567974b4747d6 538a1d782f80df6de3e29ffc16809c25ad0ec18b Kyle Wong <wonger35@gmail.com> 1394069374 -0800	commit: adding crud operations
+538a1d782f80df6de3e29ffc16809c25ad0ec18b 0ac072b6d6c1dd63673bbf1f62252eddec417582 Kyle Wong <wonger35@gmail.com> 1395990751 -0700	merge models_branch: Fast-forward
+0ac072b6d6c1dd63673bbf1f62252eddec417582 c15e5d67bd80d060a2f380091e519f1f89d72650 Kyle Wong <wonger35@gmail.com> 1397711646 -0700	merge controllers_branch: Fast-forward
+c15e5d67bd80d060a2f380091e519f1f89d72650 d4634330b3600810634f5d62b7c0c0e1fad44bdf Kyle Wong <wonger35@gmail.com> 1397931134 -0700	merge ui_branch: Fast-forward
+d4634330b3600810634f5d62b7c0c0e1fad44bdf b9e08082bd0c59dfde1121cb5cee47962c2c8fc1 Kyle Wong <wonger35@gmail.com> 1397932520 -0700	commit: adding java 7 support for herokue
+b9e08082bd0c59dfde1121cb5cee47962c2c8fc1 b4c83a7c2e434ac7bf90869eeeab66a5268bada0 Kyle Wong <wonger35@gmail.com> 1397934870 -0700	commit: removed evolution
+b4c83a7c2e434ac7bf90869eeeab66a5268bada0 c7cff3bc130852c11d39062d3194603a0b5a03c0 Kyle Wong <wonger35@gmail.com> 1398215109 -0700	commit: commit
+c7cff3bc130852c11d39062d3194603a0b5a03c0 d95976d0c52dcd3fd9dce0ff927f086e7a960c1b Kyle Wong <wonger35@gmail.com> 1398215556 -0700	commit: added column definition for double types
+d95976d0c52dcd3fd9dce0ff927f086e7a960c1b 6dd4083275e4b1d5cf740a27b0ddfb2dce5a4589 Kyle Wong <wonger35@gmail.com> 1398215884 -0700	commit: added column definition for double types
+6dd4083275e4b1d5cf740a27b0ddfb2dce5a4589 ed0efbe9d9660f78a6b446035e336cc4388c6f29 Kyle Wong <wonger35@gmail.com> 1398736548 -0700	commit: removed global
+ed0efbe9d9660f78a6b446035e336cc4388c6f29 8a59dfd678d934288f4b81f2b72ba3b38e282901 Kyle Wong <wonger35@gmail.com> 1398817286 -0700	commit: commit
+8a59dfd678d934288f4b81f2b72ba3b38e282901 5dc25c0540d48dd1a16524ead5e3800a846e4b7f Kyle Wong <wonger35@gmail.com> 1398818313 -0700	commit: changed doubles to floats
+5dc25c0540d48dd1a16524ead5e3800a846e4b7f 327a860994ed748fd9ebfadf7e408790b89e87cf Kyle Wong <wonger35@gmail.com> 1398818735 -0700	commit: changed doubles to floats
+327a860994ed748fd9ebfadf7e408790b89e87cf 29a45070e8260881a58104bad59943570f36a75f Kyle Wong <wonger35@gmail.com> 1398824177 -0700	commit: apply down evolutions
+29a45070e8260881a58104bad59943570f36a75f ec2b0ca7d7201e289aadfa2400a694899fb6cef6 Kyle Wong <wonger35@gmail.com> 1398833661 -0700	commit: changed user class to account
+ec2b0ca7d7201e289aadfa2400a694899fb6cef6 21bfc8c3a0b0dbda561e75ace42f58ca49ae0da0 Kyle Wong <wonger35@gmail.com> 1398837977 -0700	commit: commit
+21bfc8c3a0b0dbda561e75ace42f58ca49ae0da0 713ac17554088b225a3fd3466d3e067d11226169 Kyle Wong <wonger35@gmail.com> 1398839307 -0700	commit: fixed more user stuff to account
+713ac17554088b225a3fd3466d3e067d11226169 51585b534033fb1b41413b015babf1a98b288dec Kyle Wong <wonger35@gmail.com> 1399015712 -0700	commit: fixed sign in page, added some styles, added right side menu on folders page
+51585b534033fb1b41413b015babf1a98b288dec fc87f0cdf1f31be9dc7590e0d66a7735cdde233c Kyle Wong <wonger35@gmail.com> 1399096862 -0700	commit: fixed validation on signup and added a little more style to signup
+fc87f0cdf1f31be9dc7590e0d66a7735cdde233c dc086b447a25e900a4c9b63b989750b12f1ac64e Kyle Wong <wonger35@gmail.com> 1399097266 -0700	commit: added more style to login page
+dc086b447a25e900a4c9b63b989750b12f1ac64e 50b3fa9e5cc0f3c0da66218da240103a85fa81a8 Kyle Wong <wonger35@gmail.com> 1399150374 -0700	commit: added hashing and salting to passwords
+50b3fa9e5cc0f3c0da66218da240103a85fa81a8 3d5788ba41b5246b015169adf31876fc2fdb715a Kyle Wong <wonger35@gmail.com> 1399605524 -0700	commit: commit
+3d5788ba41b5246b015169adf31876fc2fdb715a d470dff9ce94e7535907f75ed69914d0547d3576 Kyle Wong <wonger35@gmail.com> 1399605528 -0700	pull origin master: Merge made by the 'recursive' strategy.
+d470dff9ce94e7535907f75ed69914d0547d3576 8b7716a2ee184e200485af7aa7729a3ce02f897f Kyle Wong <wonger35@gmail.com> 1399880257 -0700	commit: added UI for updating transactions

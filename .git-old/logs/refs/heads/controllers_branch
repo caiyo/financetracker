@@ -1,0 +1,8 @@
+0000000000000000000000000000000000000000 0ac072b6d6c1dd63673bbf1f62252eddec417582 Kyle Wong <wonger35@gmail.com> 1396139622 -0700	branch: Created from HEAD
+0ac072b6d6c1dd63673bbf1f62252eddec417582 5ce5e7dedbb481733e89b40ffcdaa2b221e873be Kyle Wong <wonger35@gmail.com> 1396139798 -0700	commit: Added some controller classes and made login functionality/login view
+5ce5e7dedbb481733e89b40ffcdaa2b221e873be 2c4c3f0dc6f6850ee2c96a867a3292ac12ee40be Kyle Wong <wonger35@gmail.com> 1396661711 -0700	commit: fixed login and added some simple views
+2c4c3f0dc6f6850ee2c96a867a3292ac12ee40be 9b31aa83bcabb42965859f5b0889c37932bb4403 Kyle Wong <wonger35@gmail.com> 1396812877 -0700	commit: fixed folder adding and added basic view for folders
+9b31aa83bcabb42965859f5b0889c37932bb4403 99ab9c5acf3701ade023325cb68b81d2c0ab9ac3 Kyle Wong <wonger35@gmail.com> 1396816813 -0700	commit: implemented adding transactions
+99ab9c5acf3701ade023325cb68b81d2c0ab9ac3 b58caf8416fd56258a68140ff54bef0df16113b5 Kyle Wong <wonger35@gmail.com> 1397070112 -0700	commit: fixed ajax for creating new folders
+b58caf8416fd56258a68140ff54bef0df16113b5 cc5d7b40bbb525bad43c0067518e384d7d07811c Kyle Wong <wonger35@gmail.com> 1397356070 -0700	commit: fixed and added more ajax
+cc5d7b40bbb525bad43c0067518e384d7d07811c c15e5d67bd80d060a2f380091e519f1f89d72650 Kyle Wong <wonger35@gmail.com> 1397711537 -0700	commit: added bootstrap+some styling

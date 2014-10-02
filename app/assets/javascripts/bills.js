@@ -1,28 +1,32 @@
-//add table listeners
 $(function(){
-	$('#bills-table').on('click', '#delete',deleteBillCallback);
-	$('#bills-table').on('click', '#updateButton', updateBillCallback);
-	$('#bills-table').on('click', '#add', addBillCallback);
-	$('#bills-table').on('click', '.save', saveRow);
-	
-	populateBillsTable();
-	addTableSorter();
-	
-	
-});
+var bills={};	
+var beginDate; //populated by setCookie
+var endDate;	//populated byb setCookie	
 
-var populateBillsTable = function(){
+var populateBills = function(){
 	jsRoutes.controllers.BillController.listBills().ajax({
 		success: function(data){
-			var html = [];
+			setCookie();
+			console.log(beginDate + "  " + endDate);
 			$.each(data, function(i, bill){
-				html.push(generateBillRow(bill));
+				bills[bill.id]=bill;
 			});
-			$('#bills-table tbody').html(html.join(''));
-			$('.datepicker').datepicker();
+			updateTableDisplay();
 		}
 	});
 	addTableSorter();
+};
+
+//
+var displayBills = function(){
+	var html=[];
+	$.each(bills, function(i, bill){
+		if((!beginDate && !endDate) || (bill.dueDate>=beginDate && bill.dueDate <endDate))
+			html.push(generateBillRow(bill));
+	});
+	$('#bills-table tbody').html(html.join(''));
+	$('.updateRow.datepicker').datepicker();
+	
 };
 
 /**
@@ -38,6 +42,7 @@ var addBill = function(row){
 			isRecuring: $('.billRecuring input', row).is(':checked')
 		},
 		success: function(data){
+			bills[data.id] = data;
 			var html;
 			if($.isArray(data)){
 				$.each(data, function(i, bill){
@@ -202,6 +207,53 @@ var deleteBill = function(billId){
 *MISC FUNCTIONS
 */
 
+var setCookie = function(selectBox){
+	if ($(selectBox).attr('id') == 'tableMonth'){
+		$.cookie('billMonth', $(selectBox).val());
+	}
+	else if ($(selectBox).attr('id') == 'tableYear'){
+		$.cookie('billYear', $(selectBox).val());
+	}
+	//If month selected is not all but year is, then set year to current year
+	if($.cookie('billMonth')!=="all" && $.cookie('billYear')=="all" ){
+		$('#tableYear').val((new Date()).getFullYear());
+		$('#tableYear').change();
+	}
+	
+	updateTableDisplay();
+};
+
+var setTableDateRange = function(){
+	var monthCookie =$.cookie("billMonth");
+	var yearCookie = $.cookie("billYear");
+	console.log(monthCookie + " " +yearCookie);
+	if(monthCookie=='all' && yearCookie == 'all'){
+		beginDate = null;
+		endDate = null ;
+	}
+	else if(monthCookie=='all' && yearCookie!='all'){
+		beginDate = new Date(yearCookie, 0 ,1).valueOf();
+		endDate = new Date(parseInt(yearCookie)+1,0,1).valueOf();
+	}
+	else{
+		beginDate = new Date(yearCookie, monthCookie).valueOf();
+		monthCookie==11 ? endDate = new Date(parseInt(yearCookie)+1, 0).valueOf() : endDate = new Date(yearCookie, parseInt(monthCookie)+1).valueOf();
+	}
+	
+	
+};
+
+var updateTableDisplay= function(){
+	setTableDateRange();
+	displayBills();
+};
+
+var updateTableDateRange = function(){
+	var selectBox = this;
+	setCookie(selectBox);
+	
+}
+
 var addTableSorter = function(){
 	
 	$('#bills-table').tablesorter({ 
@@ -225,4 +277,22 @@ var addTableSorter = function(){
 var updateTableSort= function(table, resort){
 	//tells table sorter that table has been updated and resorts it if resrot == true
 	table.trigger("update", [resort]);
-}
+};
+
+
+
+
+$('#bills-table').on('click', '#delete',deleteBillCallback);
+$('#bills-table').on('click', '#updateButton', updateBillCallback);
+$('#bills-table').on('click', '#add', addBillCallback);
+$('#bills-table').on('click', '.save', saveRow);
+$('#tableMonth').on('change', updateTableDateRange);
+$('#tableYear').on('change', updateTableDateRange);
+//set select box to previous settings
+$('#tableYear').val($.cookie('billYear'));
+$('#tableMonth').val($.cookie('billMonth'));
+populateBills();
+addTableSorter();
+
+
+});
