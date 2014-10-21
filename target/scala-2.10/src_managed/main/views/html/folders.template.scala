@@ -60,7 +60,7 @@ Seq[Any](format.raw/*1.17*/("""
 								folders yet, do so by click on the '+' button on the bottom left.
 							</h4>
 						</div>
-						"""),_display_(Seq[Any](/*35.8*/_table("transaction", "none"))),format.raw/*35.37*/(""";
+						"""),_display_(Seq[Any](/*35.8*/_table("transaction"))),format.raw/*35.29*/(""";
 					</div>
 				</div>
 				 
@@ -72,9 +72,8 @@ Seq[Any](format.raw/*1.17*/("""
 
 
 
-<!-- <script type='text/javascript' src=""""),_display_(Seq[Any](/*47.43*/routes/*47.49*/.Assets.at("javascripts/sorttable.js"))),format.raw/*47.87*/(""""></script>  -->
-<script type='text/javascript' src=""""),_display_(Seq[Any](/*48.38*/routes/*48.44*/.Assets.at("javascripts/jquery.tablesorter.js"))),format.raw/*48.91*/(""""></script> 
-<script type="text/javascript" src=""""),_display_(Seq[Any](/*49.38*/routes/*49.44*/.Assets.at("javascripts/finance.js"))),format.raw/*49.80*/(""""></script>
+<script type='text/javascript' src=""""),_display_(Seq[Any](/*47.38*/routes/*47.44*/.Assets.at("javascripts/jquery.tablesorter.js"))),format.raw/*47.91*/(""""></script> 
+<script type="text/javascript" src=""""),_display_(Seq[Any](/*48.38*/routes/*48.44*/.Assets.at("javascripts/finance.js"))),format.raw/*48.80*/(""""></script>
 
 """)))})))}
     }
@@ -88,11 +87,11 @@ Seq[Any](format.raw/*1.17*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Wed Oct 01 19:51:15 PDT 2014
+                    DATE: Mon Oct 20 16:11:45 PDT 2014
                     SOURCE: /home/kyle/Langs/Java/financeTracker/app/views/folders.scala.html
-                    HASH: a892d1c99ddce0b0a57de92fa488130d8b9f42d1
-                    MATRIX: 777->1|886->16|923->19|947->35|986->37|1837->853|1872->866|2208->1167|2259->1196|2402->1303|2417->1309|2477->1347|2567->1401|2582->1407|2651->1454|2737->1504|2752->1510|2810->1546
-                    LINES: 26->1|29->1|31->3|31->3|31->3|53->25|53->25|63->35|63->35|75->47|75->47|75->47|76->48|76->48|76->48|77->49|77->49|77->49
+                    HASH: 954c4f4acae384727b52180e3d8fccfc9514c25d
+                    MATRIX: 777->1|886->16|923->19|947->35|986->37|1837->853|1872->866|2208->1167|2251->1188|2389->1290|2404->1296|2473->1343|2559->1393|2574->1399|2632->1435
+                    LINES: 26->1|29->1|31->3|31->3|31->3|53->25|53->25|63->35|63->35|75->47|75->47|75->47|76->48|76->48|76->48
                     -- GENERATED --
                 */
             

@@ -1,16 +1,16 @@
-2014-09-24 18:52:47,447 - [INFO] - from play in pool-4-thread-4 
+2014-10-20 12:41:15,704 - [INFO] - from play in pool-4-thread-1 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
-2014-09-24 18:54:06,924 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 12:41:55,936 - [INFO] - from play in play-internal-execution-context-1 
 datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
 
-2014-09-24 18:54:09,743 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 12:41:56,300 - [INFO] - from play in play-internal-execution-context-1 
 database [default] connected at jdbc:h2:mem:play
 
-2014-09-24 18:54:17,657 - [ERROR] - from application in New I/O worker #1 
+2014-10-20 12:42:00,519 - [ERROR] - from application in New I/O worker #1 
 
 
-! @6jjegcmd9 - Internal server error, for (GET) [/bills] ->
+! @6k0jlagab - Internal server error, for (GET) [/] ->
 
 play.api.db.evolutions.InvalidDatabaseRevision: Database 'default' needs evolution![An SQL script need to be run on your database.]
 	at play.api.db.evolutions.EvolutionsPlugin$$anonfun$onStart$1$$anonfun$apply$1.apply$mcV$sp(Evolutions.scala:486) ~[play-jdbc_2.10-2.2.3.jar:2.2.3]
@@ -43,111 +43,198 @@ play.api.db.evolutions.InvalidDatabaseRevision: Database 'default' needs evoluti
 	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) ~[scala-library-2.10.3.jar:na]
 	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) ~[scala-library-2.10.3.jar:na]
 
-2014-09-24 18:54:52,215 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 12:42:11,290 - [INFO] - from play in play-internal-execution-context-1 
 datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
 
-2014-09-24 18:54:52,315 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 12:42:11,294 - [INFO] - from play in play-internal-execution-context-1 
 database [default] connected at jdbc:h2:mem:play
 
-2014-09-24 18:54:57,104 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 12:42:12,149 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 
-2014-09-24 19:05:01,401 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 14:58:16,108 - [ERROR] - from play in play-internal-execution-context-1 
+Cannot invoke the action, eventually got an error: javax.persistence.PersistenceException: ERROR executing DML bindLog[] error[Unique index or primary key violation: "UQ_FINANCE_FOLDER_1_INDEX_4 ON PUBLIC.FINANCE_FOLDER(NAME, ACCOUNT_EMAIL)"; SQL statement:\n insert into finance_folder (id, name, total, account_email) values (?,?,?,?) [23505-172]]
+
+2014-10-20 14:58:16,256 - [ERROR] - from application in play-internal-execution-context-1 
+
+
+! @6k0kd7kjg - Internal server error, for (POST) [/api/folders] ->
+
+play.api.Application$$anon$1: Execution exception[[PersistenceException: ERROR executing DML bindLog[] error[Unique index or primary key violation: "UQ_FINANCE_FOLDER_1_INDEX_4 ON PUBLIC.FINANCE_FOLDER(NAME, ACCOUNT_EMAIL)"; SQL statement:\n insert into finance_folder (id, name, total, account_email) values (?,?,?,?) [23505-172]]]]
+	at play.api.Application$class.handleError(Application.scala:293) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.api.DefaultApplication.handleError(Application.scala:399) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$3.apply(PlayDefaultUpstreamHandler.scala:264) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$3.apply(PlayDefaultUpstreamHandler.scala:264) ~[play_2.10-2.2.3.jar:2.2.3]
+	at scala.Option.map(Option.scala:145) ~[scala-library-2.10.3.jar:na]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:264) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:260) ~[play_2.10-2.2.3.jar:2.2.3]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) ~[scala-library-2.10.3.jar:na]
+	at play.api.libs.iteratee.Execution$$anon$1.execute(Execution.scala:43) ~[play-iteratees_2.10-2.2.3.jar:2.2.3]
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.Promise$class.complete(Promise.scala:55) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.Future$$anonfun$map$1.apply(Future.scala:235) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.Future$$anonfun$map$1.apply(Future.scala:235) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask$AdaptedRunnableAction.exec(ForkJoinTask.java:1361) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) ~[scala-library-2.10.3.jar:na]
+Caused by: javax.persistence.PersistenceException: ERROR executing DML bindLog[] error[Unique index or primary key violation: "UQ_FINANCE_FOLDER_1_INDEX_4 ON PUBLIC.FINANCE_FOLDER(NAME, ACCOUNT_EMAIL)"; SQL statement:\n insert into finance_folder (id, name, total, account_email) values (?,?,?,?) [23505-172]]
+	at com.avaje.ebeaninternal.server.persist.dml.DmlBeanPersister.execute(DmlBeanPersister.java:97) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebeaninternal.server.persist.dml.DmlBeanPersister.insert(DmlBeanPersister.java:57) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebeaninternal.server.persist.DefaultPersistExecute.executeInsertBean(DefaultPersistExecute.java:66) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebeaninternal.server.core.PersistRequestBean.executeNow(PersistRequestBean.java:448) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebeaninternal.server.core.PersistRequestBean.executeOrQueue(PersistRequestBean.java:478) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebeaninternal.server.persist.DefaultPersister.insert(DefaultPersister.java:335) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebeaninternal.server.persist.DefaultPersister.saveEnhanced(DefaultPersister.java:310) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebeaninternal.server.persist.DefaultPersister.saveRecurse(DefaultPersister.java:280) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebeaninternal.server.persist.DefaultPersister.save(DefaultPersister.java:248) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebeaninternal.server.core.DefaultServer.save(DefaultServer.java:1568) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebeaninternal.server.core.DefaultServer.save(DefaultServer.java:1558) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebean.Ebean.save(Ebean.java:453) ~[avaje-ebeanorm.jar:na]
+	at play.db.ebean.Model.save(Model.java:91) ~[play-java-ebean_2.10-2.2.3.jar:2.2.3]
+	at models.FinanceFolder.create(FinanceFolder.java:106) ~[na:na]
+	at controllers.FinanceFolderController.addFolder(FinanceFolderController.java:22) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$10$$anonfun$apply$10.apply(routes_routing.scala:197) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$10$$anonfun$apply$10.apply(routes_routing.scala:197) ~[na:na]
+	at play.core.Router$HandlerInvoker$$anon$7$$anon$2.invocation(Router.scala:183) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.Router$Routes$$anon$1.invocation(Router.scala:377) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:56) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.GlobalSettings$1.call(GlobalSettings.java:64) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.mvc.Security$AuthenticatedAction.call(Security.java:45) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.j.JavaAction$$anon$3.apply(JavaAction.scala:91) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.j.JavaAction$$anon$3.apply(JavaAction.scala:90) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.j.FPromiseHelper$$anonfun$flatMap$1.apply(FPromiseHelper.scala:82) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.j.FPromiseHelper$$anonfun$flatMap$1.apply(FPromiseHelper.scala:82) ~[play_2.10-2.2.3.jar:2.2.3]
+	at scala.concurrent.Future$$anonfun$flatMap$1.apply(Future.scala:251) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.Future$$anonfun$flatMap$1.apply(Future.scala:249) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) ~[scala-library-2.10.3.jar:na]
+	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:37) ~[play_2.10-2.2.3.jar:2.2.3]
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:42) ~[akka-actor_2.10.jar:2.2.0]
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:386) ~[akka-actor_2.10.jar:2.2.0]
+	... 4 common frames omitted
+Caused by: org.h2.jdbc.JdbcSQLException: Unique index or primary key violation: "UQ_FINANCE_FOLDER_1_INDEX_4 ON PUBLIC.FINANCE_FOLDER(NAME, ACCOUNT_EMAIL)"; SQL statement:
+insert into finance_folder (id, name, total, account_email) values (?,?,?,?) [23505-172]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329) ~[h2.jar:1.3.172]
+	at org.h2.message.DbException.get(DbException.java:169) ~[h2.jar:1.3.172]
+	at org.h2.message.DbException.get(DbException.java:146) ~[h2.jar:1.3.172]
+	at org.h2.index.BaseIndex.getDuplicateKeyException(BaseIndex.java:83) ~[h2.jar:1.3.172]
+	at org.h2.index.TreeIndex.add(TreeIndex.java:65) ~[h2.jar:1.3.172]
+	at org.h2.table.RegularTable.addRow(RegularTable.java:124) ~[h2.jar:1.3.172]
+	at org.h2.command.dml.Insert.insertRows(Insert.java:126) ~[h2.jar:1.3.172]
+	at org.h2.command.dml.Insert.update(Insert.java:86) ~[h2.jar:1.3.172]
+	at org.h2.command.CommandContainer.update(CommandContainer.java:79) ~[h2.jar:1.3.172]
+	at org.h2.command.Command.executeUpdate(Command.java:235) ~[h2.jar:1.3.172]
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:154) ~[h2.jar:1.3.172]
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:140) ~[h2.jar:1.3.172]
+	at com.jolbox.bonecp.PreparedStatementHandle.executeUpdate(PreparedStatementHandle.java:205) ~[bonecp.jar:na]
+	at com.avaje.ebeaninternal.server.type.DataBind.executeUpdate(DataBind.java:55) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebeaninternal.server.persist.dml.InsertHandler.execute(InsertHandler.java:134) ~[avaje-ebeanorm.jar:na]
+	at com.avaje.ebeaninternal.server.persist.dml.DmlBeanPersister.execute(DmlBeanPersister.java:86) ~[avaje-ebeanorm.jar:na]
+	... 35 common frames omitted
+
+2014-10-20 15:56:57,700 - [INFO] - from play in play-internal-execution-context-28 
 datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
 
-2014-09-24 19:05:01,419 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 15:56:57,715 - [INFO] - from play in play-internal-execution-context-28 
 database [default] connected at jdbc:h2:mem:play
 
-2014-09-24 19:05:02,057 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 15:57:00,095 - [INFO] - from play in play-internal-execution-context-28 
 Application started (Dev)
 
-2014-09-24 19:09:05,304 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 16:11:48,000 - [INFO] - from play in play-internal-execution-context-30 
 datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
 
-2014-09-24 19:09:05,333 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 16:11:48,006 - [INFO] - from play in play-internal-execution-context-30 
 database [default] connected at jdbc:h2:mem:play
 
-2014-09-24 19:09:06,739 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 16:11:48,131 - [INFO] - from play in play-internal-execution-context-30 
 Application started (Dev)
 
-2014-09-24 19:09:41,528 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 16:26:38,886 - [INFO] - from play in play-internal-execution-context-30 
 datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
 
-2014-09-24 19:09:41,543 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 16:26:38,904 - [INFO] - from play in play-internal-execution-context-30 
 database [default] connected at jdbc:h2:mem:play
 
-2014-09-24 19:09:41,947 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 16:26:40,166 - [INFO] - from play in play-internal-execution-context-30 
 Application started (Dev)
 
-2014-09-24 19:14:09,827 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 16:34:46,310 - [INFO] - from play in play-internal-execution-context-33 
 datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
 
-2014-09-24 19:14:09,850 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 16:34:46,313 - [INFO] - from play in play-internal-execution-context-33 
 database [default] connected at jdbc:h2:mem:play
 
-2014-09-24 19:14:10,346 - [INFO] - from play in play-internal-execution-context-1 
+2014-10-20 16:34:46,413 - [INFO] - from play in play-internal-execution-context-33 
 Application started (Dev)
 
-2014-09-24 19:14:26,587 - [INFO] - from play in play-internal-execution-context-6 
+2014-10-20 16:35:48,503 - [INFO] - from play in play-internal-execution-context-33 
 datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
 
-2014-09-24 19:14:26,598 - [INFO] - from play in play-internal-execution-context-6 
+2014-10-20 16:35:48,507 - [INFO] - from play in play-internal-execution-context-33 
 database [default] connected at jdbc:h2:mem:play
 
-2014-09-24 19:14:27,035 - [INFO] - from play in play-internal-execution-context-6 
+2014-10-20 16:35:48,636 - [INFO] - from play in play-internal-execution-context-33 
 Application started (Dev)
 
-2014-09-24 19:16:06,987 - [INFO] - from play in play-internal-execution-context-7 
-datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+2014-10-20 16:53:51,879 - [ERROR] - from play in play-internal-execution-context-52 
+Cannot invoke the action, eventually got an error: java.lang.IllegalStateException: No value
 
-2014-09-24 19:16:07,031 - [INFO] - from play in play-internal-execution-context-7 
-database [default] connected at jdbc:h2:mem:play
+2014-10-20 16:53:51,901 - [ERROR] - from application in play-internal-execution-context-52 
 
-2014-09-24 19:16:08,191 - [INFO] - from play in play-internal-execution-context-7 
-Application started (Dev)
 
-2014-09-24 19:19:30,977 - [INFO] - from play in play-internal-execution-context-7 
-datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
+! @6k0l2cafd - Internal server error, for (POST) [/api/transaction/new%20folder0] ->
 
-2014-09-24 19:19:30,987 - [INFO] - from play in play-internal-execution-context-7 
-database [default] connected at jdbc:h2:mem:play
-
-2014-09-24 19:19:31,161 - [INFO] - from play in play-internal-execution-context-7 
-Application started (Dev)
-
-2014-09-24 19:36:29,787 - [INFO] - from play in play-internal-execution-context-11 
-datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
-
-2014-09-24 19:36:29,834 - [INFO] - from play in play-internal-execution-context-11 
-database [default] connected at jdbc:h2:mem:play
-
-2014-09-24 19:36:32,575 - [INFO] - from play in play-internal-execution-context-11 
-Application started (Dev)
-
-2014-09-24 19:56:26,044 - [INFO] - from play in play-internal-execution-context-11 
-datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
-
-2014-09-24 19:56:26,077 - [INFO] - from play in play-internal-execution-context-11 
-database [default] connected at jdbc:h2:mem:play
-
-2014-09-24 19:56:29,753 - [INFO] - from play in play-internal-execution-context-11 
-Application started (Dev)
-
-2014-09-24 23:50:09,468 - [INFO] - from play in play-internal-execution-context-34 
-datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
-
-2014-09-24 23:50:09,499 - [INFO] - from play in play-internal-execution-context-34 
-database [default] connected at jdbc:h2:mem:play
-
-2014-09-24 23:50:11,439 - [INFO] - from play in play-internal-execution-context-34 
-Application started (Dev)
-
-2014-10-01 19:51:34,448 - [INFO] - from play in play-internal-execution-context-43 
-datasource [jdbc:h2:mem:play;MODE=PostgreSQL] bound to JNDI as DefaultDS
-
-2014-10-01 19:51:34,470 - [INFO] - from play in play-internal-execution-context-43 
-database [default] connected at jdbc:h2:mem:play
-
-2014-10-01 19:51:37,481 - [INFO] - from play in play-internal-execution-context-43 
-Application started (Dev)
+play.api.Application$$anon$1: Execution exception[[IllegalStateException: No value]]
+	at play.api.Application$class.handleError(Application.scala:293) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.api.DefaultApplication.handleError(Application.scala:399) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$3.apply(PlayDefaultUpstreamHandler.scala:264) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$3.apply(PlayDefaultUpstreamHandler.scala:264) ~[play_2.10-2.2.3.jar:2.2.3]
+	at scala.Option.map(Option.scala:145) ~[scala-library-2.10.3.jar:na]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:264) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:260) ~[play_2.10-2.2.3.jar:2.2.3]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) ~[scala-library-2.10.3.jar:na]
+	at play.api.libs.iteratee.Execution$$anon$1.execute(Execution.scala:43) ~[play-iteratees_2.10-2.2.3.jar:2.2.3]
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.Promise$class.complete(Promise.scala:55) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.Future$$anonfun$map$1.apply(Future.scala:235) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.Future$$anonfun$map$1.apply(Future.scala:235) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask$AdaptedRunnableAction.exec(ForkJoinTask.java:1361) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) ~[scala-library-2.10.3.jar:na]
+Caused by: java.lang.IllegalStateException: No value
+	at play.libs.F$None.get(F.java:702) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.data.Form.get(Form.java:540) ~[play-java_2.10-2.2.3.jar:2.2.3]
+	at controllers.TransactionController.addTransaction(TransactionController.java:24) ~[classes/:2.2.3]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$13$$anonfun$apply$13.apply(routes_routing.scala:221) ~[classes/:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$13$$anonfun$apply$13.apply(routes_routing.scala:221) ~[classes/:na]
+	at play.core.Router$HandlerInvoker$$anon$7$$anon$2.invocation(Router.scala:183) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.Router$Routes$$anon$1.invocation(Router.scala:377) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:56) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.GlobalSettings$1.call(GlobalSettings.java:64) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.mvc.Security$AuthenticatedAction.call(Security.java:45) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.j.JavaAction$$anon$3.apply(JavaAction.scala:91) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.j.JavaAction$$anon$3.apply(JavaAction.scala:90) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.j.FPromiseHelper$$anonfun$flatMap$1.apply(FPromiseHelper.scala:82) ~[play_2.10-2.2.3.jar:2.2.3]
+	at play.core.j.FPromiseHelper$$anonfun$flatMap$1.apply(FPromiseHelper.scala:82) ~[play_2.10-2.2.3.jar:2.2.3]
+	at scala.concurrent.Future$$anonfun$flatMap$1.apply(Future.scala:251) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.Future$$anonfun$flatMap$1.apply(Future.scala:249) ~[scala-library-2.10.3.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) ~[scala-library-2.10.3.jar:na]
+	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:37) ~[play_2.10-2.2.3.jar:2.2.3]
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:42) ~[akka-actor_2.10.jar:2.2.0]
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:386) ~[akka-actor_2.10.jar:2.2.0]
+	... 4 common frames omitted
 

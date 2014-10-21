@@ -7,14 +7,18 @@ var populateBills = function(){
 	jsRoutes.controllers.BillController.listBills().ajax({
 		success: function(data){
 			setCookie();
+			var html=[];
 			console.log(beginDate + "  " + endDate);
 			$.each(data, function(i, bill){
 				bills[bill.id]=bill;
 			});
+
 			updateTableDisplay();
+			addTableSorter();
+
 		}
 	});
-	addTableSorter();
+	
 };
 
 //
@@ -25,6 +29,7 @@ var displayBills = function(){
 			html.push(generateBillRow(bill));
 	});
 	$('#bills-table tbody').html(html.join(''));
+	updateTableSort(true);
 	$('.updateRow.datepicker').datepicker();
 	
 };
@@ -42,26 +47,23 @@ var addBill = function(row){
 			isRecuring: $('.billRecuring input', row).is(':checked')
 		},
 		success: function(data){
-			bills[data.id] = data;
-			var html;
 			if($.isArray(data)){
 				$.each(data, function(i, bill){
-					html+=generateBillRow(bill);
+					bills[bill.id] = bill;
 				});
 			}
 			else{
-				html = generateBillRow(data);
+				bills[data.id] = data;
 			}
-			$('#bills-table tbody').prepend(html);
-			row.remove();
+			displayBills();
+
 			
 			//add datepicker to newly added bills
-			$(".updateRow[data-id='"+data.id+"'] .datepicker").datepicker();
 			//updates tale but doesnt sort
-			updateTableSort($('#bill-table'),false);
+			updateTableSort(false);
 		}
 	});
-}
+};
 
 var addBillCallback = function(e){
 	//generates form html for adding a row
@@ -88,9 +90,10 @@ var generateBillRow = function(bill){
 		+ bill.amount.toFixed(2)
 		+"</td><td class='billRecuring'>"
 		+"<input type='checkbox' disabled";
-	if(bill.isRecuring)
+	if(bill.isRecuring){
 		returnBill+=' checked';
-		returnBill+="></td></tr>";
+	}
+	returnBill+="></td></tr>";
 		//update row
 		returnBill += generateBillFormRow(bill)
 	return returnBill;
@@ -186,7 +189,7 @@ var deleteBillCallback = function(e){
 			});
 
 			//updates table for sorting, but doesnt resort
-			updateTableSort($('#bill-table'),false);
+			updateTableSort(false);
 			
 		}	
 	}
@@ -258,7 +261,7 @@ var addTableSorter = function(){
 	
 	$('#bills-table').tablesorter({ 
         // define a custom text extraction function 
-        textExtraction: function(node) { 
+		textExtraction: function(node) { 
         	var customKey= $(node).attr('sorttable_customkey');
         	return customKey || node.innerHTML;
         },
@@ -274,9 +277,10 @@ var addTableSorter = function(){
     });
 }
 
-var updateTableSort= function(table, resort){
-	//tells table sorter that table has been updated and resorts it if resrot == true
-	table.trigger("update", [resort]);
+var updateTableSort= function(resort){
+	var table = $('#bills-table');
+	//tells table sorter that table has been updated and resorts it if resort == true
+	table.trigger("update", [ resort ]);
 };
 
 
@@ -292,7 +296,6 @@ $('#tableYear').on('change', updateTableDateRange);
 $('#tableYear').val($.cookie('billYear'));
 $('#tableMonth').val($.cookie('billMonth'));
 populateBills();
-addTableSorter();
 
 
 });
