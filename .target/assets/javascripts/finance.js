@@ -4,6 +4,8 @@ $(function() {
 	// global variables for storing folder information
 	var folders = {};
 	var selectedFolderObj;
+	var beginDate; //populated by setCookie
+	var endDate;	//populated byb setCookie	
 
 	// Javascript for listing all folders that a Account has created
 	var listFolders = function() {
@@ -160,7 +162,8 @@ $(function() {
 	var displayTransactions = function(folder) {
 		var html = [];
 		$.each(folder.transactions, function(i, transaction) {
-			html.push(generateTransactionNode(transaction));
+			if((!beginDate && !endDate) || (transaction.creationDate>=beginDate && transaction.creationDate <endDate))
+				html.push(generateTransactionNode(transaction));
 		});
 		$('#transaction-table tbody').html(html.join(''));
 		$('.datepicker').datepicker();
@@ -525,6 +528,54 @@ $(function() {
 		// resrot == true
 		table.trigger("update", [ resort ]);
 	};
+	
+	var setCookie = function(selectBox){
+		if ($(selectBox).attr('id') == 'tableMonth'){
+			$.cookie('expenseMonth', $(selectBox).val());
+		}
+		else if ($(selectBox).attr('id') == 'tableYear'){
+			$.cookie('expenseYear', $(selectBox).val());
+		}
+		//If month selected is not all but year is, then set year to current year
+		if($.cookie('expenseMonth')!=="all" && $.cookie('expenseYear')=="all" ){
+			$('#tableYear').val((new Date()).getFullYear());
+			$('#tableYear').change();
+		}
+		
+		updateTableDisplay();
+	};
+
+	var setTableDateRange = function(){
+		var monthCookie =$.cookie("expenseMonth");
+		var yearCookie = $.cookie("expenseYear");
+		console.log(monthCookie + " " +yearCookie);
+		if(monthCookie=='all' && yearCookie == 'all'){
+			beginDate = null;
+			endDate = null ;
+		}
+		else if(monthCookie=='all' && yearCookie!='all'){
+			beginDate = new Date(yearCookie, 0 ,1).valueOf();
+			endDate = new Date(parseInt(yearCookie)+1,0,1).valueOf();
+		}
+		else{
+			beginDate = new Date(yearCookie, monthCookie).valueOf();
+			monthCookie==11 ? endDate = new Date(parseInt(yearCookie)+1, 0).valueOf() : endDate = new Date(yearCookie, parseInt(monthCookie)+1).valueOf();
+		}
+
+		
+	};
+
+	var updateTableDisplay= function(){
+		setTableDateRange();
+		displayTransactions(selectedFolderObj);
+	};
+
+	var updateTableDateRange = function(){
+		var selectBox = this;
+		setCookie(selectBox);
+		
+	};
+	
 	$('#transaction-table').on('click', '#delete', deleteTransCallback);
 	$('#transaction-table').on('click', '#updateButton', updateTransCallback);
 	$('#transaction-table').on('click', '#add', addTransCallback);
@@ -537,6 +588,8 @@ $(function() {
 	$('#updateFolder').on('click', updateFolder);
 	$('#folder-list').on('click', '.folder', selectFolder);
 	$('#folder-list').on('click', '#saveFolder', saveFolder);
+	$('#tableMonth').on('change', updateTableDateRange);
+	$('#tableYear').on('change', updateTableDateRange);
 
 	listFolders();
 });
