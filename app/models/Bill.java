@@ -164,4 +164,15 @@ public class Bill extends Model{
 		return b;
 	}
 	
+	public static Bill pay(Bill bill, FinanceFolder financeFolder){
+		Transaction t = new Transaction();
+		t.setAmount(bill.getAmount());
+		t.setCreationDate(bill.getDueDate());
+		t.setShortDescription(bill.getTitle());
+		Transaction.create(t, financeFolder);
+		bill.setPaid(true);
+		bill.update();
+		return bill;
+	}
+	
 }

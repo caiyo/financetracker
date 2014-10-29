@@ -1,9 +1,12 @@
 package controllers;
 
+import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Security;
 import models.Bill;
+import models.FinanceFolder;
+import models.Transaction;
 import play.mvc.Result;
 import models.Account;
 import views.html.*;
@@ -44,5 +47,13 @@ public class BillController extends Controller {
 		Form<Bill> f = Form.form(Bill.class).bindFromRequest();
 		Bill b = f.get();
 		return ok(toJson(Bill.update(b,id)));
+	}
+	
+	public static Result payBill(int id){
+		DynamicForm f = Form.form().bindFromRequest();
+		Bill b = Bill.find.ref(Integer.parseInt(f.get("id")));
+		FinanceFolder folder = FinanceFolder.findByName(session("email"), f.get("financeFolder"));
+		Bill.pay(b, folder);
+		return ok(toJson(b));
 	}
 }
