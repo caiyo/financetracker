@@ -88,3 +88,8 @@ textarea{
 	overflow: hidden;
 }
 
+#bill-pay-form .form-group{
+	margin: 0;
+	padding: 0;
+}
+

@@ -30,7 +30,7 @@ var displayBills = function(){
 	});
 	$('#bills-table tbody').html(html.join(''));
 	updateTableSort(true);
-	$('.updateRow.datepicker').datepicker();
+	$('.datepicker').datepicker();
 	
 };
 
@@ -206,6 +206,53 @@ var deleteBill = function(billId){
 /**
  * END BILL DELETE
 */
+
+/**
+ * Pay Bill
+ */
+var openPayBill = function(){
+	
+	var row,title, date, amount, id;
+	row = $('#bills-table .actionBox input[type=checkbox]:checked:first').closest('tr');
+	title = row.find('.billTitle').html();
+	date = row.find('.billDate').html();
+	amount = row.find('.billAmount').html();
+	id = row.attr('data-id');
+	
+	console.log(title+ " " + date + " " + amount);
+	$('#payBillTitle').val(title);
+	$('#payBillDate').val(date);
+	$('#payBillAmount').val(amount);
+	$('#payBillId').val(id);
+	dialog.dialog('open');
+};
+var payBill= function(){
+	alert("paid");
+};
+
+var dialog = $('#bill-pay-form').dialog({
+	autoOpen: false,
+	height: 400,
+	width: 500,
+	modal: true,
+	buttons: {
+		"Pay Bill":  {
+			click: payBill,
+			text: 'Pay Bill',
+			'class': 'btn btn-default'
+		},
+		Cancel: {
+			click: function(){
+				dialog.dialog("close");
+			},
+			text: 'Cancel',
+			'class': 'btn btn-default'
+		}
+	},
+	close: function(){
+	}
+});
+
 /**
 *MISC FUNCTIONS
 */
@@ -290,6 +337,7 @@ $('#bills-table').on('click', '#delete',deleteBillCallback);
 $('#bills-table').on('click', '#updateButton', updateBillCallback);
 $('#bills-table').on('click', '#add', addBillCallback);
 $('#bills-table').on('click', '.save', saveRow);
+$('#bills-table').on('click', '#payButton', openPayBill);
 $('#tableMonth').on('change', updateTableDateRange);
 $('#tableYear').on('change', updateTableDateRange);
 //set select box to previous settings
