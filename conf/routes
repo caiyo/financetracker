@@ -30,9 +30,9 @@ POST	/api/folders							controllers.FinanceFolderController.addFolder()
 GET 	/api/folders							controllers.FinanceFolderController.listFolders()
 DELETE	/api/folders/:id						controllers.FinanceFolderController.deleteFolder(id:Integer)
 
-POST	/api/transaction/:folder				controllers.TransactionController.addTransaction(folder:String)
-DELETE	/api/transaction/:id					controllers.TransactionController.deleteTransaction(id:Integer)
-PUT		/api/transaction/:id					controllers.TransactionController.updateTransaction(id:Integer)
+POST	/api/transactions						controllers.TransactionController.addTransaction()
+DELETE	/api/transactions/:id					controllers.TransactionController.deleteTransaction(id:Integer)
+PUT		/api/transactions/:id					controllers.TransactionController.updateTransaction(id:Integer)
 
 GET		/api/bills								controllers.BillController.listBills()
 POST	/api/bills								controllers.BillController.addBill()

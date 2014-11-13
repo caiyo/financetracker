@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Date;
+
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
@@ -44,16 +46,29 @@ public class BillController extends Controller {
 	}
 	
 	public static Result updateBill(int id){
-		Form<Bill> f = Form.form(Bill.class).bindFromRequest();
-		Bill b = f.get();
-		return ok(toJson(Bill.update(b,id)));
+		DynamicForm f = Form.form().bindFromRequest();
+		Bill b = new Bill();
+		b.setAmount(Float.parseFloat(f.get("amount")));
+		b.setDueDate(new Date(f.get("dueDate")));
+		b.setPaid(Boolean.valueOf(f.get("paid")));
+		b.setTitle(f.get("title"));
+		
+		//if bill is being paid, create a transaction for it 
+		if (b.getPaid()){
+			Bill.pay(b, FinanceFolder.findByName(session("email"), f.get("financeFolder")));
+		}
+		//update bill
+		Bill.update(b, id);
+		return ok();
+		
 	}
 	
 	public static Result payBill(int id){
-		DynamicForm f = Form.form().bindFromRequest();
+		DynamicForm f = Form.form().bindFromRequest();/*
 		Bill b = Bill.find.ref(Integer.parseInt(f.get("id")));
 		FinanceFolder folder = FinanceFolder.findByName(session("email"), f.get("financeFolder"));
-		Bill.pay(b, folder);
-		return ok(toJson(b));
+		Bill.pay(b, folder);*/
+		System.out.println(f.toString());
+		return ok();//toJson(b));
 	}
 }

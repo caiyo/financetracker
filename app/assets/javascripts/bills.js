@@ -75,6 +75,10 @@ var addBillCallback = function(e){
 
 var generateBillRow = function(bill){
 	var date = new Date(bill.dueDate);
+	var paid='';
+	if(bill.paid){
+		paid = 'billPaid'
+	}
 	//add 2 rows for each bill. 1 is the view row and 1 is update
 	//show view when viewing bill if user wants to update a row,
 	//hide it and show update row
@@ -167,6 +171,30 @@ var saveRow = function(event){
 var updateBillCallback = function(e){
 	
 };
+
+var updateBill = function(paid){
+	var data = {};
+	if (paid){
+		data.paid = true;
+		data.financeFolder = $('#payBillFolder').val();
+		console.log(data);
+	}
+	else {
+		data.paid = false;
+	}
+	data.title = $('#payBillTitle').val();
+	data.dueDate = $('#payBillDate').val();
+	data.amount = $('#payBillAmount').val();
+	data.id = $('#payBillId').val();
+	
+	jsRoutes.controllers.BillController.updateBill(data.id).ajax({
+		data: data,
+		success: function(data){
+			//update data in bills table
+		}
+	});
+		
+}
 /**
  * END BILL UPDATE
  */
@@ -213,21 +241,38 @@ var deleteBill = function(billId){
 var openPayBill = function(){
 	
 	var row,title, date, amount, id;
+	//get data from bill row being paid
 	row = $('#bills-table .actionBox input[type=checkbox]:checked:first').closest('tr');
-	title = row.find('.billTitle').html();
-	date = row.find('.billDate').html();
-	amount = row.find('.billAmount').html();
-	id = row.attr('data-id');
+	if(row.length != 0){
+		title = row.find('.billTitle').html();
+		date = row.find('.billDate').html();
+		amount = row.find('.billAmount').html();
+		id = row.attr('data-id');
+		
+		//populate form with data from bill
+		console.log(title+ " " + date + " " + amount);
+		$('#payBillTitle').val(title);
+		$('#payBillDate').val(date);
+		$('#payBillAmount').val(amount);
+		$('#payBillId').val(id);
+		
+		//get list of folders to insert new bill expense into
+		jsRoutes.controllers.FinanceFolderController.listFolders().ajax({
+			success : function(data) {
+				$('#payBillFolder').empty();
+				$.each(data, function(i, folder) {
+					$('#payBillFolder').append(new Option(folder.name, folder.name));
+				});
+			}
+		});
+		
+		dialog.dialog('open');
+	}
 	
-	console.log(title+ " " + date + " " + amount);
-	$('#payBillTitle').val(title);
-	$('#payBillDate').val(date);
-	$('#payBillAmount').val(amount);
-	$('#payBillId').val(id);
-	dialog.dialog('open');
 };
 var payBill= function(){
-	alert("paid");
+	updateBill(true);
+	dialog.dialog("close");
 };
 
 var dialog = $('#bill-pay-form').dialog({
@@ -248,8 +293,6 @@ var dialog = $('#bill-pay-form').dialog({
 			text: 'Cancel',
 			'class': 'btn btn-default'
 		}
-	},
-	close: function(){
 	}
 });
 

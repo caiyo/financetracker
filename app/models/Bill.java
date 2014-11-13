@@ -158,8 +158,8 @@ public class Bill extends Model{
 		Bill b = find.ref(id);
 		b.setAmount(updatedBill.getAmount());
 		b.setDueDate(updatedBill.getDueDate());
-		b.setIsRecuring(updatedBill.getIsRecuring());
 		b.setTitle(updatedBill.getTitle());
+		b.setPaid(updatedBill.getPaid());
 		b.update();
 		return b;
 	}
@@ -170,8 +170,6 @@ public class Bill extends Model{
 		t.setCreationDate(bill.getDueDate());
 		t.setShortDescription(bill.getTitle());
 		Transaction.create(t, financeFolder);
-		bill.setPaid(true);
-		bill.update();
 		return bill;
 	}
 	

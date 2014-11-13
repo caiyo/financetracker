@@ -264,7 +264,7 @@ $(function() {
 
 	var addTransaction = function(row) {
 		jsRoutes.controllers.TransactionController
-				.addTransaction(selectedFolderObj.name)
+				.addTransaction()
 				.ajax(
 						{
 							data : {
@@ -272,7 +272,8 @@ $(function() {
 										.val()),
 								shortDescription : $('.transDescript input',
 										row).val(),
-								creationDate : $('.transDate input', row).val()
+								creationDate : $('.transDate input', row).val(),
+								folder: selectedFolderObj.name
 							},
 							success : function(data) {
 								var html = generateTransactionNode(data);
